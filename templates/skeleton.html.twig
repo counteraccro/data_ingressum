@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="wrapper">
+    	<nav id="sidebar">
+    	{% include 'include/leftmenu.html.twig' %}
+    	</nav>
+    	<div id="content">           
+            {% include 'include/navbar.html.twig' %}
+            {% block page %}{% endblock %}
+    	</div>
+	</div>
+{% endblock %}

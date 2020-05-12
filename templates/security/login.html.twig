@@ -1,12 +1,10 @@
-{% extends 'base_visitor.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
 <form method="post" id="form-auth">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    
 
     {% if app.user %}
         <div class="mb-3">
@@ -19,6 +17,9 @@
     		Connexion à la zone 42
   		</div>
   		<div class="card-body shadow">
+  			{% if error %}
+        		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
         	<div class="form-group">
             	<label for="exampleInputEmail1">Email</label>
             	<input type="email" class="form-control" value="{{ last_username }}" name="email" id="inputEmail" aria-describedby="emailHelp" required autofocus>

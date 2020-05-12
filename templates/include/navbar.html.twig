@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<button type="button" id="sidebarCollapse" class="btn btn-info">
+			<i class="fas fa-align-left"></i> <span>Toggle Sidebar</span>
+		</button>
+		<button
+			class="btn btn-dark d-inline-block d-lg-none ml-auto collapsed"
+			type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<i class="fas fa-align-justify"></i>
+		</button>
+		<div class="navbar-collapse collapse" id="navbarSupportedContent"
+			style="">
+			<ul class="nav navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link" href="#">[ <i class="fas fa-user-astronaut"></i> {{ app.user.name }} ]</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-toggle-on"></i> Mode</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-cogs"></i> Options</a></li>
+				<li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+{% block javascripts %}
+<script type="text/javascript">
+    	$(document).ready(function () {
+    		$('#sidebarCollapse').on('click', function () {
+    			$('#sidebar').toggleClass('active');
+            });
+        });
+
+    	$(function () {
+    		  $('[data-toggle="tooltip"]').tooltip()
+    		})
+    </script>
+{% endblock %}
