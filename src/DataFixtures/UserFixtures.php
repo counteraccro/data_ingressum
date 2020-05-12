@@ -5,15 +5,23 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use App\Service\DefaultData;
 
 class UserFixtures extends Fixture
 {
 
     private $passwordEncoder;
+    
+    /**
+     * 
+     * @var DefaultData;
+     */
+    private $defaultData;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, DefaultData $defaultData)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->defaultData = $defaultData;
     }
 
     public function load(ObjectManager $manager)
@@ -48,6 +56,9 @@ class UserFixtures extends Fixture
                     $user->{$key}($value);
                 }
             }
+            
+            $this->defaultData->newData($user);
+            
             $manager->persist($user);
         }
         $manager->flush();
