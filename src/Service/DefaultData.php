@@ -14,6 +14,7 @@ use App\Entity\Categorie;
  */
 class DefaultData
 {
+
     /**
      * Génère les données par défaut à la création d'un nouvel user
      *
@@ -23,17 +24,17 @@ class DefaultData
     public function newData(?User $user)
     {
         // Déjà une catégorie qui existe, on ne fait rien
-        if($user->getCategories()->count() > 1)
-        {
+        if ($user->getCategories()->count() > 1) {
             return $user;
         }
         $user->addCategory($this->createCategorie());
-        
+
         return $user;
     }
-    
+
     /**
      * Permet de créer un nouveau Block
+     *
      * @return \App\Entity\Block
      */
     private function createBlock()
@@ -41,12 +42,13 @@ class DefaultData
         $block = new Block();
         $block->setDisabled(false);
         $block->setName('Mes statistiques ici');
-        
+
         return $block;
     }
-    
+
     /**
      * Permet de créer une nouvelle page
+     *
      * @return \App\Entity\Page
      */
     private function createPage()
@@ -55,12 +57,13 @@ class DefaultData
         $page->setDisabled(false);
         $page->setName('Statistiques');
         $page->addBlock($this->createBlock());
-        
+
         return $page;
     }
-    
+
     /**
      * Permet de créer une nouvelle catégorie
+     *
      * @return \App\Entity\Categorie
      */
     private function createCategorie()
@@ -70,7 +73,7 @@ class DefaultData
         $categorie->setName('Data Ingressum');
         $categorie->setIcon('fas fa-landmark');
         $categorie->addPage($this->createPage());
-        
+
         return $categorie;
     }
 }
