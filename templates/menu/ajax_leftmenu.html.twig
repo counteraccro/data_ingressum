@@ -1,0 +1,38 @@
+<ul class="list-unstyled components">
+	{% for categorie in app.user.categories %}
+			<li class="active">
+        		<a href="#cat_{{ categorie.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> 
+        			<i class="{{ categorie.icon }}"></i> {{ categorie.name }}
+        		</a>
+        		<ul class="collapse list-unstyled" id="cat_{{ categorie.id }}">
+        			{% for page in categorie.pages %}
+        				<li><a href="#">{{ page.name }}</a></li>
+        			{% endfor %}
+        		</ul>
+        	</li>
+		
+	{% endfor %}
+	<li class="active">
+		<a href="#homeSubmenu" data-toggle="collapse"
+		aria-expanded="false" class="dropdown-toggle"> 
+			<i class="fas fa-user"></i> Home
+		</a>
+		<ul class="collapse list-unstyled" id="homeSubmenu">
+			<li><a href="#">Home 1</a></li>
+			<li><a href="#">Home 2</a></li>
+			<li><a href="#">Home 3</a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="#"> <i class="fas fa-briefcase"></i> About</a> 
+		<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
+		class="dropdown-toggle"> 
+			<i class="fas fa-copy"></i> Pages
+		</a>
+		<ul class="collapse list-unstyled" id="pageSubmenu">
+			<li><a href="#">Page 1</a></li>
+			<li><a href="#">Page 2</a></li>
+			<li><a href="#">Page 3</a></li>
+		</ul>
+	</li>
+</ul>
