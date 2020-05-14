@@ -1,12 +1,17 @@
 <ul class="list-unstyled components">
 	{% for categorie in app.user.categories %}
 			<li class="active">
-        		<a href="#cat_{{ categorie.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> 
-        			<i class="{{ categorie.icon }}"></i> {{ categorie.name }}
+        		<a href="#cat-{{ categorie.id }}" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> 
+        			<i class="{{ categorie.icon }}"></i> <span>{{ categorie.name }}</span>
         		</a>
-        		<ul class="collapse list-unstyled" id="cat_{{ categorie.id }}">
+        		<ul class="collapse list-unstyled" id="cat-{{ categorie.id }}">
         			{% for page in categorie.pages %}
-        				<li><a href="#">{{ page.name }}</a></li>
+        				<li>
+        					<a href="{{ path('ajax_page', {id_cat : categorie.id, id_page : page.id})}}">
+        						<span class="txt-full">{{ page.name }}</span>
+        						<span class="txt-truncate">{{ page.name|u.truncate(4) }}.</span>
+        					</a>
+        				</li>
         			{% endfor %}
         		</ul>
         	</li>
@@ -36,3 +41,11 @@
 		</ul>
 	</li>-->
 </ul>
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+	    	Menu.Event();
+        });
+    </script>
+{% endblock %}

@@ -7,7 +7,9 @@
     	</nav>
     	<div id="content">           
             {% include 'include/navbar.html.twig' %}
-            {% block page %}{% endblock %}
+            <div id="page-content">
+            	 {% block page %}{% endblock %}
+            </div>
     	</div>
 	</div>
 {% endblock %}

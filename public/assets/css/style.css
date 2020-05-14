@@ -71,11 +71,14 @@ span {
 }
 
 #sidebar.active .sidebar-header h3,
-#sidebar.active .CTAs {
+#sidebar.active .CTAs,
+#sidebar.active .list-unstyled a span,
+#sidebar.active #sidebar-content .txt-full {
     display: none;
 }
 
-#sidebar.active .sidebar-header strong {
+#sidebar.active .sidebar-header strong,
+#sidebar.active #sidebar-content .txt-truncate {
     display: block;
 }
 
@@ -119,6 +122,10 @@ span {
     font-size: 1.8em;
 }
 
+#sidebar #sidebar-content .txt-truncate {
+    display: none;
+}
+
 #sidebar ul.components {
     padding: 20px 0;
     border-bottom: 1px solid #47748b;
@@ -130,7 +137,7 @@ span {
     display: block;
 }
 
-#sidebar ul li a:hover {
+#sidebar ul li a:hover, #sidebar ul.collapse li a.active {
     color: #7386D5;
     background: #fff;
 }
@@ -161,29 +168,6 @@ ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #6d7fcc;
-}
-
-ul.CTAs {
-    padding: 20px;
-}
-
-ul.CTAs a {
-    text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-
-a.download {
-    background: #fff;
-    color: #7386D5;
-}
-
-a.article,
-a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
 }
 
 /* ---------------------------------------------------
@@ -248,4 +232,22 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+}
+
+/* ---------------------------------------------------
+    FIELDSET STYLE
+----------------------------------------------------- */
+fieldset {
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+	margin-top: 20px;
+}
+
+fieldset legend {
+	font-size: 1.3em;
+	width: auto;
+	padding-left: 10px;
+	padding-right: 10px;
 }

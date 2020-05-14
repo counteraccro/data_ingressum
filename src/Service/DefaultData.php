@@ -27,7 +27,72 @@ class DefaultData
         if ($user->getCategories()->count() > 1) {
             return $user;
         }
-        $user->addCategory($this->createCategorie());
+
+        $tabCat = [
+            [
+                'setName' => 'Data Ingressum',
+                'setDisabled' => false,
+                'setIcon' => 'fas fa-landmark',
+                'addPage' => [
+                    [
+                        'setName' => 'Statistiques',
+                        'setDisabled' => false,
+                        'addBlock' => [
+                            [
+                                'setName' => 'Mes statistiques ici',
+                                'setDisabled' => false
+                            ],
+                            [
+                                'setName' => 'Bloc n°2',
+                                'setDisabled' => false
+                            ]
+                        ]
+                    ],
+                    [
+                        'setName' => 'Divers',
+                        'setDisabled' => false,
+                        'addBlock' => [
+                            [
+                                'setName' => 'Transport',
+                                'setDisabled' => false
+                            ],
+                            [
+                                'setName' => 'Bloc n°2',
+                                'setDisabled' => false
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'setName' => 'Catégorie démo',
+                'setDisabled' => false,
+                'setIcon' => 'fas fa-subway',
+                'addPage' => [
+                    [
+                        'setName' => 'Page démo',
+                        'setDisabled' => false,
+                        'addBlock' => [
+                            [
+                                'setName' => 'Bloc n°1',
+                                'setDisabled' => false
+                            ],
+                            [
+                                'setName' => 'Bloc n°2',
+                                'setDisabled' => false
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+       $tabCat = $this->createCategorie($tabCat);
+        
+       foreach($tabCat as $categorie)
+       {
+           $user->addCategory($categorie);
+       }
 
         return $user;
     }
@@ -37,12 +102,22 @@ class DefaultData
      *
      * @return \App\Entity\Block
      */
-    private function createBlock()
+    private function createBlock(array $tab)
     {
         $block = new Block();
-        $block->setDisabled(false);
-        $block->setName('Mes statistiques ici');
+        foreach ($tab as $key => $val) {
+            switch ($key) {
+                case 'addBlock':
+                    /*foreach ($val as $block) {
+                        $page->{$key}($this->createBlock($block));
+                    }*/
+                    break;
 
+                default:
+                    $block->{$key}($val);
+                    break;
+            }
+        }
         return $block;
     }
 
@@ -51,29 +126,51 @@ class DefaultData
      *
      * @return \App\Entity\Page
      */
-    private function createPage()
+    private function createPage(array $tab)
     {
         $page = new Page();
-        $page->setDisabled(false);
-        $page->setName('Statistiques');
-        $page->addBlock($this->createBlock());
+        foreach ($tab as $key => $val) {
+            switch ($key) {
+                case 'addBlock':
+                    foreach ($val as $block) {
+                        $page->{$key}($this->createBlock($block));
+                    }
+                    break;
 
+                default:
+                    $page->{$key}($val);
+                    break;
+            }
+        }
         return $page;
     }
 
     /**
      * Permet de créer une nouvelle catégorie
      *
-     * @return \App\Entity\Categorie
+     * @return array
      */
-    private function createCategorie()
+    private function createCategorie(array $tab)
     {
-        $categorie = new Categorie();
-        $categorie->setDisabled(false);
-        $categorie->setName('Data Ingressum');
-        $categorie->setIcon('fas fa-landmark');
-        $categorie->addPage($this->createPage());
+        $return = [];
 
-        return $categorie;
+        foreach ($tab as $cat) {
+            $categorie = new Categorie();
+            foreach ($cat as $key => $val) {
+                switch ($key) {
+                    case 'addPage':
+                        foreach ($val as $page) {
+                            $categorie->{$key}($this->createPage($page));
+                        }
+                        break;
+
+                    default:
+                        $categorie->{$key}($val);
+                        break;
+                }
+            }
+            array_push($return, $categorie);
+        }
+        return $return;
     }
 }

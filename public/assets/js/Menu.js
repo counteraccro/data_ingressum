@@ -13,7 +13,24 @@ Menu.Launch = function(params) {
 	Menu.Load = function() {
 
 		Menu.Ajax(Menu.url_ajax_menu, '#sidebar-content');
-	}
+	},
+	
+	/**
+	 * 
+	 */
+	Menu.Event = function() {
+		
+		$('.collapse li a').click(function() {
+			
+			$('.collapse li a').each(function() {
+				$(this).removeClass('active');
+			})
+			
+			$(this).addClass('active');
+			Menu.Ajax($(this).attr('href'), '#page-content');
+			return false;
+		})
+	},
 
 	/**
 	 * Méthode Ajax qui va charger l'element présent dans l'URL
