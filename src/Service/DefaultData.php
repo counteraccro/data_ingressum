@@ -5,9 +5,7 @@ use App\Entity\User;
 use App\Entity\Block;
 use App\Entity\Page;
 use App\Entity\Categorie;
-use Symfony\Component\Yaml\Yaml;
 use App\Entity\Data;
-use App\Entity\Value;
 use App\Entity\Valeur;
 
 /**
