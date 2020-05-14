@@ -5,6 +5,10 @@ use App\Entity\User;
 use App\Entity\Block;
 use App\Entity\Page;
 use App\Entity\Categorie;
+use Symfony\Component\Yaml\Yaml;
+use App\Entity\Data;
+use App\Entity\Value;
+use App\Entity\Valeur;
 
 /**
  * Class qui va créer les données par défaut pour un nouveau user
@@ -12,7 +16,7 @@ use App\Entity\Categorie;
  * @author Aymeric
  *        
  */
-class DefaultData
+class DefaultData extends DefaultDataData
 {
 
     /**
@@ -28,78 +32,76 @@ class DefaultData
             return $user;
         }
 
-        $tabCat = [
-            [
-                'setName' => 'Data Ingressum',
-                'setDisabled' => false,
-                'setIcon' => 'fas fa-landmark',
-                'addPage' => [
-                    [
-                        'setName' => 'Statistiques',
-                        'setDisabled' => false,
-                        'addBlock' => [
-                            [
-                                'setName' => 'Mes statistiques ici',
-                                'setDisabled' => false
-                            ],
-                            [
-                                'setName' => 'Bloc n°2',
-                                'setDisabled' => false
-                            ]
-                        ]
-                    ],
-                    [
-                        'setName' => 'Divers',
-                        'setDisabled' => false,
-                        'addBlock' => [
-                            [
-                                'setName' => 'Transport',
-                                'setDisabled' => false
-                            ],
-                            [
-                                'setName' => 'Bloc n°2',
-                                'setDisabled' => false
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'setName' => 'Catégorie démo',
-                'setDisabled' => false,
-                'setIcon' => 'fas fa-subway',
-                'addPage' => [
-                    [
-                        'setName' => 'Page démo',
-                        'setDisabled' => false,
-                        'addBlock' => [
-                            [
-                                'setName' => 'Bloc n°1',
-                                'setDisabled' => false
-                            ],
-                            [
-                                'setName' => 'Bloc n°2',
-                                'setDisabled' => false
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
+        $tabCat = $this->createCategorie($this->default_data);
 
-       $tabCat = $this->createCategorie($tabCat);
-        
-       foreach($tabCat as $categorie)
-       {
-           $user->addCategory($categorie);
-       }
+        foreach ($tabCat as $categorie) {
+            $user->addCategory($categorie);
+        }
 
         return $user;
     }
 
     /**
+     * Créer un objet de type Value
+     *
+     * @param array $tab
+     * @return \App\Entity\Valeur
+     */
+    private function createValue(array $tab)
+    {
+        $value = new Valeur();
+        foreach ($tab as $key => $val) {
+
+            if ($key == 'setDate') {
+                $val = new \DateTime();
+            }
+
+            switch ($key) {
+                case 'addValeurs':
+                    /*foreach ($val as $value) {
+                        $value->{$key}($this->createData($value));
+                    }*/
+                    break;
+
+                default:
+                    $value->{$key}($val);
+                    break;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Créer un objet de type Data
+     *
+     * @param array $tab
+     * @return \App\Entity\Data
+     */
+    private function createData(array $tab)
+    {
+        $data = new Data();
+        foreach ($tab as $key => $val) {
+            switch ($key) {
+                case 'addValeurs':
+                    foreach ($val as $value) {
+                        $data->{$key}($this->createValue($value));
+                    }
+                    break;
+
+                default:
+                    $data->{$key}($val);
+                    break;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Permet de créer un nouveau Block
      *
+     * @param array $tab
      * @return \App\Entity\Block
      */
     private function createBlock(array $tab)
@@ -107,10 +109,10 @@ class DefaultData
         $block = new Block();
         foreach ($tab as $key => $val) {
             switch ($key) {
-                case 'addBlock':
-                    /*foreach ($val as $block) {
-                        $page->{$key}($this->createBlock($block));
-                    }*/
+                case 'addData':
+                    foreach ($val as $data) {
+                        $block->{$key}($this->createData($data));
+                    }
                     break;
 
                 default:
@@ -124,6 +126,7 @@ class DefaultData
     /**
      * Permet de créer une nouvelle page
      *
+     * @param array $tab
      * @return \App\Entity\Page
      */
     private function createPage(array $tab)
@@ -148,6 +151,7 @@ class DefaultData
     /**
      * Permet de créer une nouvelle catégorie
      *
+     * @param array $tab
      * @return array
      */
     private function createCategorie(array $tab)

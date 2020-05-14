@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BlockRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class Block
      * @ORM\JoinColumn(nullable=false)
      */
     private $page;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="block", cascade={"persist"})
+     */
+    private $datas;
+
+    public function __construct()
+    {
+        $this->datas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +82,37 @@ class Block
     public function setPage(?Page $page): self
     {
         $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Data[]
+     */
+    public function getDatas(): Collection
+    {
+        return $this->datas;
+    }
+
+    public function addData(Data $data): self
+    {
+        if (!$this->datas->contains($data)) {
+            $this->datas[] = $data;
+            $data->setBlock($this);
+        }
+
+        return $this;
+    }
+
+    public function removeData(Data $data): self
+    {
+        if ($this->datas->contains($data)) {
+            $this->datas->removeElement($data);
+            // set the owning side to null (unless already changed)
+            if ($data->getBlock() === $this) {
+                $data->setBlock(null);
+            }
+        }
 
         return $this;
     }
