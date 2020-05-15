@@ -3,11 +3,13 @@ namespace App\Service;
 
 /**
  * Class qui contient l'ensemble des données à enregistrer par default à la création d'un nouveau user
- * @author aymer
  *
+ * @author aymer
+ *        
  */
-class DefaultDataData {
-    
+class DefaultDataData
+{
+
     protected $default_data = [
         [
             'setName' => 'Data Ingressum',
@@ -35,10 +37,8 @@ class DefaultDataData {
                                             'setDate' => '',
                                             'setValeur' => '1',
                                             'setDisabled' => false
-                                            
                                         ]
                                     ]
-                                    
                                 ],
                                 [
                                     'setLibelle' => 'Donnée input (encore)',
@@ -53,10 +53,8 @@ class DefaultDataData {
                                             'setDate' => '',
                                             'setValeur' => '1',
                                             'setDisabled' => false
-                                            
                                         ]
                                     ]
-                                    
                                 ]
                             ]
                         ],
@@ -77,10 +75,8 @@ class DefaultDataData {
                                             'setDate' => '',
                                             'setValeur' => '1',
                                             'setDisabled' => false
-                                            
                                         ]
                                     ]
-                                    
                                 ]
                             ]
                         ]

@@ -20,9 +20,9 @@ Menu.Launch = function(params) {
 	 */
 	Menu.Event = function() {
 		
-		$('.collapse li a').click(function() {
+		$('.collapse.list-unstyled li a').click(function() {
 			
-			$('.collapse li a').each(function() {
+			$('.collapse.list-unstyled li a').each(function() {
 				$(this).removeClass('active');
 			})
 			

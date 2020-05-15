@@ -40,8 +40,6 @@ class HomeController extends AbstractController
         /** @var \App\Entity\User $user **/
         $user = $this->getUser();
         
-        $valid_page = '';
-        
         /** @var \App\Entity\Categorie $categorie **/
         foreach($user->getCategories() as $categorie)
         {
