@@ -12,6 +12,7 @@ Menu.Launch = function(params) {
 	 */
 	Menu.Load = function() {
 
+		$('#sidebar-content').showLoader();
 		Menu.Ajax(Menu.url_ajax_menu, '#sidebar-content');
 	},
 	
