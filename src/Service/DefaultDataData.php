@@ -32,6 +32,7 @@ class DefaultDataData
                                     'setType' => 1,
                                     'setDefaultValue' => '',
                                     'setPosition' => 1,
+                                    'setUser' => '',
                                     'addValeurs' => [
                                         [
                                             'setDate' => '',
@@ -48,6 +49,7 @@ class DefaultDataData
                                     'setType' => 1,
                                     'setDefaultValue' => '',
                                     'setPosition' => 1,
+                                    'setUser' => '',
                                     'addValeurs' => [
                                         [
                                             'setDate' => '',
@@ -70,6 +72,7 @@ class DefaultDataData
                                     'setType' => 2,
                                     'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4|Projet3',
                                     'setPosition' => 2,
+                                    'setUser' => '',
                                     'addValeurs' => [
                                         [
                                             'setDate' => '',

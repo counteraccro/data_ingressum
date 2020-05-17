@@ -4,7 +4,7 @@
  */
 
 (function($) {
-  $.fn.showLoader = function()
+  $.fn.loader = function()
   {
 	  var height = $(this).height();
 	  var width = $(this).width();

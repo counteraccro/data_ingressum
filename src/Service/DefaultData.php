@@ -16,6 +16,12 @@ use App\Entity\Valeur;
  */
 class DefaultData extends DefaultDataData
 {
+    
+    /**
+     * 
+     * @var User
+     */
+    private $user;
 
     /**
      * Génère les données par défaut à la création d'un nouvel user
@@ -30,13 +36,15 @@ class DefaultData extends DefaultDataData
             return $user;
         }
 
+        $this->user = $user;
+        
         $tabCat = $this->createCategorie($this->default_data);
 
         foreach ($tabCat as $categorie) {
-            $user->addCategory($categorie);
+            $this->user->addCategory($categorie);
         }
 
-        return $user;
+        return $this->user;
     }
 
     /**
@@ -86,7 +94,9 @@ class DefaultData extends DefaultDataData
                         $data->{$key}($this->createValue($value));
                     }
                     break;
-
+                case 'setUser' :
+                    $data->{$key}($this->user);
+                    break;
                 default:
                     $data->{$key}($val);
                     break;

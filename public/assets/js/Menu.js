@@ -11,8 +11,6 @@ Menu.Launch = function(params) {
 	 * Charge le menu
 	 */
 	Menu.Load = function() {
-
-		$('#sidebar-content').showLoader();
 		Menu.Ajax(Menu.url_ajax_menu, '#sidebar-content');
 	},
 	
@@ -28,7 +26,7 @@ Menu.Launch = function(params) {
 			})
 			
 			$(this).addClass('active');
-			Menu.Ajax($(this).attr('href'), '#page-content');
+			Menu.Ajax($(this).attr('href'), '#page-content', false);
 			return false;
 		})
 	},
@@ -36,8 +34,13 @@ Menu.Launch = function(params) {
 	/**
 	 * Méthode Ajax qui va charger l'element présent dans l'URL
 	 */
-	Menu.Ajax = function(url, id_done, method = 'GET')
-	{	
+	Menu.Ajax = function(url, id_done, loader = true, method = 'GET')
+	{
+		if(loader)
+		{
+			$(id_done).loader();
+		}
+		
 		$.ajax({
 			method: method,
 			url: url,

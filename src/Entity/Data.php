@@ -64,6 +64,12 @@ class Data
      */
     private $block;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="datas")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->valeurs = new ArrayCollection();
@@ -197,6 +203,18 @@ class Data
     public function setBlock(?Block $block): self
     {
         $this->block = $block;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

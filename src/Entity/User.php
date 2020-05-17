@@ -46,9 +46,15 @@ class User implements UserInterface
      */
     private $Categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $datas;
+
     public function __construct()
     {
         $this->Categories = new ArrayCollection();
+        $this->datas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +172,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($category->getUser() === $this) {
                 $category->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Data[]
+     */
+    public function getDatas(): Collection
+    {
+        return $this->datas;
+    }
+
+    public function addData(Data $data): self
+    {
+        if (!$this->datas->contains($data)) {
+            $this->datas[] = $data;
+            $data->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeData(Data $data): self
+    {
+        if ($this->datas->contains($data)) {
+            $this->datas->removeElement($data);
+            // set the owning side to null (unless already changed)
+            if ($data->getUser() === $this) {
+                $data->setUser(null);
             }
         }
 

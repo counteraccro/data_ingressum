@@ -9,8 +9,6 @@ Page.Launch = function(params) {
 	 * Charge le menu
 	 */
 	Page.Load = function(url, id) {
-		
-		$(id).showLoader();
 		Page.Ajax(url, id);
 	},
 	
@@ -20,7 +18,6 @@ Page.Launch = function(params) {
 	Page.Event = function(group_btn_id) {
 		
 		$(group_btn_id + ' .btn').click(function() {
-			$('#' + $(this).parent().data('id')).showLoader();
 			Page.Ajax($(this).data('url'), '#' + $(this).parent().data('id'));
 		});
 	},
@@ -29,7 +26,8 @@ Page.Launch = function(params) {
 	 * Méthode Ajax qui va charger l'element présent dans l'URL
 	 */
 	Page.Ajax = function(url, id_done, method = 'GET')
-	{	
+	{
+		$(id_done).loader();
 		$.ajax({
 			method: method,
 			url: url,
