@@ -1,7 +1,6 @@
 <?php
 namespace App\Twig;
 
-use App\Twig\DataRender;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

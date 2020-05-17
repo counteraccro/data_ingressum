@@ -1,12 +1,3 @@
 {{ timeline }} <br />
 
-{% for data in block.datas %}
-    <div class="row">
-    	<div class="col-sm">
-    		{{ data | dataRender | raw }}
-    
-    	</div>
-    	<div class="col-sm"></div>
-    </div>
-    <hr />
-{% endfor %}
+{{ block.datas | dataRender(timeline) | raw }}
