@@ -5,6 +5,7 @@ use Twig\Extension\RuntimeExtensionInterface;
 use App\Entity\Data;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class qui va gérer le rendu des données dans la vue
@@ -20,17 +21,19 @@ class DataRender implements RuntimeExtensionInterface
     const TIMELINE_1S = '1s';
 
     const TIMELINE_1M = '1m';
-    
+
     /**
-     * 
+     *
      * @var SessionInterface
      */
     private $session;
+    
+    private $router;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $session, UrlGeneratorInterface $router)
     {
-        
         $this->session = $session;
+        $this->router = $router;
         // this simple example doesn't define any dependency, but in your own
         // extensions, you'll need to inject services using this constructor
     }
@@ -40,9 +43,11 @@ class DataRender implements RuntimeExtensionInterface
      *
      * @param Collection $datas
      * @param string $timeline
+     * @param int $numweek
+     * @param int $year
      * @return string
      */
-    public function htmlRender(Collection $datas, string $timeline)
+    public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year)
     {
         $return = '';
 
@@ -53,7 +58,7 @@ class DataRender implements RuntimeExtensionInterface
                 }
                 break;
             case self::TIMELINE_1S:
-                $return = $this->data1s($datas);
+                $return = $this->data1s($datas, $numweek, $year);
                 break;
             case self::TIMELINE_1M:
 
@@ -70,37 +75,45 @@ class DataRender implements RuntimeExtensionInterface
     /**
      * Génère le HTML pour la saisie d'une semaine
      *
-     * @param Collection $data
+     * @param Collection $datas
+     * @param int $numweek
+     * @param int $year
      * @return string
      */
-    private function data1s(Collection $datas)
+    private function data1s(Collection $datas, int $numweek, int $year)
     {
         setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
-        $dayTimes = $this->getDaysInWeek(date('W'), date('Y'));
-        
-        $this->sessionData1s($datas, date('W'), date('Y'));
-        
+        $dayTimes = $this->getDaysInWeek($numweek, $year);
+
+        $this->sessionData1s($datas, $numweek, $year);
+
         $return = '';
+
+        $id_block = $datas->current()
+            ->getBlock()
+            ->getId();
         
-        $id_block = $datas->current()->getBlock()->getId();
-            
-        $return .= '<div class="row">
-            <div class="col text-left"> < (' . $this->session->get('data.' . $id_block . '.befor.week') . ' - ' . $this->session->get('data.' . $id_block . '.befor.year') . ')</div>
-            <div class="col-10 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
-            <div class="col text-right"> > (' . $this->session->get('data.' . $id_block . '.after.week') . ' - ' . $this->session->get('data.' . $id_block . '.after.year') . ')</div>
+        $url_before = $this->router->generate('ajax_block', array('id' => $id_block, 'timeline' => '1s', 'numw' => $this->session->get('data.' . $id_block . '.befor.week'), 'year' => $this->session->get('data.' . $id_block . '.befor.year')));
+        $url_after = $this->router->generate('ajax_block', array('id' => $id_block, 'timeline' => '1s', 'numw' => $this->session->get('data.' . $id_block . '.after.week'), 'year' => $this->session->get('data.' . $id_block . '.after.year')));
+
+        $return .= '<div class="row" id="block-time-' . $id_block . '">
+            <div class="col-2 text-left"><div class="btn btn-sm btn-info btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
+            <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
+            <div class="col-2 text-right"><div class="btn btn-sm btn-info btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
         </div>';
-        
-        $return .= '<div class="row">'; 
-        foreach ($dayTimes as $dayTime) {  
+
+        $return .= '<div class="row">';
+        foreach ($dayTimes as $dayTime) {
             $return .= '<div class="col-sm">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
-        
+
         return $return;
     }
 
     /**
      * Génère un tableau de jour de la semaine
+     *
      * @param int $weekNumber
      * @param int $year
      * @return number[]
@@ -111,40 +124,52 @@ class DataRender implements RuntimeExtensionInterface
         // (according to ISO 8601).
         $time = strtotime($year . '0104 +' . ($weekNumber - 1) . ' weeks');
         $mondayTime = strtotime('-' . (date('w', $time) - 1) . ' days', $time);
-      
+
         // Génération des jours
         $dayTimes = array();
         for ($i = 0; $i < 7; ++ $i) {
             $dayTimes[] = strtotime('+' . $i . ' days', $mondayTime);
         }
-        
+
         return $dayTimes;
     }
-    
+
+    /**
+     * Génère la semaine +1 et -1 pour les boutons de navigaton et stock la valeur en session
+     *
+     * @param Collection $datas
+     * @param int $weekNumber
+     * @param int $year
+     */
     private function sessionData1s(Collection $datas, int $weekNumber, int $year)
     {
-        $befor_w = $weekNumber-1;
+        $befor_w = $weekNumber - 1;
         $befor_year = $year;
-        if($weekNumber-1 <= 0)
-        {
+        if ($weekNumber - 1 <= 0) {
             $befor_w = 52;
-            $befor_year = $befor_year-1;
+            $befor_year = $befor_year - 1;
         }
-        
-        $after_w = date('W') +1;
+
+        $after_w = $weekNumber + 1;
         $after_year = $year;
-        if($weekNumber+1 > 52)
-        {
+        if ($weekNumber + 1 > 52) {
             $after_w = 1;
-            $after_year = $after_year-1;
+            $after_year = $after_year + 1;
         }
-        
-        $this->session->set('data.' . $datas->current()->getBlock()->getId() . '.befor.week', $befor_w);
-        $this->session->set('data.' . $datas->current()->getBlock()->getId() . '.after.week', $after_w);
-        $this->session->set('data.' . $datas->current()->getBlock()->getId() . '.befor.year', $befor_year);
-        $this->session->set('data.' . $datas->current()->getBlock()->getId() . '.after.year', $after_year);
+
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.befor.week', $befor_w);
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.after.week', $after_w);
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.befor.year', $befor_year);
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.after.year', $after_year);
     }
-    
 
     /**
      * Génère le HTML pour la saisie de donnée sur 1 jour

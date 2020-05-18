@@ -20,19 +20,27 @@ class BlockController extends AbstractController
     }
     
     /**
-     * @Route("/ajax/block/{id}/{timeline}", name="ajax_block")
+     * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}", defaults={"numw" = 0, "year" = null}, name="ajax_block")
      * @ParamConverter("block", options={"id" = "id"})
      */
-    public function loadBlock(Block $block, string $timeline) {
+    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0) {
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
             //throw new \Exception('Bad ID');
         }
         
+        if($numw == 0 || $year == 0)
+        {
+            $numw = date('W');
+            $year = date('Y');
+        }
+        
         return $this->render('block/ajax_block.html.twig', [
             'block' => $block,
-            'timeline' => $timeline
+            'timeline' => $timeline,
+            'numweek' => $numw,
+            'year' => $year
         ]);
         
     }

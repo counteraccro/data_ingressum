@@ -1,3 +1,12 @@
-{{ timeline }} <br />
+{{ block.datas | dataRender(timeline, numweek, year) | raw }}
 
-{{ block.datas | dataRender(timeline) | raw }}
+<script type="text/javascript">
+	$(document).ready(function() {
+		var params = {};
+	    	Block.Launch(params);
+
+	    	{% if(timeline == '1s') %}
+	    		Block.Event1s('#block-time-{{block.id}}');
+	    	{% endif %}
+        });
+</script>
