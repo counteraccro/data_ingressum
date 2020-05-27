@@ -13,10 +13,10 @@
 		</button>
 		<div class="navbar-collapse collapse" id="navbarSupportedContent"
 			style="">
-			<ul class="nav navbar-nav ml-auto">
+			<ul id="nav-menu-top" class="nav navbar-nav ml-auto">
 				<li class="nav-item active"><a class="nav-link" href="#">[ <i class="fas fa-user-astronaut"></i> {{ app.user.name }} ]</a></li>
 				<li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-toggle-on"></i> Mode</a></li>
-				<li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-cogs"></i> Options</a></li>
+				<li class="nav-item"><a id="link-option" class="nav-link" href="{{ path('ajax_modal_option') }}#"><i class="fas fa-cogs"></i> Options</a></li>
 				<li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 			</ul>
 		</div>
@@ -29,10 +29,13 @@
     		$('#sidebarCollapse').on('click', function () {
     			$('#sidebar').toggleClass('active');
             });
+
+            Option.Launch();
+            Option.EventMenu();
         });
 
-    	$(function () {
+    	/*$(function () {
     		  $('[data-toggle="tooltip"]').tooltip()
-    		})
+    		})*/
     </script>
 {% endblock %}

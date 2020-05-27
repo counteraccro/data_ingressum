@@ -7,6 +7,7 @@ use App\Entity\Page;
 use App\Entity\Categorie;
 use App\Entity\Data;
 use App\Entity\Valeur;
+use App\Entity\Option;
 
 /**
  * Class qui va créer les données par défaut pour un nouveau user
@@ -14,7 +15,7 @@ use App\Entity\Valeur;
  * @author Aymeric
  *        
  */
-class DefaultData extends DefaultDataData
+class DefaultDataService extends DefaultValueService
 {
     
     /**
@@ -43,6 +44,12 @@ class DefaultData extends DefaultDataData
         foreach ($tabCat as $categorie) {
             $this->user->addCategory($categorie);
         }
+        
+        $options = [
+            ['setName' => OptionService::$option_auto_save, 'setValue' => 1]
+        ];
+        
+        $this->createOption($options);
 
         return $this->user;
     }
@@ -184,5 +191,23 @@ class DefaultData extends DefaultDataData
             array_push($return, $categorie);
         }
         return $return;
+    }
+    
+    /**
+     * Permet de créer une nouvelle option
+     * @param array $options
+     * @return \App\Entity\User
+     */
+    private function createOption(array $options)
+    {
+        foreach ($options as $op)
+        {
+            $option = new Option();
+            foreach($op as $key => $value)
+            {
+                $option->{$key}($value);
+            }
+            $this->user->addOption($option);
+        }
     }
 }

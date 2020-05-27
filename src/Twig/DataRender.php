@@ -27,7 +27,7 @@ class DataRender implements RuntimeExtensionInterface
      * @var SessionInterface
      */
     private $session;
-    
+
     private $router;
 
     public function __construct(SessionInterface $session, UrlGeneratorInterface $router)
@@ -88,13 +88,28 @@ class DataRender implements RuntimeExtensionInterface
         $this->sessionData1s($datas, $numweek, $year);
 
         $return = '';
-
+        
+        if($datas->isEmpty())
+        {
+            return '<div class="alert alert-info shadow-sm"><i class="fas fa-exclamation-triangle"></i> <i>Pas de données pour le moment</i></div>';
+        }
+        
         $id_block = $datas->current()
             ->getBlock()
             ->getId();
-        
-        $url_before = $this->router->generate('ajax_block', array('id' => $id_block, 'timeline' => '1s', 'numw' => $this->session->get('data.' . $id_block . '.befor.week'), 'year' => $this->session->get('data.' . $id_block . '.befor.year')));
-        $url_after = $this->router->generate('ajax_block', array('id' => $id_block, 'timeline' => '1s', 'numw' => $this->session->get('data.' . $id_block . '.after.week'), 'year' => $this->session->get('data.' . $id_block . '.after.year')));
+
+        $url_before = $this->router->generate('ajax_block', array(
+            'id' => $id_block,
+            'timeline' => '1s',
+            'numw' => $this->session->get('data.' . $id_block . '.befor.week'),
+            'year' => $this->session->get('data.' . $id_block . '.befor.year')
+        ));
+        $url_after = $this->router->generate('ajax_block', array(
+            'id' => $id_block,
+            'timeline' => '1s',
+            'numw' => $this->session->get('data.' . $id_block . '.after.week'),
+            'year' => $this->session->get('data.' . $id_block . '.after.year')
+        ));
 
         $return .= '<div class="row" id="block-time-' . $id_block . '">
             <div class="col-2 text-left"><div class="btn btn-sm btn-info btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
@@ -143,6 +158,12 @@ class DataRender implements RuntimeExtensionInterface
      */
     private function sessionData1s(Collection $datas, int $weekNumber, int $year)
     {
+        
+        if($datas->isEmpty())
+        {
+            return null;
+        }
+        
         $befor_w = $weekNumber - 1;
         $befor_year = $year;
         if ($weekNumber - 1 <= 0) {

@@ -51,10 +51,16 @@ class User implements UserInterface
      */
     private $datas;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Option::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     */
+    private $options;
+
     public function __construct()
     {
         $this->Categories = new ArrayCollection();
         $this->datas = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +209,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($data->getUser() === $this) {
                 $data->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Option[]
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Option $option): self
+    {
+        if (!$this->options->contains($option)) {
+            $this->options[] = $option;
+            $option->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Option $option): self
+    {
+        if ($this->options->contains($option)) {
+            $this->options->removeElement($option);
+            // set the owning side to null (unless already changed)
+            if ($option->getUser() === $this) {
+                $option->setUser(null);
             }
         }
 

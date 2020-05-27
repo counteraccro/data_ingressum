@@ -59,7 +59,7 @@ span {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #6d7fcc;
+    background: var(--main-bg-color);;
     color: #fff;
     transition: all 0.3s;
 }
@@ -114,7 +114,7 @@ span {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: var(--main-bg-color);;
 }
 
 #sidebar .sidebar-header strong {
@@ -149,7 +149,7 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: var(--main-bg-color);;
 }
 
 a[data-toggle="collapse"] {
@@ -167,7 +167,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: var(--main-bg-color);;
 }
 
 /* ---------------------------------------------------
@@ -250,4 +250,10 @@ fieldset legend {
 	width: auto;
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+.alert-info {
+	background-color: var(--main-bg-color);
+	color: #fff;
+	border: 1px solid #9D8CC0;
 }

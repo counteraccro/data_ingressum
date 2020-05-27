@@ -7,7 +7,7 @@ namespace App\Service;
  * @author aymer
  *        
  */
-class DefaultDataData
+class DefaultValueService
 {
 
     protected $default_data = [
