@@ -47,20 +47,21 @@ class User implements UserInterface
     private $Categories;
 
     /**
-     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $datas;
 
     /**
-     * @ORM\OneToMany(targetEntity=Option::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OptionUser::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
-    private $options;
+    private $option_users;
 
     public function __construct()
     {
         $this->Categories = new ArrayCollection();
         $this->datas = new ArrayCollection();
         $this->options = new ArrayCollection();
+        $this->option_users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,30 +217,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Option[]
+     * @return Collection|OptionUser[]
      */
-    public function getOptions(): Collection
+    public function getOptionUsers(): Collection
     {
-        return $this->options;
+        return $this->option_users;
     }
 
-    public function addOption(Option $option): self
+    public function addOptionUser(OptionUser $optionUser): self
     {
-        if (!$this->options->contains($option)) {
-            $this->options[] = $option;
-            $option->setUser($this);
+        if (!$this->option_users->contains($optionUser)) {
+            $this->option_users[] = $optionUser;
+            $optionUser->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeOption(Option $option): self
+    public function removeOptionUser(OptionUser $optionUser): self
     {
-        if ($this->options->contains($option)) {
-            $this->options->removeElement($option);
+        if ($this->option_users->contains($optionUser)) {
+            $this->option_users->removeElement($optionUser);
             // set the owning side to null (unless already changed)
-            if ($option->getUser() === $this) {
-                $option->setUser(null);
+            if ($optionUser->getUser() === $this) {
+                $optionUser->setUser(null);
             }
         }
 

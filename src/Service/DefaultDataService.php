@@ -23,6 +23,17 @@ class DefaultDataService extends DefaultValueService
      * @var User
      */
     private $user;
+    
+    /**
+     * 
+     * @var OptionService
+     */
+    private $optionService;
+    
+    public function __construct(OptionService $optionService) 
+    {
+        $this->optionService = $optionService;
+    }
 
     /**
      * Génère les données par défaut à la création d'un nouvel user
@@ -45,11 +56,7 @@ class DefaultDataService extends DefaultValueService
             $this->user->addCategory($categorie);
         }
         
-        $options = [
-            ['setName' => OptionService::$option_auto_save, 'setValue' => 1]
-        ];
-        
-        $this->createOption($options);
+        $this->user = $this->optionService->createDefaultOption($this->user);
 
         return $this->user;
     }
