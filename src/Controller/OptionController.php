@@ -31,6 +31,11 @@ class OptionController extends AbstractController
      */
     public function modalOption()
     {
-        return $this->render('option/modal_option.html.twig');
+        $user = $this->getUser();
+        
+        /** @var \App\Entity\User $user **/
+        $optionUsers = $user->getOptionUsers();
+        
+        return $this->render('option/modal_option.html.twig', ['optionUsers' => $optionUsers]);
     }
 }

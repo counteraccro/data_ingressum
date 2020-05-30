@@ -11,6 +11,7 @@ class AppExtension extends AbstractExtension
         return [
             // the logic of this filter is now implemented in a different class
             new TwigFilter('dataRender', [DataRender::class, 'htmlRender']),
+            new TwigFilter('OptionRender', [OptionRender::class, 'htmlRender']),
         ];
     }
 }

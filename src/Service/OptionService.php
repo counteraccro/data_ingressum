@@ -23,11 +23,31 @@ class OptionService
     private $option_auto_save = 'auto_save';
 
     /**
-     * Type oui / non
+     * Option select_timeline
+     *
+     * @var string
+     */
+    public static $option_select_timeline = 'select_timeline';
+    
+    /**
+     * Option select_template
+     * @var string
+     */
+    public static $option_select_template = 'select_template';
+
+    /**
+     * Type radio
      *
      * @var integer
      */
-    private $type_yes_no = 1;
+    public static $type_radio = 1;
+
+    /**
+     * Type select
+     *
+     * @var integer
+     */
+    public static $type_select = 2;
 
     /**
      * Options par defaut
@@ -40,7 +60,24 @@ class OptionService
             'setLabel' => 'Sauvegarde auto',
             'setInfo' => 'Permet de sauvegarder automatiquement la valeur saisie dés que l\'input perd le focus',
             'setType' => 1,
-            'setDefaultValue' => 1
+            'setDefaultValue' => 1,
+            'setChoix' => '{"oui":1,"non":0}'
+        ],
+        [
+            'setName' => 'select_timeline',
+            'setLabel' => 'Choix timeline',
+            'setInfo' => 'Permet de choisir la timeline par défaut pour la saisie des données',
+            'setType' => 1,
+            'setDefaultValue' => 2,
+            'setChoix' => '{"jour":1,"semaine":2,"mois":3}'
+        ],
+        [
+            'setName' => 'select_template',
+            'setLabel' => 'Choix du template',
+            'setInfo' => 'Permet de choisir le template du site',
+            'setType' => 2,
+            'setDefaultValue' => 'blue',
+            'setChoix' => '{"default":"Template Data Ingressum","blue":"Template Bleu"}'
         ]
     ];
 
@@ -77,7 +114,7 @@ class OptionService
                     foreach ($op as $key => $value) {
                         $option->{$key}($value);
                     }
-                    
+
                     array_push($this->tmp_defaultOptions, $option);
                 }
             }

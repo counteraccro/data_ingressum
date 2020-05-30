@@ -11,9 +11,9 @@
 		
 		<div class="mb-3" id='btn-group-timeline-{{ block.id }}'>
     		<div class="btn-group btn-group-sm" role="group" aria-label="Choix de la timeline" data-id="block-data-{{ block.id }}">
-            	<button type="button" class="btn btn-info" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1j'}) }}">1 jour</button>
-            	<button type="button" class="btn btn-info" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1s'}) }}">1 semaine</button>
-            	<button type="button" class="btn btn-info" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1m'}) }}">1 mois</button>
+            	<button type="button" class="btn btn-primary active" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1j'}) }}">1 jour</button>
+            	<button type="button" class="btn btn-primary" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1s'}) }}">1 semaine</button>
+            	<button type="button" class="btn btn-primary" data-url="{{path('ajax_block', {'id' : block.id, 'timeline' : '1m'}) }}">1 mois</button>
             </div>
 		</div>
 		

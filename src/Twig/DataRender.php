@@ -91,7 +91,7 @@ class DataRender implements RuntimeExtensionInterface
         
         if($datas->isEmpty())
         {
-            return '<div class="alert alert-info shadow-sm"><i class="fas fa-exclamation-triangle"></i> <i>Pas de données pour le moment</i></div>';
+            return '<div class="alert alert-primary shadow-sm"><i class="fas fa-exclamation-triangle"></i> <i>Pas de données pour le moment</i></div>';
         }
         
         $id_block = $datas->current()
@@ -112,9 +112,9 @@ class DataRender implements RuntimeExtensionInterface
         ));
 
         $return .= '<div class="row" id="block-time-' . $id_block . '">
-            <div class="col-2 text-left"><div class="btn btn-sm btn-info btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
+            <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
             <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
-            <div class="col-2 text-right"><div class="btn btn-sm btn-info btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
+            <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
         </div>';
 
         $return .= '<div class="row">';
@@ -210,7 +210,7 @@ class DataRender implements RuntimeExtensionInterface
                     </div>
                     <input type="text" class="form-control is-valid" placeholder="toto" value="' . $data->getDefaultValue() . '" aria-describedby="button-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-info" type="button" id="button-addon2">Button</button>
+                        <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
                     </div>
                 </div>
                 <small id="emailHelp" class="form-text text-muted">' . $data->getTips() . '</small>

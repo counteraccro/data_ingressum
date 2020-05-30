@@ -50,6 +50,11 @@ class Option
      */
     private $option_users;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $choix;
+
     public function __construct()
     {
         $this->option_users = new ArrayCollection();
@@ -147,6 +152,18 @@ class Option
                 $optionUser->setOptionData(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChoix(): ?string
+    {
+        return $this->choix;
+    }
+
+    public function setChoix(string $choix): self
+    {
+        $this->choix = $choix;
 
         return $this;
     }
