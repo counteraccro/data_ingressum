@@ -27,7 +27,7 @@ class BlockController extends AbstractController
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
-            //throw new \Exception('Bad ID');
+            throw new \Exception('Bad ID');
         }
         
         if($numw == 0 || $year == 0)

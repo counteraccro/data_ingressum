@@ -7,6 +7,7 @@ use App\Service\OptionService;
 use App\Entity\OptionUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Asset\Packages;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class qui va gérer le rendu des données dans la vue
@@ -21,8 +22,14 @@ class OptionRender implements RuntimeExtensionInterface
      */
     private $asset;
     
-    public function __construct(Packages $asset) {
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $router;
+    
+    public function __construct(Packages $asset, UrlGeneratorInterface $router) {
         $this->asset = $asset;
+        $this->router = $router;
     }
 
     /**
@@ -55,7 +62,7 @@ class OptionRender implements RuntimeExtensionInterface
     }
 
     /**
-     *
+     *Permet de générer le HTML d'une option de type Select
      * @param OptionUser $optionUser
      * @return string
      */
@@ -80,12 +87,13 @@ class OptionRender implements RuntimeExtensionInterface
                             }
                             
                             $value = $key;
+                            // Cas choix CSS
                             if($optionUser->getOptionData()->getName() == OptionService::$option_select_template)
                             {
                                 $value = $this->asset->getUrl('assets/css/color_' . $key . '.css');
                             }
                             
-                            $html .= '<option ' . $selected . ' value="' . $value . '">' . $val . '</option>';
+                            $html .= '<option ' . $selected . ' data-val="' . $key . '" value="' . $value . '">' . $val . '</option>';
                         }
                     $html .= '</select>
                     <small id="emailHelp" class="form-text text-muted">' . $optionUser->getOptionData()->getInfo() . '</small>
@@ -98,16 +106,40 @@ class OptionRender implements RuntimeExtensionInterface
                jQuery(document).ready(function(){
                   $('#select-". $optionUser->getOptionData()->getName() . "').change(function() {";
                         
+                        // Cas choix CSS
                         if($optionUser->getOptionData()->getName() == OptionService::$option_select_template)
                         {
                             $html .= "$('link.switch-template').attr('href', $(this).val());";
                         }
-                    
+                        
+                        $url = $this->router->generate('ajax_update_option', ['id_optionUser' => $optionUser->getId()]);
+                        $html .= $this->generateAjaxJs($url, 'select-' . $optionUser->getOptionData()->getName());
+                        
                   $html .= "});
                });
          </script>
 
         ";
+        return $html;
+    }
+    
+    private function generateAjaxJs($url, $id)
+    {
+        $html = "";
+        
+        $html .= "$('#" . $id . "').loader();
+		
+		$.ajax({
+			method: 'GET',
+			url: '" . $url . "/' + $(this).data('val') ,
+		})
+		.done(function( html ) {
+			
+            console.log(html);
+
+            //$('#" . $id . "').html(html);
+		});";
+        
         return $html;
     }
 }
