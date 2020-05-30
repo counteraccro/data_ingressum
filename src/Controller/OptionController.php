@@ -51,7 +51,7 @@ class OptionController extends AbstractController
      */
     public function updateOption(OptionUser $optionUser, $value = "", OptionService $optionService)
     {
-        $response = new JsonResponse(['data' => 123]);
+        $response = new JsonResponse(['Label' => $optionUser->getOptionData()->getLabel()]);
         
         return $response;
     }

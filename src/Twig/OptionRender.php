@@ -127,11 +127,11 @@ class OptionRender implements RuntimeExtensionInterface
     {
         $html = "";
         
-        $html .= "$('#" . $id . "').loader();
+        $html .= "//$('#" . $id . "').loader();
 		
 		$.ajax({
 			method: 'GET',
-			url: '" . $url . "/' + $(this).data('val') ,
+			url: '" . $url . "/' + $(this).find(':selected').data('val'),
 		})
 		.done(function( html ) {
 			
