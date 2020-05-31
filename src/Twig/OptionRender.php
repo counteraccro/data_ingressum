@@ -49,7 +49,7 @@ class OptionRender implements RuntimeExtensionInterface
                     $html .= $this->select($optionUser);
                     break;
                 case OptionService::$type_radio:
-                    $html .= 'select ';
+                    $html .= $this->radio($optionUser);
                     break;
 
                 default:
@@ -61,6 +61,73 @@ class OptionRender implements RuntimeExtensionInterface
         return $html;
     }
 
+    
+    private function radio(OptionUser $optionUser) {
+        $html = "";
+        
+        $html .= '<form>
+            <div class="form-group row" style="margin-bottom:0rem">
+                <label for="' . $optionUser->getOptionData()->getName() . '" class="col-sm-4 col-form-label">' . $optionUser->getOptionData()->getLabel() . '</label>
+                <div class="col-sm-4">
+                    <div id="btn-group-'. $optionUser->getOptionData()->getName() . '" class="btn-group" role="group" aria-label="' . $optionUser->getOptionData()->getLabel() . '">';
+                         
+                        $tabOption = json_decode($optionUser->getOptionData()->getChoix());
+                        
+                        foreach($tabOption as $key => $val)
+                        {
+                            $active = '';
+                            if($optionUser->getValue() == $val)
+                            {
+                                $active = 'active';
+                            }
+                            
+                            $html .='<button type="button" data-val="' . $val . '" class="btn btn-primary ' . $active . '">' . $key . '</button>';
+                        }
+                         
+                     $html .='</div>
+                        
+                </div>
+                <div class="col-sm-4">
+                    <div id="valid-feedback-btn-group-'. $optionUser->getOptionData()->getName() . '" class="valid-feedback">
+                       Option mise à jour avec succès <i class="fas fa-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:1rem">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8"><small id="emailHelp" class="form-text text-muted">' . $optionUser->getOptionData()->getInfo() . '</small></div>
+            </div>
+         </form>';
+                     
+         $html .= "
+         <script>
+               jQuery(document).ready(function(){
+                  $('#btn-group-". $optionUser->getOptionData()->getName() . " .btn').click(function() {
+
+                    if($(this).hasClass('disabled'))
+                    {
+                        return false;
+                    }
+
+                     $('#btn-group-". $optionUser->getOptionData()->getName() . " .btn').each(function() {
+                        $(this).removeClass('active');
+                        $(this).addClass('disabled');
+                     });
+                     
+                    $(this).addClass('active');
+            
+                        ";
+                     
+                     $url = $this->router->generate('ajax_update_option', ['id_optionUser' => $optionUser->getId()]);
+                     $html .= $this->generateAjaxJs($url, 'btn-group-' . $optionUser->getOptionData()->getName(), $optionUser->getOptionData()->getType());
+                     
+                     $html .= "});
+               });
+         </script>";
+        
+        return $html;
+    }
+    
     /**
      *Permet de générer le HTML d'une option de type Select
      * @param OptionUser $optionUser
@@ -113,7 +180,7 @@ class OptionRender implements RuntimeExtensionInterface
                         }
                         
                         $url = $this->router->generate('ajax_update_option', ['id_optionUser' => $optionUser->getId()]);
-                        $html .= $this->generateAjaxJs($url, 'select-' . $optionUser->getOptionData()->getName());
+                        $html .= $this->generateAjaxJs($url, 'select-' . $optionUser->getOptionData()->getName(), $optionUser->getOptionData()->getType());
                         
                   $html .= "});
                });
@@ -123,21 +190,68 @@ class OptionRender implements RuntimeExtensionInterface
         return $html;
     }
     
-    private function generateAjaxJs($url, $id)
+    /**
+     * Génère la méthode AJAX pour sauvegarder les données
+     * @param string $url
+     * @param int $id
+     * @param int $type
+     * @return string
+     */
+    private function generateAjaxJs($url, $id, $type)
     {
         $html = "";
         
-        $html .= "//$('#" . $id . "').loader();
+        switch ($type) {
+            case OptionService::$type_select:
+                $html .= "var val = $(this).find(':selected').data('val');";
+                $html .= "$('#" . $id . "').prop('disabled', true);";
+            break;
+            case OptionService::$type_radio:
+                $html .= "var val = $(this).data('val');";
+            default:
+                ;
+            break;
+        }
+        
+        $html .= "
 		
 		$.ajax({
 			method: 'GET',
-			url: '" . $url . "/' + $(this).find(':selected').data('val'),
+			url: '" . $url . "/' + val,
+            dataType: 'JSON'
 		})
-		.done(function( html ) {
-			
-            console.log(html);
+		.done(function( json ) {
+            //json = JSON.parse(json);
 
-            //$('#" . $id . "').html(html);
+			console.log(json.response);
+            if(json.response)
+            {";
+        
+                switch ($type) {
+                    case OptionService::$type_select:
+                        $html .= "$('#" . $id . "').addClass('is-valid').delay(2500).queue(function(next){
+                            $(this).removeClass('is-valid');
+                            $(this).prop('disabled', false);
+                            next();
+                        });";
+                    break;
+                    case OptionService::$type_radio:
+                        $html .= " $('#valid-feedback-" . $id . "').css('display', 'block');
+                            $('#" . $id . "').addClass('is-valid').delay(2500).queue(function(next){
+                             $('#" . $id . " .btn').each(function() {
+                                $(this).removeClass('disabled');
+                                $('#valid-feedback-" . $id . "').css('display', 'none');
+                            });
+                            next();
+                        });";
+                    break;
+                    default:
+                        ;
+                    break;
+                    
+                }
+                
+            $html .= "}
 		});";
         
         return $html;

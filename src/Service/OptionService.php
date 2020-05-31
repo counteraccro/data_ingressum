@@ -20,20 +20,20 @@ class OptionService
      *
      * @var string
      */
-    private $option_auto_save = 'auto_save';
+    private $option_auto_save = 'auto-save';
 
     /**
      * Option select_timeline
      *
      * @var string
      */
-    public static $option_select_timeline = 'select_timeline';
+    public static $option_select_timeline = 'select-timeline';
     
     /**
      * Option select_template
      * @var string
      */
-    public static $option_select_template = 'select_template';
+    public static $option_select_template = 'select-template';
 
     /**
      * Type radio
@@ -56,7 +56,7 @@ class OptionService
      */
     private $defaultOptions = [
         [
-            'setName' => 'auto_save',
+            'setName' => 'auto-save',
             'setLabel' => 'Sauvegarde auto',
             'setInfo' => 'Permet de sauvegarder automatiquement la valeur saisie dés que l\'input perd le focus',
             'setType' => 1,
@@ -64,7 +64,7 @@ class OptionService
             'setChoix' => '{"oui":1,"non":0}'
         ],
         [
-            'setName' => 'select_timeline',
+            'setName' => 'select-timeline',
             'setLabel' => 'Choix timeline',
             'setInfo' => 'Permet de choisir la timeline par défaut pour la saisie des données',
             'setType' => 1,
@@ -72,7 +72,7 @@ class OptionService
             'setChoix' => '{"jour":1,"semaine":2,"mois":3}'
         ],
         [
-            'setName' => 'select_template',
+            'setName' => 'select-template',
             'setLabel' => 'Choix du template',
             'setInfo' => 'Permet de choisir le template du site',
             'setType' => 2,

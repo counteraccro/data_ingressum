@@ -283,6 +283,20 @@ fieldset legend {
 	box-shadow: var(--shadow-focus);
 }
 
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: var(--btn-primary);
+    border-color: var(--btn-primary);
+}
+
+
+/* ---------------------------------------------------
+    TEXT STYLE
+----------------------------------------------------- */
+.text-primary {
+    color: var(--btn-primary)!important;
+}
+
 /* ---------------------------------------------------
     GLOBAL STYLE
 ----------------------------------------------------- */
