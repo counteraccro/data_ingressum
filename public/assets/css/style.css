@@ -284,7 +284,7 @@ fieldset legend {
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
-    color: #fff;
+    color: var(--btn-text-primary);
     background-color: var(--btn-primary);
     border-color: var(--btn-primary);
 }
@@ -294,7 +294,15 @@ fieldset legend {
     TEXT STYLE
 ----------------------------------------------------- */
 .text-primary {
-    color: var(--btn-primary)!important;
+    color: var(--text-primary)!important;
+}
+
+/* ---------------------------------------------------
+    BG STYLE
+----------------------------------------------------- */
+.bg-primary {
+	color: var(--bg-text-primary)!important;;
+    background-color: var(--bg-primary)!important;
 }
 
 /* ---------------------------------------------------

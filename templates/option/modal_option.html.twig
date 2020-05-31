@@ -1,7 +1,7 @@
 <div id="modal-option" class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header bg-primary">
 				<h5 class="modal-title"><i class="fas fa-cogs"></i> Mes options</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
@@ -11,7 +11,7 @@
 			<div class="modal-body">
 				{{ optionUsers | OptionRender() | raw }}
 				
-				<div class="text-primary"><i class="fas fa-info"></i> <i>Un rechargement automatique de la page sera appliqué une fois la fenetre fermée</i></div>
+				<div class="text-primary font-italic"><small><i class="fas fa-info"></i> <i>Un rechargement automatique de la page sera appliqué une fois la fenetre fermée</i></small></div>
 			</div>
 			
 			<div class="modal-footer">

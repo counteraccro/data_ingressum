@@ -3,8 +3,15 @@
 	
 	--btn-primary: #aa66cc;
 	--btn-primary-hover: #9933CC;
+	--btn-text-primary: #fff;
 	
 	--alert-primary: #aa66cc;
 	
+	--text-primary: #aa66cc;
+	
+	--bg-text-primary: #fff;
+	--bg-primary: #aa66cc;
+	
 	--shadow-focus: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgb(153, 51, 204, 0.6)
+	
 }
