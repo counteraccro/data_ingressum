@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\ORM\EntityNotFoundException;
+use App\Service\OptionService;
 
 /**
  *
@@ -35,7 +36,7 @@ class HomeController extends AbstractController
      * @param int $id_page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loadPage(int $id_cat, int $id_page)
+    public function loadPage(int $id_cat, int $id_page, OptionService $optionService)
     {
         /** @var \App\Entity\User $user **/
         $user = $this->getUser();
@@ -50,8 +51,11 @@ class HomeController extends AbstractController
                 {
                     if($page->getId() == $id_page)
                     {
+                        $optionTimeLine = $optionService->getOptionByName(OptionService::$option_select_timeline);
+                        
                         return $this->render('home/ajax_page.html.twig', [
-                            'page' => $page
+                            'page' => $page,
+                            'optionTimeLine' => $optionTimeLine
                         ]);
                     }
                 }

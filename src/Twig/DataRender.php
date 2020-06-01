@@ -34,8 +34,6 @@ class DataRender implements RuntimeExtensionInterface
     {
         $this->session = $session;
         $this->router = $router;
-        // this simple example doesn't define any dependency, but in your own
-        // extensions, you'll need to inject services using this constructor
     }
 
     /**
@@ -88,12 +86,11 @@ class DataRender implements RuntimeExtensionInterface
         $this->sessionData1s($datas, $numweek, $year);
 
         $return = '';
-        
-        if($datas->isEmpty())
-        {
+
+        if ($datas->isEmpty()) {
             return '<div class="alert alert-primary shadow-sm"><i class="fas fa-exclamation-triangle"></i> <i>Pas de données pour le moment</i></div>';
         }
-        
+
         $id_block = $datas->current()
             ->getBlock()
             ->getId();
@@ -118,11 +115,23 @@ class DataRender implements RuntimeExtensionInterface
         </div>';
 
         $return .= '<div class="row">';
+        $return .= '<div class="col-sm-3">--</div>';
         foreach ($dayTimes as $dayTime) {
             $return .= '<div class="col-sm">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
 
+        /** @var Data $data **/
+        foreach ($datas as $data) {
+            $return .= '<div class="row">
+                <div class="col-sm-3">' . $data->getLibelle() . '</div>';
+
+            foreach ($dayTimes as $dayTime) {
+                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid" type="text" /></div>';
+            }
+
+            $return .= '</div>';
+        }
         return $return;
     }
 
@@ -158,12 +167,10 @@ class DataRender implements RuntimeExtensionInterface
      */
     private function sessionData1s(Collection $datas, int $weekNumber, int $year)
     {
-        
-        if($datas->isEmpty())
-        {
+        if ($datas->isEmpty()) {
             return null;
         }
-        
+
         $befor_w = $weekNumber - 1;
         $befor_year = $year;
         if ($weekNumber - 1 <= 0) {

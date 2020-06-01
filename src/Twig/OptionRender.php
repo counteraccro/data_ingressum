@@ -5,7 +5,6 @@ use Twig\Extension\RuntimeExtensionInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Service\OptionService;
 use App\Entity\OptionUser;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

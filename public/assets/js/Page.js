@@ -18,6 +18,13 @@ Page.Launch = function(params) {
 	Page.Event = function(group_btn_id) {
 		
 		$(group_btn_id + ' .btn').click(function() {
+			
+			$(group_btn_id + ' .btn').each(function() {
+				$(this).removeClass('active');
+			})
+			
+			$(this).addClass('active');
+			
 			Page.Ajax($(this).data('url'), '#' + $(this).parent().data('id'));
 		});
 	},

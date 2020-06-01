@@ -5,6 +5,7 @@ use App\Entity\User;
 use App\Entity\Option;
 use App\Entity\OptionUser;
 use Doctrine\Common\Persistence\ManagerRegistry as Doctrine;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class qui va gérer les options du joueur
@@ -68,15 +69,15 @@ class OptionService
             'setLabel' => 'Choix timeline',
             'setInfo' => 'Permet de choisir la timeline par défaut pour la saisie des données',
             'setType' => 1,
-            'setDefaultValue' => 2,
-            'setChoix' => '{"jour":1,"semaine":2,"mois":3}'
+            'setDefaultValue' => '1j',
+            'setChoix' => '{"jour":"1j","semaine":"1s","mois":"1m"}'
         ],
         [
             'setName' => 'select-template',
             'setLabel' => 'Choix du template',
             'setInfo' => 'Permet de choisir le template du site',
             'setType' => 2,
-            'setDefaultValue' => 'blue',
+            'setDefaultValue' => 'default',
             'setChoix' => '{"default":"Template Data Ingressum","blue":"Template Bleu"}'
         ]
     ];
@@ -88,10 +89,16 @@ class OptionService
      * @var Doctrine
      */
     private $doctrine;
+    
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(Doctrine $doctrine)
+    public function __construct(Doctrine $doctrine, SessionInterface $session)
     {
         $this->doctrine = $doctrine;
+        $this->session = $session;
     }
 
     /**
@@ -130,5 +137,15 @@ class OptionService
         }
 
         return $user;
+    }
+    
+    /**
+     * Retourne la valeur d'une option du joueur stocké en session via son nom
+     * @param string $name
+     * @return mixed
+     */
+    public function getOptionByName(string $name)
+    {
+        return $this->session->get($name);
     }
 }
