@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Block;
+use App\Service\DataService;
 
 class BlockController extends AbstractController
 {
@@ -23,7 +24,7 @@ class BlockController extends AbstractController
      * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}", defaults={"numw" = 0, "year" = null}, name="ajax_block")
      * @ParamConverter("block", options={"id" = "id"})
      */
-    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0) {
+    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, DataService $dataService) {
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
@@ -36,11 +37,19 @@ class BlockController extends AbstractController
             $year = date('Y');
         }
         
+        $tabValeurs = array();
+        foreach($block->getDatas() as $data)
+        {
+            $tabValeurs[$data->getId()] = $dataService->getValueInWeek($data, $numw, $year);
+        }
+       
+        
         return $this->render('block/ajax_block.html.twig', [
             'block' => $block,
             'timeline' => $timeline,
             'numweek' => $numw,
-            'year' => $year
+            'year' => $year,
+            'tabValeurs' => $tabValeurs,
         ]);
         
     }

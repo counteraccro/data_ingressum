@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Valeur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Data;
 
 /**
  * @method Valeur|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +20,27 @@ class ValeurRepository extends ServiceEntityRepository
         parent::__construct($registry, Valeur::class);
     }
 
-    // /**
-    //  * @return Valeur[] Returns an array of Valeur objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Retourne une liste de valeur en fonction d'une data et d'une plage de date
+     * @param Data $data
+     * @param string $date_debut
+     * @param string $date_fin
+     * @return mixed|\Doctrine\DBAL\Driver\Statement|array|NULL
+     */
+    public function findbyDataAndBetweenDate(Data $data, $date_debut, $date_fin)
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('v.date BETWEEN :date_debut AND :date_fin')
+            ->andWhere('v.data = :data')
+            ->setParameter('date_debut', $date_debut)
+            ->setParameter('date_fin', $date_fin)
+            ->setParameter('data', $data)
+            ->orderBy('v.date', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Valeur

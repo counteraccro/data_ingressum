@@ -6,6 +6,8 @@ use App\Entity\Data;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Entity\User;
 
 /**
  * Class qui va gérer le rendu des données dans la vue
@@ -28,12 +30,29 @@ class DataRender implements RuntimeExtensionInterface
      */
     private $session;
 
+    /**
+     * 
+     * @var UrlGeneratorInterface
+     */
     private $router;
+    
+    /**
+     * 
+     * @var User
+     */
+    private $user;
 
-    public function __construct(SessionInterface $session, UrlGeneratorInterface $router)
+    /**
+     * Contructeur
+     * @param SessionInterface $session
+     * @param UrlGeneratorInterface $router
+     * @param TokenStorageInterface $tokenStorage
+     */
+    public function __construct(SessionInterface $session, UrlGeneratorInterface $router, TokenStorageInterface $tokenStorage)
     {
         $this->session = $session;
         $this->router = $router;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -43,9 +62,10 @@ class DataRender implements RuntimeExtensionInterface
      * @param string $timeline
      * @param int $numweek
      * @param int $year
+     * @param array $tabValeurs
      * @return string
      */
-    public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year)
+    public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year, array $tabValeurs)
     {
         $return = '';
 
@@ -56,7 +76,7 @@ class DataRender implements RuntimeExtensionInterface
                 }
                 break;
             case self::TIMELINE_1S:
-                $return = $this->data1s($datas, $numweek, $year);
+                $return = $this->data1s($datas, $numweek, $year, $tabValeurs);
                 break;
             case self::TIMELINE_1M:
 
@@ -76,9 +96,10 @@ class DataRender implements RuntimeExtensionInterface
      * @param Collection $datas
      * @param int $numweek
      * @param int $year
+     * @param array $tabValeurs
      * @return string
      */
-    private function data1s(Collection $datas, int $numweek, int $year)
+    private function data1s(Collection $datas, int $numweek, int $year, array $tabValeurs)
     {
         setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
         $dayTimes = $this->getDaysInWeek($numweek, $year);
@@ -127,16 +148,27 @@ class DataRender implements RuntimeExtensionInterface
                 <div class="col-sm-3">' . $data->getLibelle() . '</div>';
 
             foreach ($dayTimes as $dayTime) {
-                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid" type="text" /></div>';
+                
+                $valeur = '';
+                if(isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "")
+                {
+                    /** @var \App\Entity\Valeur $V **/
+                    $V = $tabValeurs[$data->getId()][$dayTime];
+                    $valeur = $V->getValeur();
+                }
+                                
+                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid" type="text" value="' . $valeur . '" /></div>';
             }
 
             $return .= '</div>';
         }
+       
+        
         return $return;
     }
 
     /**
-     * Génère un tableau de jour de la semaine
+     * Génère un tableau de jour de la semaine en fonction du numéro et de l'année
      *
      * @param int $weekNumber
      * @param int $year
