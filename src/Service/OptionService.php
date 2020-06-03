@@ -21,7 +21,7 @@ class OptionService
      *
      * @var string
      */
-    private $option_auto_save = 'auto-save';
+    public static $option_auto_save = 'auto-save';
 
     /**
      * Option select_timeline

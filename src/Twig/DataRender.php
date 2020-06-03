@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Entity\User;
+use App\Service\OptionService;
 
 /**
  * Class qui va gérer le rendu des données dans la vue
@@ -41,6 +42,12 @@ class DataRender implements RuntimeExtensionInterface
      * @var User
      */
     private $user;
+    
+    /**
+     * 
+     * @var OptionService
+     */
+    private $optionService;
 
     /**
      * Contructeur
@@ -48,11 +55,12 @@ class DataRender implements RuntimeExtensionInterface
      * @param UrlGeneratorInterface $router
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(SessionInterface $session, UrlGeneratorInterface $router, TokenStorageInterface $tokenStorage)
+    public function __construct(SessionInterface $session, UrlGeneratorInterface $router, TokenStorageInterface $tokenStorage, OptionService $optionService)
     {
         $this->session = $session;
         $this->router = $router;
         $this->user = $tokenStorage->getToken()->getUser();
+        $this->optionService = $optionService;
     }
 
     /**
@@ -103,6 +111,7 @@ class DataRender implements RuntimeExtensionInterface
     {
         setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
         $dayTimes = $this->getDaysInWeek($numweek, $year);
+        $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
 
         $this->sessionData1s($datas, $numweek, $year);
 
@@ -141,7 +150,8 @@ class DataRender implements RuntimeExtensionInterface
             $return .= '<div class="col-sm">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
-
+        
+        $return .= '<div id="block-input-' . $id_block . '">';
         /** @var Data $data **/
         foreach ($datas as $data) {
             $return .= '<div class="row">
@@ -150,19 +160,68 @@ class DataRender implements RuntimeExtensionInterface
             foreach ($dayTimes as $dayTime) {
                 
                 $valeur = '';
+                $valeur_id = 0;
                 if(isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "")
                 {
-                    /** @var \App\Entity\Valeur $V **/
-                    $V = $tabValeurs[$data->getId()][$dayTime];
-                    $valeur = $V->getValeur();
-                }
-                                
-                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid" type="text" value="' . $valeur . '" /></div>';
+                    /** @var \App\Entity\Valeur $val **/
+                    $val = $tabValeurs[$data->getId()][$dayTime];
+                    $valeur = $val->getValeur();
+                    $valeur_id = $val->getId();
+                }         
+                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid input-val" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
             }
-
             $return .= '</div>';
         }
-       
+        
+        if($auto_save == 1)
+        {
+            $return .= '<i class="text-primary">Option sauvegarde automatique activé</i>';
+        }
+        else {
+            $return .= '<br /><div class="btn btn-primary float-sm-right" id="btn-save-data-' . $id_block . '">Sauvegarder</div>';
+        }
+        
+        $return .= '</div>';
+        
+        $return .= "
+         <script>
+               jQuery(document).ready(function(){";
+        
+        if($auto_save == 1)
+        {
+            $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
+                        
+                        var data_id = $(this).data('data-id');
+                        var valeur_id = $(this).data('val-id');
+                        var valeur = $(this).val();
+                        var time = $(this).data('time');
+                                
+                        console.log('data_id:' + data_id + ' | valeur_id:' + valeur_id + ' | valeur:' + valeur + ' | time:' + time);
+                
+                        $(this).prop('disabled', true);
+                    });";
+               
+        }
+        else {
+            
+            $return .= "$('#btn-save-data-" . $id_block . "').click(function() {
+                            console.log('btn');
+                            $('#block-input-" . $id_block . " .input-val').each(function() {
+                                var data_id = $(this).data('data-id');
+                                var valeur_id = $(this).data('val-id');
+                                var valeur = $(this).val();
+                                var time = $(this).data('time');
+                                
+                                console.log('data_id:' + data_id + ' | valeur_id:' + valeur_id + ' | valeur:' + valeur + ' | time:' + time);
+                            });
+                    });";
+            
+            
+        }
+        
+                   
+        $return .= "});</script>";
+      
         
         return $return;
     }
@@ -259,6 +318,21 @@ class DataRender implements RuntimeExtensionInterface
         </div>
         <hr />';
 
+        return $return;
+    }
+    
+    private function generateAjaxJs($url, $id)
+    {
+        $return = '';
+        
+        $return = "$.ajax({
+            method: 'GET',
+            url: '" . $url . "',
+        })
+        .done(function( html ) {
+            $(id_done).html(html);
+        });";
+        
         return $return;
     }
 }
