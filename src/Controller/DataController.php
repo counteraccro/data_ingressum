@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Data;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DataController extends AbstractController
 {
@@ -21,12 +23,14 @@ class DataController extends AbstractController
     
     /**
      * 
-     * @Route("/ajax/data/{id}", name="data")
-     * @ParamConverter("post", options={"id" = "post_id"})
+     * @Route("/ajax/data/save", name="ajax_save_data", methods={"POST"})
      * 
      */
-    public function loadData(Data $data)
+    public function saveData(Request $request)
     {
+        $data_post = $request->request->get('data');
+        print_r($data_post);
         
+        return new JsonResponse(['response' => true, 'data' => $data_post]);
     }
 }

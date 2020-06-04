@@ -157,6 +157,7 @@ class DataRender implements RuntimeExtensionInterface
             $return .= '<div class="row">
                 <div class="col-sm-3">' . $data->getLibelle() . '</div>';
 
+            $i = 0;
             foreach ($dayTimes as $dayTime) {
                 
                 $valeur = '';
@@ -167,8 +168,10 @@ class DataRender implements RuntimeExtensionInterface
                     $val = $tabValeurs[$data->getId()][$dayTime];
                     $valeur = $val->getValeur();
                     $valeur_id = $val->getId();
-                }         
-                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid input-val" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                } 
+                
+                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                $i++;
             }
             $return .= '</div>';
         }
@@ -183,9 +186,11 @@ class DataRender implements RuntimeExtensionInterface
         
         $return .= '</div>';
         
+        
         $return .= "
          <script>
                jQuery(document).ready(function(){";
+        $url_save = $this->router->generate('ajax_save_data');
         
         if($auto_save == 1)
         {
@@ -195,26 +200,37 @@ class DataRender implements RuntimeExtensionInterface
                         var valeur_id = $(this).data('val-id');
                         var valeur = $(this).val();
                         var time = $(this).data('time');
-                                
-                        console.log('data_id:' + data_id + ' | valeur_id:' + valeur_id + ' | valeur:' + valeur + ' | time:' + time);
                 
                         $(this).prop('disabled', true);
-                    });";
+                        var data = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};";
+            
+            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
+            
+            $return .= "});";
                
         }
         else {
             
             $return .= "$('#btn-save-data-" . $id_block . "').click(function() {
                             console.log('btn');
+
+                            var data = {};
                             $('#block-input-" . $id_block . " .input-val').each(function() {
                                 var data_id = $(this).data('data-id');
                                 var valeur_id = $(this).data('val-id');
                                 var valeur = $(this).val();
                                 var time = $(this).data('time');
+                                var id = $(this).attr('id');
+
+                                $(this).prop('disabled', true);
+
+                                data[id] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};
                                 
-                                console.log('data_id:' + data_id + ' | valeur_id:' + valeur_id + ' | valeur:' + valeur + ' | time:' + time);
-                            });
-                    });";
+                            });";
+            
+            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
+            
+            $return .= "});";
             
             
         }
@@ -321,16 +337,23 @@ class DataRender implements RuntimeExtensionInterface
         return $return;
     }
     
-    private function generateAjaxJs($url, $id)
+    private function generateAjaxJs($url, $id, $method = 'GET', $data = null)
     {
         $return = '';
         
-        $return = "$.ajax({
-            method: 'GET',
-            url: '" . $url . "',
-        })
-        .done(function( html ) {
-            $(id_done).html(html);
+        $return .= "$.ajax({
+            method: '" . $method . "',
+            url: '" . $url . "',";
+        
+        if($method == 'POST')
+        {
+            $return .= "data:{data : data}";
+        }
+        
+        $return .= "})
+        .done(function( response ) {
+            console.log(response);
+            //$(id_done).html(html);
         });";
         
         return $return;
