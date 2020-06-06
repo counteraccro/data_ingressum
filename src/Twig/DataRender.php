@@ -152,6 +152,7 @@ class DataRender implements RuntimeExtensionInterface
         $return .= '</div>';
         
         $return .= '<div id="block-input-' . $id_block . '">';
+        
         /** @var Data $data **/
         foreach ($datas as $data) {
             $return .= '<div class="row">
@@ -170,7 +171,7 @@ class DataRender implements RuntimeExtensionInterface
                     $valeur_id = $val->getId();
                 } 
                 
-                $return .= '<div class="col-sm"><input class="form-control form-control-sm is-valid input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                 $i++;
             }
             $return .= '</div>';
@@ -190,13 +191,16 @@ class DataRender implements RuntimeExtensionInterface
         $return .= "
          <script>
                jQuery(document).ready(function(){";
-        $url_save = $this->router->generate('ajax_save_data');
+        $url_save = $this->router->generate('ajax_save_valeur');
         
         if($auto_save == 1)
         {
             $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
                         
                         var data = {};
+                        var btn = '';
+                        var inputs = []
+                        inputs.push($(this));
                         var data_id = $(this).data('data-id');
                         var valeur_id = $(this).data('val-id');
                         var valeur = $(this).val();
@@ -214,7 +218,17 @@ class DataRender implements RuntimeExtensionInterface
             
             $return .= "$('#btn-save-data-" . $id_block . "').click(function() {
                             
+                            if($(this).hasClass('disabled'))
+                            {
+                                return false;
+                            }
+
                             var data = {};
+                            var inputs = [];
+                            var btn = $(this);
+                            
+                            btn.addClass('disabled');
+
                             $('#block-input-" . $id_block . " .input-val').each(function() {
                                 var data_id = $(this).data('data-id');
                                 var valeur_id = $(this).data('val-id');
@@ -225,16 +239,14 @@ class DataRender implements RuntimeExtensionInterface
                                 $(this).prop('disabled', true);
 
                                 data[id] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};
+                                inputs.push($(this));
                                 
                             });";
             
             $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
             
             $return .= "});";
-            
-            
         }
-        
                    
         $return .= "});</script>";
       
@@ -352,8 +364,23 @@ class DataRender implements RuntimeExtensionInterface
         
         $return .= "})
         .done(function( response ) {
-            console.log(response);
-            //$(id_done).html(html);
+            if(response.success == true)
+            {
+                 for (var i = 0; i < inputs.length; i++) {
+                    var input = inputs[i];
+                    input.addClass('is-valid').delay(2500).queue(function(next){
+                        $(this).removeClass('is-valid');
+                        $(this).prop('disabled', false);
+                        if(btn != '')
+                        {
+                            btn.removeClass('disabled');
+                        }
+                        next();
+                    });
+                }
+
+                
+            }
         });";
         
         return $return;

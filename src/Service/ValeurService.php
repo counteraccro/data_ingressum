@@ -27,9 +27,9 @@ class ValeurService
      * @var ValeurRepository
      */
     private $valeurRepository;
-    
+
     /**
-     * 
+     *
      * @var DataRepository
      */
     private $dataRepository;
@@ -72,6 +72,7 @@ class ValeurService
 
                 if ($valeur->getDate()->format('Y-m-d') == date('Y-m-d', $day)) {
                     $return[$day] = $valeur;
+                    break;
                 } else {
                     $return[$day] = '';
                 }
@@ -102,19 +103,55 @@ class ValeurService
 
         return $dayTimes;
     }
-    
+
+    /**
+     * Met à jour ou créer une valeur depuis un tableau de valeur
+     * le tableau de valeur doit contenir les informations suivantes
+     * [0][
+     * [data_id]
+     * [valeur_id]
+     * [valeur]
+     * [time]
+     * ]
+     *
+     * @param array $tabValeur
+     * @return string[]
+     */
     public function newValeur($tabValeur = array())
     {
         $data = null;
-        foreach($tabValeur as $v)
-        {
-            if($data == null || $v['data_id'] != $data->getId())
+        foreach ($tabValeur as $v) {
+            
+            if($v['valeur'] == '')
             {
-                $data = $this->dataRepository->findOneBy(array('id' => $v['data_id']));
+                continue;
             }
             
+            if ($data == null || $v['data_id'] != $data->getId()) {
+                $data = $this->dataRepository->findOneBy(array(
+                    'id' => $v['data_id']
+                ));
+            }
+
             $valeur = new Valeur();
+            if ($v['valeur_id'] != 0) {
+                $valeur = $this->valeurRepository->findOneBy(array(
+                    'id' => $v['valeur_id']
+                ));
+            }
+
+            $valeur->setData($data);
+            $valeur->setValeur($v['valeur']);
+            $valeur->setDate( new \DateTime(date('d-m-Y', $v['time'])));
+            $valeur->setDisabled(0);
+
+            $this->doctrine->getManager()->persist($valeur);
         }
+        $this->doctrine->getManager()->flush();
+
+        return [
+            'success' => true
+        ];
     }
 }
 

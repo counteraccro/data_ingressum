@@ -73,7 +73,7 @@ class DefaultDataService extends DefaultValueService
         foreach ($tab as $key => $val) {
 
             if ($key == 'setDate') {
-                $val = new \DateTime();
+                $val = new \DateTime(date('d-m-Y', time()));
             }
 
             switch ($key) {
