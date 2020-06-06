@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\ValeurService;
 
 class DataController extends AbstractController
 {
@@ -26,10 +27,11 @@ class DataController extends AbstractController
      * @Route("/ajax/data/save", name="ajax_save_data", methods={"POST"})
      * 
      */
-    public function saveData(Request $request)
+    public function saveData(Request $request, ValeurService $valeurService)
     {
         $data_post = $request->request->get('data');
-        print_r($data_post);
+        
+        $response = $valeurService->newValeur($data_post);
         
         return new JsonResponse(['response' => true, 'data' => $data_post]);
     }

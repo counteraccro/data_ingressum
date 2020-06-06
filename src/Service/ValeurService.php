@@ -5,13 +5,15 @@ use Doctrine\Common\Persistence\ManagerRegistry as Doctrine;
 use App\Entity\Valeur;
 use App\Repository\ValeurRepository;
 use App\Entity\Data;
+use App\Repository\DataRepository;
+use Doctrine\Common\Collections\Expr\Value;
 
 /**
  *
  * @author Aymeric
  *        
  */
-class DataService
+class ValeurService
 {
 
     /**
@@ -25,6 +27,12 @@ class DataService
      * @var ValeurRepository
      */
     private $valeurRepository;
+    
+    /**
+     * 
+     * @var DataRepository
+     */
+    private $dataRepository;
 
     /**
      */
@@ -32,6 +40,7 @@ class DataService
     {
         $this->doctrine = $doctrine;
         $this->valeurRepository = $this->doctrine->getRepository(Valeur::class);
+        $this->dataRepository = $this->doctrine->getRepository(Data::class);
     }
 
     public function getValueByDate(int $data_id, $date)
@@ -92,6 +101,20 @@ class DataService
         }
 
         return $dayTimes;
+    }
+    
+    public function newValeur($tabValeur = array())
+    {
+        $data = null;
+        foreach($tabValeur as $v)
+        {
+            if($data == null || $v['data_id'] != $data->getId())
+            {
+                $data = $this->dataRepository->findOneBy(array('id' => $v['data_id']));
+            }
+            
+            $valeur = new Valeur();
+        }
     }
 }
 

@@ -196,13 +196,14 @@ class DataRender implements RuntimeExtensionInterface
         {
             $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
                         
+                        var data = {};
                         var data_id = $(this).data('data-id');
                         var valeur_id = $(this).data('val-id');
                         var valeur = $(this).val();
                         var time = $(this).data('time');
                 
                         $(this).prop('disabled', true);
-                        var data = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};";
+                        data[0] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};";
             
             $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
             
@@ -212,8 +213,7 @@ class DataRender implements RuntimeExtensionInterface
         else {
             
             $return .= "$('#btn-save-data-" . $id_block . "').click(function() {
-                            console.log('btn');
-
+                            
                             var data = {};
                             $('#block-input-" . $id_block . " .input-val').each(function() {
                                 var data_id = $(this).data('data-id');

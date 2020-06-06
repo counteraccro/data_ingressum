@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Block;
-use App\Service\DataService;
+use App\Service\ValeurService;
 
 class BlockController extends AbstractController
 {
@@ -24,7 +24,7 @@ class BlockController extends AbstractController
      * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}", defaults={"numw" = 0, "year" = null}, name="ajax_block")
      * @ParamConverter("block", options={"id" = "id"})
      */
-    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, DataService $dataService) {
+    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, ValeurService $dataService) {
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
