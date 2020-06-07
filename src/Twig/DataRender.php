@@ -138,16 +138,20 @@ class DataRender implements RuntimeExtensionInterface
             'year' => $this->session->get('data.' . $id_block . '.after.year')
         ));
 
-        $return .= '<div class="row-block-time rounded-top"><div class="row" id="block-time-' . $id_block . '">
+        $return .= '
+        <div class="card border-primary">
+            <div class="card-header bg-primary">
+        <div class="row" id="block-time-' . $id_block . '">
             <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
             <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
             <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
         </div></div>';
 
-        $return .= '<div class="row">';
-        $return .= '<div class="col-sm-3">--</div>';
+        $return .= '<div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">--</div>';
         foreach ($dayTimes as $dayTime) {
-            $return .= '<div class="col-sm">' . strftime('%a %d', $dayTime) . '</div>';
+            $return .= '<div class="col-sm date-str">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
         
@@ -155,8 +159,8 @@ class DataRender implements RuntimeExtensionInterface
         
         /** @var Data $data **/
         foreach ($datas as $data) {
-            $return .= '<div class="row">
-                <div class="col-sm-3">' . $data->getLibelle() . '</div>';
+            $return .= '<div class="row-input-data"><div class="row">
+                <div class="col-sm-3"><div class="align-middle">' . $data->getLibelle() . '</div></div>';
 
             $i = 0;
             foreach ($dayTimes as $dayTime) {
@@ -174,18 +178,23 @@ class DataRender implements RuntimeExtensionInterface
                 $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                 $i++;
             }
-            $return .= '</div>';
+            $return .= '</div></div>';
         }
+        
+        //$return .= '<div class="card-footer>';
+       
+        
+        $return .= '</div></div><div class="card-footer">';
         
         if($auto_save == 1)
         {
-            $return .= '<i class="text-primary">Option sauvegarde automatique activé</i>';
+            $return .= '<i class="text-primary float-sm-right">Option sauvegarde automatique activé</i>';
         }
         else {
-            $return .= '<br /><div class="btn btn-primary float-sm-right" id="btn-save-data-' . $id_block . '">Sauvegarder</div>';
+            $return .= '<div class="btn btn-primary float-sm-right" id="btn-save-data-' . $id_block . '">Sauvegarder</div>';
         }
-        
-        $return .= '</div>';
+
+        $return .= '</div></div>';
         
         
         $return .= "
@@ -226,6 +235,7 @@ class DataRender implements RuntimeExtensionInterface
                             var data = {};
                             var inputs = [];
                             var btn = $(this);
+                            btn.html('Chargement...');
                             
                             btn.addClass('disabled');
 
@@ -374,6 +384,7 @@ class DataRender implements RuntimeExtensionInterface
                         if(btn != '')
                         {
                             btn.removeClass('disabled');
+                            btn.html('Sauvegarder');
                         }
                         next();
                     });

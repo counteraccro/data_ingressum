@@ -311,6 +311,14 @@ fieldset legend {
 }
 
 /* ---------------------------------------------------
+    BORDER STYLE
+----------------------------------------------------- */
+
+.border-primary {
+    border-color: var(--bg-primary)!important;
+}
+
+/* ---------------------------------------------------
     GLOBAL STYLE
 ----------------------------------------------------- */
 select:active,
@@ -340,12 +348,19 @@ input[type="color"]:focus,
    STYLE DATA
 ----------------------------------------------------- */
 
-.row-block-time {
-	background-color: var(--bg-primary)!important;
-	margin-bottom: 10px;
-	padding: 8px;
+.card-body .row .col-sm.date-str { 
+	text-align: center; 
 }
 
-.row-block-time .text-center {
-	color: #fff;
+.row-input-data {
+	margin-bottom: 8px;
+}
+
+.row-input-data .col-sm-3 {
+	padding-top: 6px;
+}
+
+.row-input-data .col-sm {
+	padding-left: 2px;
+	padding-right: 2px;
 }
