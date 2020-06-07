@@ -138,11 +138,11 @@ class DataRender implements RuntimeExtensionInterface
             'year' => $this->session->get('data.' . $id_block . '.after.year')
         ));
 
-        $return .= '<div class="row" id="block-time-' . $id_block . '">
+        $return .= '<div class="row-block-time rounded-top"><div class="row" id="block-time-' . $id_block . '">
             <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
             <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
             <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
-        </div>';
+        </div></div>';
 
         $return .= '<div class="row">';
         $return .= '<div class="col-sm-3">--</div>';

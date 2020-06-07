@@ -137,9 +137,14 @@ span {
     display: block;
 }
 
-#sidebar ul li a:hover, #sidebar ul.collapse li a.active {
+#sidebar ul li a:hover {
     color: #7386D5;
-    background: #fff;
+    background: #fafafa;
+}
+
+#sidebar ul.collapse li a.active, #sidebar ul.collapse li a:hover {
+	color : var(--text-primary)!important;
+	background: #fafafa;
 }
 
 #sidebar ul li a i {
@@ -149,7 +154,7 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: var(--main-bg-color);;
+    background: var(--main-bg-color);
 }
 
 a[data-toggle="collapse"] {
@@ -329,4 +334,18 @@ input[type="color"]:focus,
   border-color: var(--btn-primary-hover);
   box-shadow: var(--shadow-focus);
   outline: 0 none;
+}
+
+/* ---------------------------------------------------
+   STYLE DATA
+----------------------------------------------------- */
+
+.row-block-time {
+	background-color: var(--bg-primary)!important;
+	margin-bottom: 10px;
+	padding: 8px;
+}
+
+.row-block-time .text-center {
+	color: #fff;
 }
