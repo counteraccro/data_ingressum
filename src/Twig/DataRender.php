@@ -33,25 +33,26 @@ class DataRender implements RuntimeExtensionInterface
     private $session;
 
     /**
-     * 
+     *
      * @var UrlGeneratorInterface
      */
     private $router;
-    
+
     /**
-     * 
+     *
      * @var User
      */
     private $user;
-    
+
     /**
-     * 
+     *
      * @var OptionService
      */
     private $optionService;
 
     /**
      * Contructeur
+     *
      * @param SessionInterface $session
      * @param UrlGeneratorInterface $router
      * @param TokenStorageInterface $tokenStorage
@@ -155,65 +156,78 @@ class DataRender implements RuntimeExtensionInterface
             $return .= '<div class="col-sm date-str">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
-        
+
         $return .= '<div id="block-input-' . $id_block . '">';
-        
+
         /** @var Data $data **/
         foreach ($datas as $data) {
             $return .= '<div class="row-input-data"><div class="row">
-                <div class="col-sm-3"><div class="align-middle libelle-data" data-toggle="tooltip" data-placement="left" title="' . $data->getDescription() . '">' . $data->getLibelle();
-                
-                if($data->getType() == DefaultValueService::$type_liste)
-                {
-                    $return .= $data->getDefaultValue();
-                }
-            
-            $return .= '</div></div>';
+                <div class="col-sm-3"><div class="align-middle libelle-data" data-toggle="tooltip" data-placement="left" title="' . $data->getDescription() . '">' . $data->getLibelle() . '</div></div>';
 
-            $i = 0;
-            foreach ($dayTimes as $dayTime) {
-                
-                $valeur = '';
-                $valeur_id = 0;
-                if(isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "")
-                {
-                    /** @var \App\Entity\Valeur $val **/
-                    $val = $tabValeurs[$data->getId()][$dayTime];
-                    $valeur = $val->getValeur();
-                    $valeur_id = $val->getId();
-                } 
-                
-                $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
-                $i++;
+            // Cas liste
+            if ($data->getType() == DefaultValueService::$type_liste) {
+
+                $return .= '<div class="col-sm-8"></div></div></div>';
+
+                $tab = explode(';', $data->getDefaultValue());
+
+                $i = 0;
+                foreach ($tab as $valList) {
+                    $return .= '<div class="row-input-data"><div class="row">
+                        <div class="col-sm-3"><div class="align-middle">--' . $valList . '</div></div>';
+                    
+                    foreach ($dayTimes as $dayTime) {
+
+                        $valeur_id = '';
+                        $valeur = '';
+
+                        $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                        $i ++;
+                    }
+
+                    $return .= '</div></div>';
+                }
+
+                // Cas simple input
+            } else {
+                $i = 0;
+                foreach ($dayTimes as $dayTime) {
+
+                    $valeur = '';
+                    $valeur_id = 0;
+                    if (isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "") {
+                        /** @var \App\Entity\Valeur $val **/
+                        $val = $tabValeurs[$data->getId()][$dayTime];
+                        $valeur = $val->getValeur();
+                        $valeur_id = $val->getId();
+                    }
+
+                    $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                    $i ++;
+                }
+
+                $return .= '</div></div>';
             }
-            $return .= '</div></div>';
         }
-        
-        //$return .= '<div class="card-footer>';
-       
-        
+
         $return .= '</div></div><div class="card-footer">';
-        
-        if($auto_save == 1)
-        {
+
+        if ($auto_save == 1) {
             $return .= '<i class="text-primary float-sm-right">Option sauvegarde automatique activé</i>';
-        }
-        else {
+        } else {
             $return .= '<div class="btn btn-primary float-sm-right" id="btn-save-data-' . $id_block . '">Sauvegarder</div>';
         }
 
         $return .= '</div></div>';
-        
-        
+
         $return .= "
          <script>
                jQuery(document).ready(function(){
 
             $('.libelle-data').tooltip();";
         $url_save = $this->router->generate('ajax_save_valeur');
-        
-        if($auto_save == 1)
-        {
+
+        if ($auto_save == 1) {
             $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
                         
                         var data = {};
@@ -227,14 +241,12 @@ class DataRender implements RuntimeExtensionInterface
                 
                         $(this).prop('disabled', true);
                         data[0] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};";
-            
+
             $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
-            
+
             $return .= "});";
-               
-        }
-        else {
-            
+        } else {
+
             $return .= "$('#btn-save-data-" . $id_block . "').click(function() {
                             
                             if($(this).hasClass('disabled'))
@@ -262,15 +274,14 @@ class DataRender implements RuntimeExtensionInterface
                                 inputs.push($(this));
                                 
                             });";
-            
+
             $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
-            
+
             $return .= "});";
         }
-                   
+
         $return .= "});</script>";
-      
-        
+
         return $return;
     }
 
@@ -368,20 +379,19 @@ class DataRender implements RuntimeExtensionInterface
 
         return $return;
     }
-    
+
     private function generateAjaxJs($url, $id, $method = 'GET', $data = null)
     {
         $return = '';
-        
+
         $return .= "$.ajax({
             method: '" . $method . "',
             url: '" . $url . "',";
-        
-        if($method == 'POST')
-        {
+
+        if ($method == 'POST') {
             $return .= "data:{data : data}";
         }
-        
+
         $return .= "})
         .done(function( response ) {
             if(response.success == true)
@@ -403,7 +413,7 @@ class DataRender implements RuntimeExtensionInterface
                 
             }
         });";
-        
+
         return $return;
     }
 }

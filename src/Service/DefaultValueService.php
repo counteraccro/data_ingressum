@@ -51,7 +51,7 @@ class DefaultValueService
                                     'setTips' => 'L\'unité est la journée de travail',
                                     'setDisabled' => false,
                                     'setType' => 2,
-                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4|Projet3',
+                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4;Projet3',
                                     'setPosition' => 1,
                                     'setUser' => '',
                                     'addValeurs' => [
