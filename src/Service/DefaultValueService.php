@@ -10,6 +10,10 @@ namespace App\Service;
 class DefaultValueService
 {
 
+    public static $type_input = 1;
+    
+    public static $type_liste = 2;
+    
     protected $default_data = [
         [
             'setName' => 'Au travail',

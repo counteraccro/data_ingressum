@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Entity\User;
 use App\Service\OptionService;
+use App\Service\DefaultValueService;
 
 /**
  * Class qui va gérer le rendu des données dans la vue
@@ -160,7 +161,14 @@ class DataRender implements RuntimeExtensionInterface
         /** @var Data $data **/
         foreach ($datas as $data) {
             $return .= '<div class="row-input-data"><div class="row">
-                <div class="col-sm-3"><div class="align-middle libelle-data" data-toggle="tooltip" data-placement="left" title="' . $data->getDescription() . '">' . $data->getLibelle() . '</div></div>';
+                <div class="col-sm-3"><div class="align-middle libelle-data" data-toggle="tooltip" data-placement="left" title="' . $data->getDescription() . '">' . $data->getLibelle();
+                
+                if($data->getType() == DefaultValueService::$type_liste)
+                {
+                    $return .= $data->getDefaultValue();
+                }
+            
+            $return .= '</div></div>';
 
             $i = 0;
             foreach ($dayTimes as $dayTime) {
