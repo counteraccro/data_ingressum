@@ -160,7 +160,7 @@ class DataRender implements RuntimeExtensionInterface
         /** @var Data $data **/
         foreach ($datas as $data) {
             $return .= '<div class="row-input-data"><div class="row">
-                <div class="col-sm-3"><div class="align-middle">' . $data->getLibelle() . '</div></div>';
+                <div class="col-sm-3"><div class="align-middle libelle-data" data-toggle="tooltip" data-placement="left" title="' . $data->getDescription() . '">' . $data->getLibelle() . '</div></div>';
 
             $i = 0;
             foreach ($dayTimes as $dayTime) {
@@ -199,7 +199,9 @@ class DataRender implements RuntimeExtensionInterface
         
         $return .= "
          <script>
-               jQuery(document).ready(function(){";
+               jQuery(document).ready(function(){
+
+            $('.libelle-data').tooltip();";
         $url_save = $this->router->generate('ajax_save_valeur');
         
         if($auto_save == 1)

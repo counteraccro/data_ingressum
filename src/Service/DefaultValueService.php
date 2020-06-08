@@ -12,22 +12,22 @@ class DefaultValueService
 
     protected $default_data = [
         [
-            'setName' => 'Data Ingressum',
+            'setName' => 'Au travail',
             'setDisabled' => false,
             'setIcon' => 'fas fa-landmark',
             'addPage' => [
                 [
-                    'setName' => 'Statistiques',
+                    'setName' => 'Important',
                     'setDisabled' => false,
                     'addBlock' => [
                         [
-                            'setName' => 'Mes statistiques ici',
+                            'setName' => 'Statistiques Société X',
                             'setDisabled' => false,
                             'addData' => [
                                 [
-                                    'setLibelle' => 'Donnée input',
-                                    'setDescription' => 'Cet exemple vous permet de saisir n\'importe quelle donnée',
-                                    'setTips' => 'Y\'a pas plus simple',
+                                    'setLibelle' => 'Nombre de mails',
+                                    'setDescription' => 'Mails reçus par jour',
+                                    'setTips' => '',
                                     'setDisabled' => false,
                                     'setType' => 1,
                                     'setDefaultValue' => '',
@@ -42,12 +42,12 @@ class DefaultValueService
                                     ]
                                 ],
                                 [
-                                    'setLibelle' => 'Donnée input (encore)',
-                                    'setDescription' => 'Cet exemple vous permet de saisir n\'importe quelle donnée',
-                                    'setTips' => 'Y\'a pas plus simple',
+                                    'setLibelle' => 'Projets',
+                                    'setDescription' => 'Projets auquels j\'ai participé',
+                                    'setTips' => 'L\'unité est la journée de travail',
                                     'setDisabled' => false,
-                                    'setType' => 1,
-                                    'setDefaultValue' => '',
+                                    'setType' => 2,
+                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4|Projet3',
                                     'setPosition' => 1,
                                     'setUser' => '',
                                     'addValeurs' => [
@@ -61,16 +61,16 @@ class DefaultValueService
                             ]
                         ],
                         [
-                            'setName' => 'Bloc n°2',
+                            'setName' => 'Réunions',
                             'setDisabled' => false,
                             'addData' => [
                                 [
-                                    'setLibelle' => 'Donnée liste',
-                                    'setDescription' => 'Cet exemple vous permet de compter à partir d\'une liste',
-                                    'setTips' => 'Y\'a pas plus simple',
+                                    'setLibelle' => 'Nombre de réunions',
+                                    'setDescription' => 'Réunions faite par jour',
+                                    'setTips' => '',
                                     'setDisabled' => false,
-                                    'setType' => 2,
-                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4|Projet3',
+                                    'setType' => 1,
+                                    'setDefaultValue' => '',
                                     'setPosition' => 2,
                                     'setUser' => '',
                                     'addValeurs' => [
