@@ -174,7 +174,7 @@ class DataRender implements RuntimeExtensionInterface
                 $i = 0;
                 foreach ($tab as $valList) {
                     $return .= '<div class="row-input-data"><div class="row">
-                        <div class="col-sm-3"><div class="align-middle">--' . $valList . '</div></div>';
+                        <div class="col-sm-3"><div class="align-middle">&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i> ' . $valList . '</div></div>';
 
                     foreach ($dayTimes as $dayTime) {
 
