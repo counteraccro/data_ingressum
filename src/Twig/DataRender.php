@@ -141,7 +141,7 @@ class DataRender implements RuntimeExtensionInterface
         ));
 
         $return .= '
-        <div class="card border-primary">
+        <div class="card border-primary shadow">
             <div class="card-header bg-primary">
         <div class="row" id="block-time-' . $id_block . '">
             <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
