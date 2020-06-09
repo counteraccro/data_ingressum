@@ -175,13 +175,13 @@ class DataRender implements RuntimeExtensionInterface
                 foreach ($tab as $valList) {
                     $return .= '<div class="row-input-data"><div class="row">
                         <div class="col-sm-3"><div class="align-middle">--' . $valList . '</div></div>';
-                    
+
                     foreach ($dayTimes as $dayTime) {
 
                         $valeur_id = '';
                         $valeur = '';
 
-                        $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                        $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val input-list" data-element-list="' . $valList . '" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                         $i ++;
                     }
 
@@ -230,13 +230,24 @@ class DataRender implements RuntimeExtensionInterface
         if ($auto_save == 1) {
             $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
                         
+                         var valeur = $(this).val();
+
+                        if($(this).hasClass('input-list'))
+                        {
+                            valeur = '';
+                            $('#block-input-" . $id_block . " .input-list[data-time=' + $(this).data('time') + '][data-data-id=' + $(this).data('data-id') + ']').each(function() {
+                               valeur += $(this).data('element-list') + ':' + $(this).val() + ';';
+                            });
+                            valeur = valeur.slice(0, -1);
+                        }
+
                         var data = {};
                         var btn = '';
                         var inputs = []
                         inputs.push($(this));
                         var data_id = $(this).data('data-id');
                         var valeur_id = $(this).data('val-id');
-                        var valeur = $(this).val();
+                       
                         var time = $(this).data('time');
                 
                         $(this).prop('disabled', true);
@@ -262,11 +273,25 @@ class DataRender implements RuntimeExtensionInterface
                             btn.addClass('disabled');
 
                             $('#block-input-" . $id_block . " .input-val').each(function() {
+
+                                var valeur = $(this).val();
+                                var id = $(this).attr('id');
+
+                                if($(this).hasClass('input-list'))
+                                {
+                                    valeur = '';
+                                    $('#block-input-" . $id_block . " .input-list[data-time=' + $(this).data('time') + '][data-data-id=' + $(this).data('data-id') + ']').each(function() {
+                                       
+                                        valeur += $(this).data('element-list') + ':' + $(this).val() + ';';
+                                    });
+                                    valeur = valeur.slice(0, -1);
+                                    id = $(this).data('time') + $(this).data('data-id');
+                                }                                
+
                                 var data_id = $(this).data('data-id');
                                 var valeur_id = $(this).data('val-id');
-                                var valeur = $(this).val();
+                               
                                 var time = $(this).data('time');
-                                var id = $(this).attr('id');
 
                                 $(this).prop('disabled', true);
 

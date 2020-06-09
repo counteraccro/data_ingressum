@@ -139,6 +139,14 @@ class ValeurService
                     'id' => $v['valeur_id']
                 ));
             }
+            
+            // Cas la valeur est déjà enregistré mais l'id n'est pas encore dispo
+            $result = $this->valeurRepository->findByDataAndDate($data, new \DateTime(date('d-m-Y', $v['time'])));
+            if(!empty($result))
+            {
+                if($result[0] InstanceOf Valeur)
+                    $valeur = $result[0];
+            }
 
             $valeur->setData($data);
             $valeur->setValeur($v['valeur']);

@@ -41,6 +41,25 @@ class ValeurRepository extends ServiceEntityRepository
         ;
     }
     
+    /**
+     * Permet de retourner une valeur en fonction du data et d'une date
+     * @param Data $data
+     * @param string $date
+     * @return number|NULL
+     */
+    public function findByDataAndDate(Data $data, $date)
+    {
+        return $this->createQueryBuilder('v')
+        ->andWhere('v.date = :date')
+        ->andWhere('v.data = :data')
+        ->setParameter('date', $date)
+        ->setParameter('data', $data)
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Valeur

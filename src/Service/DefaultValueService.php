@@ -51,7 +51,7 @@ class DefaultValueService
                                     'setTips' => 'L\'unité est la journée de travail',
                                     'setDisabled' => false,
                                     'setType' => 2,
-                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4;Projet3',
+                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4;Projet5',
                                     'setPosition' => 1,
                                     'setUser' => '',
                                     'addValeurs' => [
@@ -61,8 +61,43 @@ class DefaultValueService
                                             'setDisabled' => false
                                         ]
                                     ]
-                                ]
-                            ]
+                                ],
+                                [
+                                    'setLibelle' => 'Nombre de cafés',
+                                    'setDescription' => 'cafés bus par jour',
+                                    'setTips' => '',
+                                    'setDisabled' => false,
+                                    'setType' => 1,
+                                    'setDefaultValue' => '',
+                                    'setPosition' => 1,
+                                    'setUser' => '',
+                                    'addValeurs' => [
+                                        [
+                                            'setDate' => '',
+                                            'setValeur' => '1',
+                                            'setDisabled' => false
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    'setLibelle' => 'Collègues',
+                                    'setDescription' => 'Collègue avec qui j\'ai parler',
+                                    'setTips' => 'L\'unité est le nombre de collègues par jour',
+                                    'setDisabled' => false,
+                                    'setType' => 2,
+                                    'setDefaultValue' => 'Pauline;Jack;Michel;Claire;Jean',
+                                    'setPosition' => 1,
+                                    'setUser' => '',
+                                    'addValeurs' => [
+                                        [
+                                            'setDate' => '',
+                                            'setValeur' => '1',
+                                            'setDisabled' => false
+                                        ]
+                                    ]
+                                ],
+                            ],
+                            
                         ],
                         [
                             'setName' => 'Réunions',
