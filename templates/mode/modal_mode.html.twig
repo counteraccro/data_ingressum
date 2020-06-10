@@ -1,0 +1,53 @@
+<div id="modal-mode" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h5 class="modal-title"><i class="fas fa-toggle-on"></i> Modes de DataIngressum</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				
+				<div class="row">
+                	<div class="col-4">
+                    	<div class="list-group" id="list-tab" role="tablist">
+                      		<a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+                      		<a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                      		<a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                      		<a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+                    	</div>
+                  	</div>
+                  	<div class="col-8">
+                    	<div class="tab-content" id="nav-tabContent">
+                         	<div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+                          	<div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                          	<div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                          	<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+                    	</div>
+                  	</div>
+                </div>
+				<br />
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Passer au mode</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#modal-mode').modal({
+			backdrop : 'static',
+			show : true
+		})
+
+		/*$('#modal-option').on('hidden.bs.modal', function (e) {
+			window.location.replace("{{ path('home') }}");
+		})*/
+	});
+
+</script>
