@@ -11,20 +11,43 @@
 			<div class="modal-body">
 				
 				<div class="row">
-                	<div class="col-4">
-                    	<div class="list-group" id="list-tab" role="tablist">
-                      		<a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-                      		<a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                      		<a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-                      		<a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+                	<div class="col-sm-4">
+                    	<div class="list-group shadow-sm" id="list-tab" role="tablist">
+                      		<a class="list-group-item list-group-item-action active" id="mode-data-list" data-toggle="list" href="#mode-data" role="tab" aria-controls="mode data"><i class="fas fa-database"></i> Saisie de données <i class="fas fa-check"></i></a>
+                      		<a class="list-group-item list-group-item-action" id="mode-statistique-list" data-toggle="list" href="#mode-statistique" role="tab" aria-controls="Statistique"><i class="fas fa-chart-line"></i> Statistiques</a>
+                      		<a class="list-group-item list-group-item-action" id="mode-edition-list" data-toggle="list" href="#mode-edition" role="tab" aria-controls="Edition"><i class="fas fa-edit"></i> Edition</a>
+                      		<a class="list-group-item list-group-item-action" id="mode-admin-list" data-toggle="list" href="#mode-admin" role="tab" aria-controls="Admin"><i class="fas fa-user-secret"></i> Administration</a>
                     	</div>
                   	</div>
-                  	<div class="col-8">
+                  	<div class="col-sm-8">
                     	<div class="tab-content" id="nav-tabContent">
-                         	<div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                          	<div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-                          	<div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-                          	<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+                         	<div class="tab-pane show active " id="mode-data" role="tabpanel" aria-labelledby="mode-data-list">
+                         		<h5><i class="fas fa-database"></i> Saisie de données</h5>
+                         		<p class="text-justify">
+                         			Ce mode vous permet de saisir vos données comme bon vous semble en fonction de vos rêgles de gestion<br />
+                         			
+                         		</p>
+                         		<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         	</div>
+                          	<div class="tab-pane" id="mode-statistique" role="tabpanel" aria-labelledby="mode-statistique-list">
+                          		<h5><i class="fas fa-chart-line"></i> Statistique</h5>
+                         		<p class="text-justify">
+                         			Ce mode vous permet de visualiser vos données saisie sous la forme de graphiques intéractifs par jour / semaine / mois / année
+                         		</p>
+                          	</div>
+                          	<div class="tab-pane" id="mode-edition" role="tabpanel" aria-labelledby="mode-edition-list">
+                          		<h5><i class="fas fa-edit"></i> Edition</h5>
+                         		<p class="text-justify">
+                         			Ce mode vous permet de créer / éditer / supprimer / positonnner tout les elements de DataIngressum. Créer votre propre page, ajouter votre module ainsi que vos données à saisir et positionnez le ou vous voulez.
+                         		</p>
+                          	</div>
+                          	<div class="tab-pane" id="mode-admin" role="tabpanel" aria-labelledby="mode-admin-list">
+                          		<h5><i class="fas fa-user-secret"></i> Administration</h5>
+                         		<p class="text-justify">
+                         			Permet d'administrer le site.<br />
+                         			Vous voyez ce mode et vous n'êtes pas admin ? Ha.. y'a comme un soucis alors
+                         		</p>
+                          	</div>
                     	</div>
                   	</div>
                 </div>
