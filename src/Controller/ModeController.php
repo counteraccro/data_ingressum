@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ModeController extends AbstractController
 {
@@ -25,5 +26,14 @@ class ModeController extends AbstractController
     public function modalOption()
     {              
         return $this->render('mode/modal_mode.html.twig', []);
+    }
+    
+    /**
+     * @Route("/ajax/mode/change/{mode}", name="ajax_change_mode")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function changeMode(string $mode = null)
+    {
+        return new JsonResponse(['response' => true, 'error' => '']);
     }
 }
