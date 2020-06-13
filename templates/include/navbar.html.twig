@@ -1,3 +1,14 @@
+{% if app.user.mode == 'mode_data' %}
+    {% set iconfa = 'fa-database' %}
+{% elseif app.user.mode == 'mode_stat' %}
+    {% set iconfa = 'fa-chart-line' %}
+{% elseif app.user.mode == 'mode_edit' %}
+    {% set iconfa = 'fa-edit' %}
+{% elseif app.user.mode == 'mode_admin' %}
+    {% set iconfa = 'fa-user-secret' %}
+{% endif %}
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container-fluid">
 		<button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -15,7 +26,7 @@
 			style="">
 			<ul id="nav-menu-top" class="nav navbar-nav ml-auto">
 				<li class="nav-item active"><a class="nav-link" href="#">[ <i class="fas fa-user-astronaut"></i> {{ app.user.name }} ]</a></li>
-				<li class="nav-item active"><a id="link-mode" class="nav-link nav-modal" href="{{ path('ajax_modal_mode') }}#"><i class="fas fa-database"></i> Mode</a></li>
+				<li class="nav-item active"><a id="link-mode" class="nav-link nav-modal" href="{{ path('ajax_modal_mode') }}#"><i class="fas {{ iconfa }}"></i> Mode</a></li>
 				<li class="nav-item active"><a id="link-option" class="nav-link nav-modal" href="{{ path('ajax_modal_option') }}#"><i class="fas fa-cogs"></i> Options</a></li>
 				<li class="nav-item active"><a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 			</ul>

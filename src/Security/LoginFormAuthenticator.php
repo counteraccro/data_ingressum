@@ -99,7 +99,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         /** @var OptionUser $optionUser **/
         foreach($user->getOptionUsers() as $optionUser)
         {
-            $request->getSession()->set($optionUser->getOptionData()->getName(), $optionUser->getValue());
+            if($optionUser->getOptionData()->getName() == 'select-mode')
+            {
+                $user->setMode($optionUser->getValue());
+                $this->entityManager->flush($user);
+            }
+            else
+            {
+                $request->getSession()->set($optionUser->getOptionData()->getName(), $optionUser->getValue());
+            }
         }
         
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {

@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $option_users;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $mode;
+
     public function __construct()
     {
         $this->Categories = new ArrayCollection();
@@ -243,6 +248,18 @@ class User implements UserInterface
                 $optionUser->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMode(): ?string
+    {
+        return $this->mode;
+    }
+
+    public function setMode(?string $mode): self
+    {
+        $this->mode = $mode;
 
         return $this;
     }

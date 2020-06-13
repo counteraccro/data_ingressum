@@ -47,8 +47,10 @@ Mode.Launch = function(params) {
 			});
 			
 			var url = $(this).data('url') + '/' + mode;
+			var url_reload = $(this).data('reload');
 			
-			Navbar.Ajax(url, '#i', false, 'GET');
+			console.log(url_reload);
+			Mode.Ajax(url, url_reload, false, 'GET');
 			
 			return false;
 		})
@@ -57,7 +59,7 @@ Mode.Launch = function(params) {
 	/**
 	 * Méthode Ajax qui va charger l'element présent dans l'URL
 	 */
-	Mode.Ajax = function(url, id_done, loader = true, method = 'GET')
+	Mode.Ajax = function(url, url_reload, loader = true, method = 'GET')
 	{
 		if(loader)
 		{
@@ -69,7 +71,7 @@ Mode.Launch = function(params) {
 			url: url,
 		})
 		.done(function( html ) {
-			$(id_done).html(html);
+			window.location.href = url_reload ;
 		});
 	}
 }

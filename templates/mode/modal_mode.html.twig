@@ -1,8 +1,19 @@
+{% if app.user.mode == 'mode_data' %}
+    {% set iconfa = 'fa-database' %}
+{% elseif app.user.mode == 'mode_stat' %}
+    {% set iconfa = 'fa-chart-line' %}
+{% elseif app.user.mode == 'mode_edit' %}
+    {% set iconfa = 'fa-edit' %}
+{% elseif app.user.mode == 'mode_admin' %}
+    {% set iconfa = 'fa-user-secret' %}
+{% endif %}
+
+
 <div id="modal-mode" class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<h5 class="modal-title"><i class="fas fa-toggle-on"></i> Modes de DataIngressum</h5>
+				<h5 class="modal-title"><i class="fas fa-toggle-on"></i> Modes de Data Ingressum</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -13,10 +24,10 @@
 				<div class="row">
                 	<div class="col-sm-4">
                     	<div class="list-group shadow-sm" id="list-tab" role="tablist">
-                      		<a class="list-group-item list-group-item-action active" id="mode-data-list" data-toggle="list" href="#mode-data" role="tab" aria-controls="mode data" data-mode="data" data-current="1"><i class="fas fa-database"></i> Saisie de données <span id="icon-data"><i class="fas fa-check"></i></span></a>
-                      		<a class="list-group-item list-group-item-action" id="mode-statistique-list" data-toggle="list" href="#mode-statistique" role="tab" aria-controls="Statistique"  data-mode="stat" data-current="0"><i class="fas fa-chart-line"></i> Statistiques <span id="icon-stat"></span></a>
-                      		<a class="list-group-item list-group-item-action" id="mode-edition-list" data-toggle="list" href="#mode-edition" role="tab" aria-controls="Edition"  data-mode="edition" data-current="0"><i class="fas fa-edit"></i> Edition <span id="icon-edition"></span></a>
-                      		<a class="list-group-item list-group-item-action" id="mode-admin-list" data-toggle="list" href="#mode-admin" role="tab" aria-controls="Admin"  data-mode="admin" data-current="0"><i class="fas fa-user-secret"></i> Administration <span id="icon-admin"></span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_data' %}active{% endif %}" id="mode-data-list" data-toggle="list" href="#mode-data" role="tab" aria-controls="mode data" data-mode="mode_data" data-current="{% if app.user.mode == 'mode_data' %}1{% else %}0{% endif %}"><i class="fas fa-database"></i> Saisie de données <span id="icon-data">{% if app.user.mode == 'mode_data' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_stat' %}active{% endif %}" id="mode-statistique-list" data-toggle="list" href="#mode-statistique" role="tab" aria-controls="Statistique"  data-mode="mode_stat" data-current="{% if app.user.mode == 'mode_stat' %}1{% else %}0{% endif %}"><i class="fas fa-chart-line"></i> Statistiques <span id="icon-stat">{% if app.user.mode == 'mode_stat' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_edit' %}active{% endif %}" id="mode-edition-list" data-toggle="list" href="#mode-edition" role="tab" aria-controls="Edition"  data-mode="mode_edit" data-current="{% if app.user.mode == 'mode_edit' %}1{% else %}0{% endif %}"><i class="fas fa-edit"></i> Edition <span id="icon-edition">{% if app.user.mode == 'mode_edit' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_admin' %}active{% endif %}" id="mode-admin-list" data-toggle="list" href="#mode-admin" role="tab" aria-controls="Admin"  data-mode="mode_admin" data-current="{% if app.user.mode == 'mode_admin' %}1{% else %}0{% endif %}"><i class="fas fa-user-secret"></i> Administration <span id="icon-admin">{% if app.user.mode == 'mode_admin' %}<i class="fas fa-check"></i>{% endif %}</span></a>
                     	</div>
                   	</div>
                   	<div class="col-sm-8">
@@ -24,22 +35,29 @@
                          	<div class="tab-pane show active " id="mode-data" role="tabpanel" aria-labelledby="mode-data-list">
                          		<h5><i class="fas fa-database"></i> Saisie de données</h5>
                          		<p class="text-justify">
-                         			Ce mode vous permet de saisir vos données comme bon vous semble en fonction de vos rêgles de gestion<br />
-                         			
+                         			Ce mode vous permet de saisir vos données comme bon vous semble en fonction de vos rêgles de gestion<br />	
                          		</p>
-                         		<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         		{% if app.user.mode == 'mode_data' %}
+                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         		{% endif %}
                          	</div>
                           	<div class="tab-pane" id="mode-statistique" role="tabpanel" aria-labelledby="mode-statistique-list">
                           		<h5><i class="fas fa-chart-line"></i> Statistique</h5>
                          		<p class="text-justify">
                          			Ce mode vous permet de visualiser vos données saisie sous la forme de graphiques intéractifs par jour / semaine / mois / année
                          		</p>
+                         		{% if app.user.mode == 'mode_stat' %}
+                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         		{% endif %}
                           	</div>
                           	<div class="tab-pane" id="mode-edition" role="tabpanel" aria-labelledby="mode-edition-list">
                           		<h5><i class="fas fa-edit"></i> Edition</h5>
                          		<p class="text-justify">
                          			Ce mode vous permet de créer / éditer / supprimer / positonnner tout les elements de DataIngressum. Créer votre propre page, ajouter votre module ainsi que vos données à saisir et positionnez le ou vous voulez.
                          		</p>
+                         		{% if app.user.mode == 'mode_edit' %}
+                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         		{% endif %}
                           	</div>
                           	<div class="tab-pane" id="mode-admin" role="tabpanel" aria-labelledby="mode-admin-list">
                           		<h5><i class="fas fa-user-secret"></i> Administration</h5>
@@ -47,15 +65,18 @@
                          			Permet d'administrer le site.<br />
                          			Vous voyez ce mode et vous n'êtes pas admin ? Ha.. y'a comme un soucis alors
                          		</p>
+                         		{% if app.user.mode == 'mode_admin' %}
+                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         		{% endif %}
                           	</div>
                     	</div>
                   	</div>
                 </div>
-				<br />
+				<br /><div class="text-primary font-italic"><small><i class="fas fa-info"></i> <i>Un changement de mode impose un rafraichissement de la page</i></small></div>
 			</div>
 			
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary disabled" id="btn-change-mode" data-url="{{ path('ajax_change_mode') }}">Choisissez un mode</button>
+				<button type="button" class="btn btn-primary disabled" id="btn-change-mode" data-reload="{{ path('home')}}" data-url="{{ path('ajax_change_mode') }}">Choisissez un mode</button>
 			</div>
 		</div>
 	</div>

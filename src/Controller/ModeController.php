@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\ModeService;
 
 class ModeController extends AbstractController
 {
@@ -32,8 +33,10 @@ class ModeController extends AbstractController
      * @Route("/ajax/mode/change/{mode}", name="ajax_change_mode")
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function changeMode(string $mode = null)
+    public function changeMode(string $mode = null, ModeService $modeService)
     {
-        return new JsonResponse(['response' => true, 'error' => '']);
+        $modeService->changeMode($this->getUser(), $mode);
+        
+        return new JsonResponse(['response' => true]);
     }
 }
