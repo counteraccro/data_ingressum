@@ -178,9 +178,23 @@ class DataRender implements RuntimeExtensionInterface
 
                     foreach ($dayTimes as $dayTime) {
 
-                        $valeur_id = '';
+                        $valeur_id = 0;
                         $valeur = '';
-
+                        if (isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "") {
+                            $val = $tabValeurs[$data->getId()][$dayTime];
+                            
+                            $tmpTab = explode(';', $val->getValeur());
+                            foreach($tmpTab as $tmp)
+                            {                                
+                                $t = explode(':', $tmp);
+                                if($t[0] == $valList)
+                                {
+                                    $valeur = $t[1];
+                                    break;
+                                }
+                            }                         
+                            $valeur_id = $val->getId();
+                        }
                         $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val input-list" data-element-list="' . $valList . '" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                         $i ++;
                     }
