@@ -43,7 +43,14 @@ class DefaultValueService
                                             'setValeur' => '1',
                                             'setDisabled' => false
                                         ]
+                                    ],
+                                    'addRule' => [
+                                        [
+                                            'setRule' => '/^\d+$/',
+                                            'setErreurMessage' => 'Chiffre uniquement'
+                                        ]
                                     ]
+                                    
                                 ],
                                 [
                                     'setLibelle' => 'Projets',
@@ -59,6 +66,14 @@ class DefaultValueService
                                             'setDate' => '',
                                             'setValeur' => '1',
                                             'setDisabled' => false
+                                        ]
+                                    ],
+                                    'addRule' => [
+                                        [
+                                            'setRule' => '/^\d+$/',
+                                            'setErreurMessage' => 'Chiffre uniquement',
+                                            'setMin' => 0,
+                                            'setMax' => 1
                                         ]
                                     ]
                                 ],

@@ -70,9 +70,15 @@ class Data
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Rule::class, mappedBy="data", cascade={"persist"})
+     */
+    private $rules;
+
     public function __construct()
     {
         $this->valeurs = new ArrayCollection();
+        $this->rules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,37 @@ class Data
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rule[]
+     */
+    public function getRules(): Collection
+    {
+        return $this->rules;
+    }
+
+    public function addRule(Rule $rule): self
+    {
+        if (!$this->rules->contains($rule)) {
+            $this->rules[] = $rule;
+            $rule->setData($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRule(Rule $rule): self
+    {
+        if ($this->rules->contains($rule)) {
+            $this->rules->removeElement($rule);
+            // set the owning side to null (unless already changed)
+            if ($rule->getData() === $this) {
+                $rule->setData(null);
+            }
+        }
 
         return $this;
     }

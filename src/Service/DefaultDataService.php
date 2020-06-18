@@ -8,6 +8,7 @@ use App\Entity\Categorie;
 use App\Entity\Data;
 use App\Entity\Valeur;
 use App\Entity\Option;
+use App\Entity\Rule;
 
 /**
  * Class qui va créer les données par défaut pour un nouveau user
@@ -17,20 +18,20 @@ use App\Entity\Option;
  */
 class DefaultDataService extends DefaultValueService
 {
-    
+
     /**
-     * 
+     *
      * @var User
      */
     private $user;
-    
+
     /**
-     * 
+     *
      * @var OptionService
      */
     private $optionService;
-    
-    public function __construct(OptionService $optionService) 
+
+    public function __construct(OptionService $optionService)
     {
         $this->optionService = $optionService;
     }
@@ -49,13 +50,13 @@ class DefaultDataService extends DefaultValueService
         }
 
         $this->user = $user;
-        
+
         $tabCat = $this->createCategorie($this->default_data);
 
         foreach ($tabCat as $categorie) {
             $this->user->addCategory($categorie);
         }
-        
+
         $this->user = $this->optionService->createDefaultOption($this->user);
 
         return $this->user;
@@ -76,17 +77,7 @@ class DefaultDataService extends DefaultValueService
                 $val = new \DateTime(date('d-m-Y', time()));
             }
 
-            switch ($key) {
-                case 'addValeurs':
-                    /*foreach ($val as $value) {
-                        $value->{$key}($this->createData($value));
-                    }*/
-                    break;
-
-                default:
-                    $value->{$key}($val);
-                    break;
-            }
+            $value->{$key}($val);
         }
 
         return $value;
@@ -108,7 +99,12 @@ class DefaultDataService extends DefaultValueService
                         $data->{$key}($this->createValue($value));
                     }
                     break;
-                case 'setUser' :
+                case 'addRule':
+                    foreach ($val as $value) {
+                        $data->{$key}($this->createRule($value));
+                    }
+                    break;
+                case 'setUser':
                     $data->{$key}($this->user);
                     break;
                 default:
@@ -199,22 +195,35 @@ class DefaultDataService extends DefaultValueService
         }
         return $return;
     }
-    
+
     /**
      * Permet de créer une nouvelle option
+     *
      * @param array $options
      * @return \App\Entity\User
      */
     private function createOption(array $options)
     {
-        foreach ($options as $op)
-        {
+        foreach ($options as $op) {
             $option = new Option();
-            foreach($op as $key => $value)
-            {
+            foreach ($op as $key => $value) {
                 $option->{$key}($value);
             }
             $this->user->addOption($option);
         }
+    }
+
+    /**
+     * Permet de créer une nouvelle règle
+     * @param array $tab
+     * @return \App\Entity\Rule
+     */
+    private function createRule(array $tab)
+    {
+        $rule = new Rule();
+        foreach ($tab as $key => $val) {
+            $rule->{$key}($val);
+        }
+        return $rule;
     }
 }
