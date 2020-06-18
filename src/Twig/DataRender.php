@@ -172,21 +172,26 @@ class DataRender implements RuntimeExtensionInterface
                 $tab = explode(';', $data->getDefaultValue());
 
                 $i = 0;
+                // Boucle sur la liste de valeur
                 foreach ($tab as $valList) {
                     $return .= '<div class="row-input-data"><div class="row">
                         <div class="col-sm-3"><div class="align-middle">&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i> ' . $valList . '</div></div>';
 
+                    // Pour chaque jour
                     foreach ($dayTimes as $dayTime) {
 
                         $valeur_id = 0;
                         $valeur = '';
+                        // Si la valeur existe donc déjà saisie
                         if (isset($tabValeurs[$data->getId()][$dayTime]) && $tabValeurs[$data->getId()][$dayTime] != "") {
                             $val = $tabValeurs[$data->getId()][$dayTime];
                             
+                            // On explode les résultats
                             $tmpTab = explode(';', $val->getValeur());
                             foreach($tmpTab as $tmp)
                             {                                
                                 $t = explode(':', $tmp);
+                                // Si la valeur explode correspond à la valeur courante
                                 if($t[0] == $valList)
                                 {
                                     $valeur = $t[1];
@@ -201,6 +206,8 @@ class DataRender implements RuntimeExtensionInterface
 
                     $return .= '</div></div>';
                 }
+                // Ajout d'un espace
+                $return .= '<div class="row"><div class="col-sm-12">&nbsp;</div></div>';
 
                 // Cas simple input
             } else {
