@@ -33,14 +33,21 @@ class ValeurService
      * @var DataRepository
      */
     private $dataRepository;
+    
+    /**
+     * 
+     * @var RuleService
+     */
+    private $ruleService;
 
     /**
      */
-    public function __construct(Doctrine $doctrine)
+    public function __construct(Doctrine $doctrine, RuleService $ruleService)
     {
         $this->doctrine = $doctrine;
         $this->valeurRepository = $this->doctrine->getRepository(Valeur::class);
         $this->dataRepository = $this->doctrine->getRepository(Data::class);
+        $this->ruleService = $ruleService;
     }
 
     public function getValueByDate(int $data_id, $date)
@@ -120,6 +127,8 @@ class ValeurService
     public function newValeur($tabValeur = array())
     {
         $data = null;
+        $msgErreur = array();
+        $success = true;
         foreach ($tabValeur as $v) {
             
             if($v['valeur'] == '')
@@ -147,18 +156,27 @@ class ValeurService
                 if($result[0] InstanceOf Valeur)
                     $valeur = $result[0];
             }
+            
+            $check = $this->ruleService->checkRule($data->getRules(), $v['valeur']);
 
-            $valeur->setData($data);
-            $valeur->setValeur($v['valeur']);
-            $valeur->setDate( new \DateTime(date('d-m-Y', $v['time'])));
-            $valeur->setDisabled(0);
+            if($check['check'])
+            {
+                $valeur->setData($data);
+                $valeur->setValeur($v['valeur']);
+                $valeur->setDate( new \DateTime(date('d-m-Y', $v['time'])));
+                $valeur->setDisabled(0);
 
-            $this->doctrine->getManager()->persist($valeur);
+                $this->doctrine->getManager()->persist($valeur);
+            }
+            else {
+                $success = false;
+                array_push($msgErreur, $check['msg']);
+            }
         }
         $this->doctrine->getManager()->flush();
 
         return [
-            'success' => true
+            'success' => $success, 'msg' => $msgErreur
         ];
     }
 }
