@@ -119,6 +119,7 @@ class ValeurService
      * [valeur_id]
      * [valeur]
      * [time]
+     * [div_id]
      * ]
      *
      * @param array $tabValeur
@@ -157,7 +158,7 @@ class ValeurService
                     $valeur = $result[0];
             }
             
-            $check = $this->ruleService->checkRule($data->getRules(), $v['valeur']);
+            $check = $this->ruleService->checkRule($data->getRules(), $v['valeur'], $v['div_id']);
 
             if($check['check'])
             {

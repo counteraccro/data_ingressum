@@ -232,7 +232,9 @@ class DataRender implements RuntimeExtensionInterface
         }
 
         $return .= '</div></div><div class="card-footer">';
-
+        
+        $return .= '<div id="msg-erreur-' . $id_block . '" class="float-sm-left"></div>';
+        
         if ($auto_save == 1) {
             $return .= '<i class="text-primary float-sm-right">Option sauvegarde automatique activé</i>';
         } else {
@@ -265,6 +267,7 @@ class DataRender implements RuntimeExtensionInterface
                         var data = {};
                         var btn = '';
                         var inputs = []
+                        var div_id = $(this).attr('id');
                         inputs.push($(this));
                         var data_id = $(this).data('data-id');
                         var valeur_id = $(this).data('val-id');
@@ -272,9 +275,9 @@ class DataRender implements RuntimeExtensionInterface
                         var time = $(this).data('time');
                 
                         $(this).prop('disabled', true);
-                        data[0] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};";
+                        data[0] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time, 'div_id' : div_id};";
 
-            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
+            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST', $id_block);
 
             $return .= "});";
         } else {
@@ -311,17 +314,17 @@ class DataRender implements RuntimeExtensionInterface
 
                                 var data_id = $(this).data('data-id');
                                 var valeur_id = $(this).data('val-id');
-                               
+                                var div_id = $(this).attr('id');
                                 var time = $(this).data('time');
 
                                 $(this).prop('disabled', true);
 
-                                data[id] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time};
+                                data[id] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time, 'div_id' : div_id};
                                 inputs.push($(this));
                                 
                             });";
 
-            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST');
+            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST', $id_block);
 
             $return .= "});";
         }
@@ -426,10 +429,9 @@ class DataRender implements RuntimeExtensionInterface
         return $return;
     }
 
-    private function generateAjaxJs($url, $id, $method = 'GET', $data = null)
+    private function generateAjaxJs($url, $id, $method = 'GET', $id_block)
     {
         $return = '';
-
         $return .= "$.ajax({
             method: '" . $method . "',
             url: '" . $url . "',";
@@ -440,9 +442,10 @@ class DataRender implements RuntimeExtensionInterface
 
         $return .= "})
         .done(function( response ) {
+            $('#msg-erreur-" . $id_block . "').html('');
             if(response.success == true)
             {
-                 for (var i = 0; i < inputs.length; i++) {
+                for (var i = 0; i < inputs.length; i++) {
                     var input = inputs[i];
                     input.addClass('is-valid').delay(2500).queue(function(next){
                         $(this).removeClass('is-valid');
@@ -455,8 +458,47 @@ class DataRender implements RuntimeExtensionInterface
                         next();
                     });
                 }
-
-                
+            }
+            else {
+               for (var i = 0; i < inputs.length; i++) {
+                    var input = inputs[i];
+                    
+                   for (var j = 0; j < response.msg.length; j++) {
+                        var msg = response.msg[j];
+                        if(msg[0].div_id == input.attr('id'))
+                        {
+                            if(!input.hasClass('is-invalid'))
+                            {
+                                input.addClass('is-invalid').delay(2500).queue(function(next){
+                                    $(this).removeClass('is-invalid');
+                                    $(this).prop('disabled', false);
+                                    if(btn != '')
+                                    {
+                                        btn.removeClass('disabled');
+                                        btn.html('Sauvegarder');
+                                    }
+                                    next();
+                                });
+                                $('#msg-erreur-" . $id_block . "').append('<i class=\'text-error\'>' + msg[0].msg + '</i>');
+                            }
+                        }
+                        else {
+                            if(!input.hasClass('is-valid') && !input.hasClass('is-invalid'))
+                            {
+                                input.addClass('is-valid').delay(2500).queue(function(next){
+                                    $(this).removeClass('is-valid');
+                                    $(this).prop('disabled', false);
+                                    if(btn != '')
+                                    {
+                                        btn.removeClass('disabled');
+                                        btn.html('Sauvegarder');
+                                    }
+                                    next();
+                                });
+                            }
+                        }
+                    }
+                }
             }
         });";
 

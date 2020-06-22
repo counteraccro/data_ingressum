@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
  */
 class RuleService
 {
-    public function checkRule(Collection $rules, $value)
+    public function checkRule(Collection $rules, $value, $div_id)
     {
         $check = true;
         $msg = [];
@@ -26,7 +26,11 @@ class RuleService
         foreach($rules as $rule)
         {
             /** @var Rule $rule **/
-            $rule->getErreurMessage();
+            if(!preg_match($rule->getRule(), $value))
+            {
+                $check = false;
+                $msg[] = ['data' => $rule->getData()->getId(), 'div_id' => $div_id,  'msg' => $rule->getErreurMessage()];
+            }
         }
         
         return ['check' => $check, 'msg' => $msg];
