@@ -2,6 +2,7 @@
 namespace App\Twig;
 
 use Twig\Extension\RuntimeExtensionInterface;
+use phpDocumentor\Reflection\Types\Mixed_;
 use App\Entity\Data;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -82,7 +83,7 @@ class DataRender implements RuntimeExtensionInterface
         switch ($timeline) {
             case self::TIMELINE_1J:
                 foreach ($datas as $data) {
-                    $return .= $this->data1j($data);
+                    $return .= $this->data1j($data, $tabValeurs[$data->getId()][strtotime(date('d-m-Y', time()))]);
                 }
                 break;
             case self::TIMELINE_1S:
@@ -404,27 +405,35 @@ class DataRender implements RuntimeExtensionInterface
      * @param Data $data
      * @return string
      */
-    private function data1j(Data $data)
+    private function data1j(Data $data, $valeur)
     {
-        $return = '<div class="row">
-        <div class="col-sm">
-            <div class="mb-3">
-                <p class="text-justify">' . $data->getDescription() . '</p>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">' . $data->getLibelle() . '</span>
+        //var_dump($valeur);
+        
+        $return = '';
+        
+        if($data->getType() == DefaultValueService::$type_input)
+        {
+            $return .= '<div class="row">
+            <div class="col-sm">
+                <div class="mb-3">
+                    <p class="text-justify">' . $data->getDescription() . '</p>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">' . $data->getLibelle() . '</span>
+                        </div>
+                        <input type="text" class="form-control is-valid" placeholder="Saisir une valeur" value="' . $valeur->getValeur() . '" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
+                        </div>
                     </div>
-                    <input type="text" class="form-control is-valid" placeholder="toto" value="' . $data->getDefaultValue() . '" aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
-                    </div>
+                    <small id="emailHelp" class="form-text text-muted">' . $data->getTips() . '</small>
                 </div>
-                <small id="emailHelp" class="form-text text-muted">' . $data->getTips() . '</small>
             </div>
-        </div>
-        <div class="col-sm"></div>
-        </div>
-        <hr />';
+            <div class="col-sm"></div>
+            </div>';
+        }
+            
+        $return .= '<hr />';
 
         return $return;
     }
