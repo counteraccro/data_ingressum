@@ -449,12 +449,7 @@ class DataRender implements RuntimeExtensionInterface
      */
     private function data1j(Collection $datas, int $day, array $tabValeurs)
     {
-        echo $day . '<br />';
-        echo date('d-m-Y', $day);
-        
-        //var_dump($valeur);
         $this->sessionData1j($datas, $day);
-        //$dayTimes = $day;
         $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
         
         $return = '';
@@ -481,7 +476,7 @@ class DataRender implements RuntimeExtensionInterface
             <div class="card-header bg-primary">
                 <div class="row" id="block-time-' . $id_block . '">
                     <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-day" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
-                    <div class="col-8 text-center">' . strftime('%A %d %B %Y', $day) . '</div>
+                    <div class="col-8 text-center">' . ucfirst(strftime('%A %d %B %Y', $day)) . '</div>
                     <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-day" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
                 </div>
             </div>';
