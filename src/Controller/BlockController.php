@@ -21,10 +21,10 @@ class BlockController extends AbstractController
     }
     
     /**
-     * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}", defaults={"numw" = 0, "year" = null}, name="ajax_block")
+     * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}/{day}", defaults={"numw" = 0, "year" = 0, "day" = 0}, name="ajax_block")
      * @ParamConverter("block", options={"id" = "id"})
      */
-    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, ValeurService $dataService) {
+    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, int $day = 0, ValeurService $dataService) {
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
@@ -35,6 +35,7 @@ class BlockController extends AbstractController
         {
             $numw = date('W');
             $year = date('Y');
+            $day = strtotime(date('d-m-Y', time()));
         }
         
         $tabValeurs = array();
@@ -49,6 +50,7 @@ class BlockController extends AbstractController
             'timeline' => $timeline,
             'numweek' => $numw,
             'year' => $year,
+            'day' => $day,
             'tabValeurs' => $tabValeurs,
         ]);
         

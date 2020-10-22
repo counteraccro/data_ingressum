@@ -76,7 +76,7 @@ class DataRender implements RuntimeExtensionInterface
      * @param array $tabValeurs
      * @return string
      */
-    public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year, array $tabValeurs)
+    public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year, int $day, array $tabValeurs)
     {
         $return = '';
         setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
@@ -130,13 +130,15 @@ class DataRender implements RuntimeExtensionInterface
             'id' => $id_block,
             'timeline' => '1s',
             'numw' => $this->session->get('data.' . $id_block . '.befor.week'),
-            'year' => $this->session->get('data.' . $id_block . '.befor.year')
+            'year' => $this->session->get('data.' . $id_block . '.befor.year'),
+            'day' => 0
         ));
         $url_after = $this->router->generate('ajax_block', array(
             'id' => $id_block,
             'timeline' => '1s',
             'numw' => $this->session->get('data.' . $id_block . '.after.week'),
-            'year' => $this->session->get('data.' . $id_block . '.after.year')
+            'year' => $this->session->get('data.' . $id_block . '.after.year'),
+            'day' => 0
         ));
 
         $return .= '
@@ -273,7 +275,7 @@ class DataRender implements RuntimeExtensionInterface
         if ($auto_save == 1) {
             $return .= " $('#block-input-" . $id_block . " .input-val').change(function() {
                         
-                         var valeur = $(this).val();
+                        var valeur = $(this).val();
 
                         if($(this).hasClass('input-list'))
                         {
@@ -417,6 +419,39 @@ class DataRender implements RuntimeExtensionInterface
             ->getBlock()
             ->getId() . '.after.year', $after_year);
     }
+    
+    /**
+     * Génère le jour +1 et jour -1 pour les boutons de navigation et stock la valeur en session
+     * @param Collection $datas
+     * @param int $timeday
+     */
+    private function sessionData1j(Collection $datas, int $timeday)
+    {
+        if ($datas->isEmpty()) {
+            return null;
+        }
+        
+        /*$befor_w = $weekNumber - 1;
+        $befor_year = $year;
+        if ($weekNumber - 1 <= 0) {
+            $befor_w = 52;
+            $befor_year = $befor_year - 1;
+        }
+        
+        $after_w = $weekNumber + 1;
+        $after_year = $year;
+        if ($weekNumber + 1 > 52) {
+            $after_w = 1;
+            $after_year = $after_year + 1;
+        }*/
+        
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.befor.week', $befor_w);
+        $this->session->set('data.' . $datas->current()
+            ->getBlock()
+            ->getId() . '.after.week', $after_w);
+    }
 
     /**
      * Génère le HTML pour la saisie de donnée sur 1 jour
@@ -424,25 +459,26 @@ class DataRender implements RuntimeExtensionInterface
      * @param Data $data
      * @return string
      */
-    private function data1j(Collection $data, int $numweek, int $year, array $tabValeurs)
+    private function data1j(Collection $datas, int $numweek, int $year, array $tabValeurs)
     {
         //var_dump($valeur);
+        //$this->sessionData1j($datas, $timeday);
         $dayTimes = $this->getDaysInWeek($numweek, $year);
         $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
         
         $return = '';
         
-        $id_block = 'test';
+        $id_block = $datas->current()->getBlock()->getId();
         
         $url_before = $this->router->generate('ajax_block', array(
             'id' => $id_block,
-            'timeline' => '1s',
+            'timeline' => '1j',
             'numw' => $this->session->get('data.' . $id_block . '.befor.week'),
             'year' => $this->session->get('data.' . $id_block . '.befor.year')
         ));
         $url_after = $this->router->generate('ajax_block', array(
             'id' => $id_block,
-            'timeline' => '1s',
+            'timeline' => '1j',
             'numw' => $this->session->get('data.' . $id_block . '.after.week'),
             'year' => $this->session->get('data.' . $id_block . '.after.year')
         ));
@@ -452,7 +488,7 @@ class DataRender implements RuntimeExtensionInterface
             <div class="card-header bg-primary">
                 <div class="row" id="block-time-' . $id_block . '">
                     <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
-                    <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
+                    <div class="col-8 text-center">' . strftime('%A %d %B %Y', $dayTimes[0]) . '</div>
                     <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
                 </div>
             </div>';

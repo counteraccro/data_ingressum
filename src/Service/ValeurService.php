@@ -158,7 +158,26 @@ class ValeurService
                     $valeur = $result[0];
             }
             
-            $check = $this->ruleService->checkRule($data->getRules(), $v['valeur'], $v['div_id']);
+            $tab = explode(';', $v['valeur']);
+            if(count($tab) > 1)
+            {
+                foreach($tab as $key => $val)
+                {
+                    $tmp = explode(':', $val);
+                    if($tmp[1] != "")
+                    {
+                        $check = $this->ruleService->checkRule($data->getRules(), $tmp[1], $v['div_id']);
+                        if(!$check['check'])
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                $check = $this->ruleService->checkRule($data->getRules(), $v['valeur'], $v['div_id']);
+            }
+           
 
             if($check['check'])
             {
