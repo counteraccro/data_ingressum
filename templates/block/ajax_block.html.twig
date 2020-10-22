@@ -7,6 +7,8 @@
 
 	    	{% if(timeline == '1s') %}
 	    		Block.Event1s('#block-time-{{block.id}}');
+	    	{% elseif (timeline == '1j') %}
+	    		Block.Event1j('#block-time-{{block.id}}');
 	    	{% endif %}
         });
 </script>

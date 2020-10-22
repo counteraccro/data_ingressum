@@ -18,6 +18,21 @@ Block.Launch = function(params) {
 			Block.Ajax($(this).data('url'), '#' + id);
 		});
 	},
+	
+	/**
+	 * Gestion des events pour 1j
+	 */
+	Block.Event1j = function(group_btn_id) {
+		
+		console.log($(group_btn_id + ' .btn-switch-day'));
+		
+		$(group_btn_id + ' .btn-switch-day').click(function() {	
+			id = $(this).parent().parent().parent().parent().parent().attr('id');
+			
+			console.log(id);
+			Block.Ajax($(this).data('url'), '#' + id);
+		});
+	},
 
 	/**
 	 * Méthode Ajax qui va charger l'element présent dans l'URL

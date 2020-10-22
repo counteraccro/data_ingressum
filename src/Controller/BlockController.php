@@ -31,10 +31,14 @@ class BlockController extends AbstractController
             throw new \Exception('Bad ID');
         }
         
-        if($numw == 0 || $year == 0)
+        if($numw == 0 || $year == 0 )
         {
             $numw = date('W');
             $year = date('Y');
+        }
+        
+        if($day == 0)
+        {
             $day = strtotime(date('d-m-Y', time()));
         }
         

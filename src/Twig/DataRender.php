@@ -83,7 +83,7 @@ class DataRender implements RuntimeExtensionInterface
 
         switch ($timeline) {
             case self::TIMELINE_1J:               
-                $return .= $this->data1j($datas, $numweek, $year, $tabValeurs);
+                $return .= $this->data1j($datas, $day, $tabValeurs);
                 break;
             case self::TIMELINE_1S:
                 $return = $this->data1s($datas, $numweek, $year, $tabValeurs);
@@ -430,27 +430,15 @@ class DataRender implements RuntimeExtensionInterface
         if ($datas->isEmpty()) {
             return null;
         }
-        
-        /*$befor_w = $weekNumber - 1;
-        $befor_year = $year;
-        if ($weekNumber - 1 <= 0) {
-            $befor_w = 52;
-            $befor_year = $befor_year - 1;
-        }
-        
-        $after_w = $weekNumber + 1;
-        $after_year = $year;
-        if ($weekNumber + 1 > 52) {
-            $after_w = 1;
-            $after_year = $after_year + 1;
-        }*/
-        
+        $after_day = strtotime(date('Y-m-d', $timeday). ' + 1 days');
+        $befor_day = strtotime(date('Y-m-d', $timeday). ' - 1 days');
+          
         $this->session->set('data.' . $datas->current()
             ->getBlock()
-            ->getId() . '.befor.week', $befor_w);
+            ->getId() . '.befor.day', $befor_day);
         $this->session->set('data.' . $datas->current()
             ->getBlock()
-            ->getId() . '.after.week', $after_w);
+            ->getId() . '.after.day', $after_day);
     }
 
     /**
@@ -459,11 +447,14 @@ class DataRender implements RuntimeExtensionInterface
      * @param Data $data
      * @return string
      */
-    private function data1j(Collection $datas, int $numweek, int $year, array $tabValeurs)
+    private function data1j(Collection $datas, int $day, array $tabValeurs)
     {
+        echo $day . '<br />';
+        echo date('d-m-Y', $day);
+        
         //var_dump($valeur);
-        //$this->sessionData1j($datas, $timeday);
-        $dayTimes = $this->getDaysInWeek($numweek, $year);
+        $this->sessionData1j($datas, $day);
+        //$dayTimes = $day;
         $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
         
         $return = '';
@@ -473,23 +464,25 @@ class DataRender implements RuntimeExtensionInterface
         $url_before = $this->router->generate('ajax_block', array(
             'id' => $id_block,
             'timeline' => '1j',
-            'numw' => $this->session->get('data.' . $id_block . '.befor.week'),
-            'year' => $this->session->get('data.' . $id_block . '.befor.year')
+            'numw' => 0,
+            'year' => 0,
+            'day' => $this->session->get('data.' . $id_block . '.befor.day')
         ));
         $url_after = $this->router->generate('ajax_block', array(
             'id' => $id_block,
             'timeline' => '1j',
-            'numw' => $this->session->get('data.' . $id_block . '.after.week'),
-            'year' => $this->session->get('data.' . $id_block . '.after.year')
+            'numw' => 0,
+            'year' => 0,
+            'day' => $this->session->get('data.' . $id_block . '.after.day')
         ));
         
         $return .= '
         <div class="card border-primary shadow">
             <div class="card-header bg-primary">
                 <div class="row" id="block-time-' . $id_block . '">
-                    <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
-                    <div class="col-8 text-center">' . strftime('%A %d %B %Y', $dayTimes[0]) . '</div>
-                    <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
+                    <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-day" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
+                    <div class="col-8 text-center">' . strftime('%A %d %B %Y', $day) . '</div>
+                    <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-day" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
                 </div>
             </div>';
         
