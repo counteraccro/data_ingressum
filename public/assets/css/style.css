@@ -306,7 +306,7 @@ fieldset legend {
     BG STYLE
 ----------------------------------------------------- */
 .bg-primary {
-	color: var(--bg-text-primary)!important;;
+	color: var(--bg-text-primary)!important;
     background-color: var(--bg-primary)!important;
 }
 
@@ -324,6 +324,12 @@ fieldset legend {
 .list-group-item.active {
     background-color: var(--bg-primary);
     border-color: var(--bg-primary);
+}
+
+/* ---------------------------------------------------
+    INPUT STYLE
+----------------------------------------------------- */
+input.input-current-day { border-color: var(--bg-primary); }
 
 /* ---------------------------------------------------
     GLOBAL STYLE

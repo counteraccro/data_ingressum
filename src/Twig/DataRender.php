@@ -79,12 +79,11 @@ class DataRender implements RuntimeExtensionInterface
     public function htmlRender(Collection $datas, string $timeline, int $numweek, int $year, array $tabValeurs)
     {
         $return = '';
+        setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
 
         switch ($timeline) {
-            case self::TIMELINE_1J:
-                foreach ($datas as $data) {
-                    $return .= $this->data1j($data, $tabValeurs[$data->getId()][strtotime(date('d-m-Y', time()))]);
-                }
+            case self::TIMELINE_1J:               
+                $return .= $this->data1j($datas, $numweek, $year, $tabValeurs);
                 break;
             case self::TIMELINE_1S:
                 $return = $this->data1s($datas, $numweek, $year, $tabValeurs);
@@ -112,7 +111,6 @@ class DataRender implements RuntimeExtensionInterface
      */
     private function data1s(Collection $datas, int $numweek, int $year, array $tabValeurs)
     {
-        setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
         $dayTimes = $this->getDaysInWeek($numweek, $year);
         $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
 
@@ -144,17 +142,25 @@ class DataRender implements RuntimeExtensionInterface
         $return .= '
         <div class="card border-primary shadow">
             <div class="card-header bg-primary">
-        <div class="row" id="block-time-' . $id_block . '">
-            <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
-            <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
-            <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
-        </div></div>';
+                <div class="row" id="block-time-' . $id_block . '">
+                    <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
+                    <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
+                    <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
+                </div>
+            </div>';
 
         $return .= '<div class="card-body">
             <div class="row">
                 <div class="col-sm-3">--</div>';
         foreach ($dayTimes as $dayTime) {
-            $return .= '<div class="col-sm date-str">' . strftime('%a %d', $dayTime) . '</div>';
+            
+            $styleCurrentDay = '';
+            if($dayTime == strtotime(date('d-m-Y', time())))
+            {
+                $styleCurrentDay = 'text-primary';
+            }
+            
+            $return .= '<div class="col-sm date-str ' . $styleCurrentDay . '">' . strftime('%a %d', $dayTime) . '</div>';
         }
         $return .= '</div>';
 
@@ -201,7 +207,14 @@ class DataRender implements RuntimeExtensionInterface
                             }                         
                             $valeur_id = $val->getId();
                         }
-                        $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val input-list" data-element-list="' . $valList . '" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                        
+                        $inputCurrentDay = '';
+                        if($dayTime == strtotime(date('d-m-Y', time())))
+                        {
+                            $inputCurrentDay = 'input-current-day';
+                        }
+                        
+                        $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val input-list ' . $inputCurrentDay . '" data-element-list="' . $valList . '" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                         $i ++;
                     }
 
@@ -223,8 +236,14 @@ class DataRender implements RuntimeExtensionInterface
                         $valeur = $val->getValeur();
                         $valeur_id = $val->getId();
                     }
+                    
+                    $inputCurrentDay = '';
+                    if($dayTime == strtotime(date('d-m-Y', time())))
+                    {
+                        $inputCurrentDay = 'input-current-day';
+                    }
 
-                    $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
+                    $return .= '<div class="col-sm"><input class="form-control form-control-sm input-val ' . $inputCurrentDay . '" id="' . $data->getId() . $i . '" type="text" data-time="' . $dayTime . '" data-data-id="' . $data->getId() . '" data-val-id="' . $valeur_id . '" value="' . $valeur . '" /></div>';
                     $i ++;
                 }
 
@@ -278,7 +297,7 @@ class DataRender implements RuntimeExtensionInterface
                         $(this).prop('disabled', true);
                         data[0] = {'data_id' : data_id, 'valeur_id' : valeur_id, 'valeur' : valeur, 'time' : time, 'div_id' : div_id};";
 
-            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST', $id_block);
+            $return .= $this->generateAjaxJsData1s($url_save, '#block-input-' . $id_block, 'POST', $id_block);
 
             $return .= "});";
         } else {
@@ -325,7 +344,7 @@ class DataRender implements RuntimeExtensionInterface
                                 
                             });";
 
-            $return .= $this->generateAjaxJs($url_save, '#block-input-' . $id_block, 'POST', $id_block);
+            $return .= $this->generateAjaxJsData1s($url_save, '#block-input-' . $id_block, 'POST', $id_block);
 
             $return .= "});";
         }
@@ -405,13 +424,42 @@ class DataRender implements RuntimeExtensionInterface
      * @param Data $data
      * @return string
      */
-    private function data1j(Data $data, $valeur)
+    private function data1j(Collection $data, int $numweek, int $year, array $tabValeurs)
     {
         //var_dump($valeur);
+        $dayTimes = $this->getDaysInWeek($numweek, $year);
+        $auto_save = $this->optionService->getOptionByName(OptionService::$option_auto_save);
         
         $return = '';
         
-        if($data->getType() == DefaultValueService::$type_input)
+        $id_block = 'test';
+        
+        $url_before = $this->router->generate('ajax_block', array(
+            'id' => $id_block,
+            'timeline' => '1s',
+            'numw' => $this->session->get('data.' . $id_block . '.befor.week'),
+            'year' => $this->session->get('data.' . $id_block . '.befor.year')
+        ));
+        $url_after = $this->router->generate('ajax_block', array(
+            'id' => $id_block,
+            'timeline' => '1s',
+            'numw' => $this->session->get('data.' . $id_block . '.after.week'),
+            'year' => $this->session->get('data.' . $id_block . '.after.year')
+        ));
+        
+        $return .= '
+        <div class="card border-primary shadow">
+            <div class="card-header bg-primary">
+                <div class="row" id="block-time-' . $id_block . '">
+                    <div class="col-2 text-left"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_before . '"><i class="fas fa-arrow-circle-left"></i> Précédente</div></div>
+                    <div class="col-8 text-center">Semaine du ' . strftime('%d %B %Y', $dayTimes[0]) . ' au ' . strftime('%d %B %Y', end($dayTimes)) . '</div>
+                    <div class="col-2 text-right"><div class="btn btn-sm btn-primary btn-switch-week" data-url="' . $url_after . '"> Suivante <i class="fas fa-arrow-circle-right"></i></div></div>
+                </div>
+            </div>';
+        
+        $return .= '<div class="card-body">';
+        
+        /*if($data->getType() == DefaultValueService::$type_input)
         {
             $return .= '<div class="row">
             <div class="col-sm">
@@ -431,14 +479,24 @@ class DataRender implements RuntimeExtensionInterface
             </div>
             <div class="col-sm"></div>
             </div>';
-        }
+        }*/
             
-        $return .= '<hr />';
+        $return .= '</div>';
+        
+        $return .= '<div class="card-footer">';
+               
+        if ($auto_save == 1) {
+            $return .= '<i class="text-primary float-sm-right">Option sauvegarde automatique activé</i>';
+        } else {
+            $return .= '<div class="btn btn-primary float-sm-right" id="btn-save-data-' . $id_block . '">Sauvegarder</div>';
+        }
+                
+        $return .= '</div>';
 
         return $return;
     }
 
-    private function generateAjaxJs($url, $id, $method = 'GET', $id_block)
+    private function generateAjaxJsData1s($url, $id, $method = 'GET', $id_block)
     {
         $return = '';
         $return .= "$.ajax({
