@@ -24,10 +24,10 @@
 				<div class="row">
                 	<div class="col-sm-4">
                     	<div class="list-group shadow-sm" id="list-tab" role="tablist">
-                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_data' %}active{% endif %}" id="mode-data-list" data-toggle="list" href="#mode-data" role="tab" aria-controls="mode data" data-mode="mode_data" data-current="{% if app.user.mode == 'mode_data' %}1{% else %}0{% endif %}"><i class="fas fa-database"></i> Saisie de données <span id="icon-data">{% if app.user.mode == 'mode_data' %}<i class="fas fa-check"></i>{% endif %}</span></a>
-                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_stat' %}active{% endif %}" id="mode-statistique-list" data-toggle="list" href="#mode-statistique" role="tab" aria-controls="Statistique"  data-mode="mode_stat" data-current="{% if app.user.mode == 'mode_stat' %}1{% else %}0{% endif %}"><i class="fas fa-chart-line"></i> Statistiques <span id="icon-stat">{% if app.user.mode == 'mode_stat' %}<i class="fas fa-check"></i>{% endif %}</span></a>
-                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_edit' %}active{% endif %}" id="mode-edition-list" data-toggle="list" href="#mode-edition" role="tab" aria-controls="Edition"  data-mode="mode_edit" data-current="{% if app.user.mode == 'mode_edit' %}1{% else %}0{% endif %}"><i class="fas fa-edit"></i> Edition <span id="icon-edition">{% if app.user.mode == 'mode_edit' %}<i class="fas fa-check"></i>{% endif %}</span></a>
-                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_admin' %}active{% endif %}" id="mode-admin-list" data-toggle="list" href="#mode-admin" role="tab" aria-controls="Admin"  data-mode="mode_admin" data-current="{% if app.user.mode == 'mode_admin' %}1{% else %}0{% endif %}"><i class="fas fa-user-secret"></i> Administration <span id="icon-admin">{% if app.user.mode == 'mode_admin' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_data' %}active{% endif %}" id="mode-data-list" data-toggle="list" href="#mode-data" role="tab" aria-controls="mode data" data-mode="mode_data" data-mode-str="Saisie de donnée" data-current="{% if app.user.mode == 'mode_data' %}1{% else %}0{% endif %}"><i class="fas fa-database"></i> Saisie de données <span id="icon-data">{% if app.user.mode == 'mode_data' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_stat' %}active{% endif %}" id="mode-statistique-list" data-toggle="list" href="#mode-statistique" role="tab" aria-controls="Statistique"  data-mode="mode_stat" data-mode-str="Statistiques" data-current="{% if app.user.mode == 'mode_stat' %}1{% else %}0{% endif %}"><i class="fas fa-chart-line"></i> Statistiques <span id="icon-stat">{% if app.user.mode == 'mode_stat' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_edit' %}active{% endif %}" id="mode-edition-list" data-toggle="list" href="#mode-edition" role="tab" aria-controls="Edition"  data-mode="mode_edit" data-mode-str="Edition" data-current="{% if app.user.mode == 'mode_edit' %}1{% else %}0{% endif %}"><i class="fas fa-edit"></i> Edition <span id="icon-edition">{% if app.user.mode == 'mode_edit' %}<i class="fas fa-check"></i>{% endif %}</span></a>
+                      		<a class="list-group-item list-group-item-action {% if app.user.mode == 'mode_admin' %}active{% endif %}" id="mode-admin-list" data-toggle="list" href="#mode-admin" role="tab" aria-controls="Admin"  data-mode="mode_admin" data-mode-str="Admin" data-current="{% if app.user.mode == 'mode_admin' %}1{% else %}0{% endif %}"><i class="fas fa-user-secret"></i> Administration <span id="icon-admin">{% if app.user.mode == 'mode_admin' %}<i class="fas fa-check"></i>{% endif %}</span></a>
                     	</div>
                   	</div>
                   	<div class="col-sm-8">
@@ -38,7 +38,7 @@
                          			Ce mode vous permet de saisir vos données comme bon vous semble en fonction de vos rêgles de gestion<br />	
                          		</p>
                          		{% if app.user.mode == 'mode_data' %}
-                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         			<i class="text-muted"><i class="fas fa-check"></i> Vous utilisez ce mode actuellement</i>
                          		{% endif %}
                          	</div>
                           	<div class="tab-pane {% if app.user.mode == 'mode_stat' %}show active{% endif %}" id="mode-statistique" role="tabpanel" aria-labelledby="mode-statistique-list">
@@ -47,7 +47,7 @@
                          			Ce mode vous permet de visualiser vos données saisie sous la forme de graphiques intéractifs par jour / semaine / mois / année
                          		</p>
                          		{% if app.user.mode == 'mode_stat' %}
-                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         			<i class="text-muted"><i class="fas fa-check"></i> Vous utilisez ce mode actuellement</i>
                          		{% endif %}
                           	</div>
                           	<div class="tab-pane {% if app.user.mode == 'mode_edit' %}show active{% endif %}" id="mode-edition" role="tabpanel" aria-labelledby="mode-edition-list">
@@ -56,7 +56,7 @@
                          			Ce mode vous permet de créer / éditer / supprimer / positonnner tout les elements de DataIngressum. Créer votre propre page, ajouter votre module ainsi que vos données à saisir et positionnez le ou vous voulez.
                          		</p>
                          		{% if app.user.mode == 'mode_edit' %}
-                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         			<i class="text-muted"><i class="fas fa-check"></i> Vous utilisez ce mode actuellement</i>
                          		{% endif %}
                           	</div>
                           	<div class="tab-pane {% if app.user.mode == 'mode_admin' %}show active{% endif %}" id="mode-admin" role="tabpanel" aria-labelledby="mode-admin-list">
@@ -66,7 +66,7 @@
                          			Vous voyez ce mode et vous n'êtes pas admin ? Ha.. y'a comme un soucis alors
                          		</p>
                          		{% if app.user.mode == 'mode_admin' %}
-                         			<i class="text-muted">Vous utilisez ce mode actuellement</i>
+                         			<i class="text-muted"><i class="fas fa-check"></i> Vous utilisez ce mode actuellement</i>
                          		{% endif %}
                           	</div>
                     	</div>

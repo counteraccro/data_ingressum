@@ -19,7 +19,8 @@ Mode.Launch = function(params) {
 			
 			//$('#icon-' + $(this).data('mode')).html('<i class="fas fa-check"></i>');
 			
-			$('#btn-change-mode').html('Passer au mode "' + $(this).data('mode') + '"').removeClass('disabled');
+			
+			$('#btn-change-mode').html('Passer au mode "' + $(this).data('mode-str') + '"').removeClass('disabled');
 			
 			if($(this).data('current') == 1)
 			{

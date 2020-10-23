@@ -251,6 +251,11 @@ class DataRender implements RuntimeExtensionInterface
 
                 $return .= '</div></div>';
             }
+            
+            /*if($data == $datas->toArray()[array_key_last($datas->toArray())])
+            {
+                $return .= '<div class="col-sm">End</div>';
+            }*/
         }
 
         $return .= '</div></div><div class="card-footer">';
