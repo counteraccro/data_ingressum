@@ -1,7 +1,7 @@
 <?php
 namespace App\Service;
 
-use Doctrine\Common\Persistence\ManagerRegistry as Doctrine;
+use Doctrine\Persistence\ManagerRegistry as Doctrine;
 use App\Entity\Valeur;
 use App\Repository\ValeurRepository;
 use App\Entity\Data;

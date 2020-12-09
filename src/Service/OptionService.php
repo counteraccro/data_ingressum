@@ -4,7 +4,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Option;
 use App\Entity\OptionUser;
-use Doctrine\Common\Persistence\ManagerRegistry as Doctrine;
+use Doctrine\Persistence\ManagerRegistry as Doctrine;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
