@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Block;
@@ -13,18 +14,27 @@ class BlockController extends AbstractController
     /**
      * @Route("/block", name="block")
      */
-    public function index()
+    public function index(): Response
     {
         return $this->render('block/index.html.twig', [
             'controller_name' => 'BlockController',
         ]);
     }
-    
+
     /**
      * @Route("/ajax/block/{id}/{timeline}/{numw}/{year}/{day}", defaults={"numw" = 0, "year" = 0, "day" = 0}, name="ajax_block")
      * @ParamConverter("block", options={"id" = "id"})
+     * @param Block $block
+     * @param string $timeline
+     * @param int $numw
+     * @param int $year
+     * @param int $day
+     * @param ValeurService $dataService
+     * @return Response
+     * @throws \Exception
      */
-    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, int $day = 0, ValeurService $dataService) {
+    public function loadBlock(Block $block, string $timeline, int $numw = 0, int $year = 0, int $day = 0, ValeurService $dataService): Response
+    {
         
         if($block->getPage()->getCategorie()->getUser()->getId() != $this->getUser()->getId())
         {
@@ -42,10 +52,10 @@ class BlockController extends AbstractController
             $day = strtotime(date('d-m-Y', time()));
         }
         
-        $tabValeurs = array();
+        $tabValue = array();
         foreach($block->getDatas() as $data)
         {
-            $tabValeurs[$data->getId()] = $dataService->getValueInWeek($data, $numw, $year);
+            $tabValue[$data->getId()] = $dataService->getValueInWeek($data, $numw, $year);
         }
        
         
@@ -55,7 +65,7 @@ class BlockController extends AbstractController
             'numweek' => $numw,
             'year' => $year,
             'day' => $day,
-            'tabValeurs' => $tabValeurs,
+            'tabValeurs' => $tabValue,
         ]);
         
     }

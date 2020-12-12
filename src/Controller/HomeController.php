@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\User;
@@ -21,7 +22,7 @@ class HomeController extends AbstractController
      * @Route("/home", name="home")
      *
      */
-    public function index()
+    public function index(): Response
     {
         /** @var User $user **/
         $user = $this->getUser();
@@ -32,24 +33,21 @@ class HomeController extends AbstractController
         switch ($user->getMode()) {
             case ModeService::$mode_stat:
                 return $this->index_stat();
-                break;
             case ModeService::$mode_edit:
                 return $this->index_edit();
-                break;
             case ModeService::$mode_admin:
                 return $this->index_admin();
-                break;
             default:
                 return $this->render('home/index.html.twig', []);
-                break;
         }
+
     }
 
     /**
      *
      *  @Route("/home", name="home_stat")
      */
-    public function index_stat()
+    public function index_stat(): Response
     {
         return $this->render('home/index_stat.html.twig', []);
     }
@@ -58,7 +56,7 @@ class HomeController extends AbstractController
      *
      *  @Route("/home", name="home_edit")
      */
-    public function index_edit()
+    public function index_edit(): Response
     {
         return $this->render('home/index_edit.html.twig', []);
     }
@@ -67,7 +65,7 @@ class HomeController extends AbstractController
      *
      *  @Route("/home", name="home_admin")
      */
-    public function index_admin()
+    public function index_admin(): Response
     {
         return $this->render('home/index_admin.html.twig', []);
     }

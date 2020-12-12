@@ -3,54 +3,96 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post" id="form-auth">
-    
+    <form method="post" id="form-auth">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
-	<div class="card">
-  		<div class="card-header">
-    		Connexion à la zone 42
-  		</div>
-  		<div class="card-body shadow">
-  			{% if error %}
-        		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-        	<div class="form-group">
-            	<label for="exampleInputEmail1">Email</label>
-            	<input type="email" class="form-control" value="{{ last_username }}" name="email" id="inputEmail" aria-describedby="emailHelp" required autofocus>
-            	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-          	</div>
-          	<div class="form-group">
-            	<label for="exampleInputPassword1">Mot de passe</label>
-            	<input type="password" class="form-control" name="password" id="inputPassword" required>
-          	</div>
-          	<div class="form-group form-check">
-            	<input type="checkbox" class="form-check-input" id="check_remember_me" name="_remember_me">
-            	<label class="form-check-label" for="exampleCheck1">Ce souvenir de moi</label>
-         	 </div>
-         	 
-         	  <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-        
             {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
-        
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+        #}
+
+        <div class="container">
+
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+
+                <div class="col-xl-10 col-lg-12 col-md-9">
+
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-6 d-none d-lg-block" style="text-align: center">
+                                    <img src="{{ asset('assets/images/logo/512px-Scribus_logo.svg.png') }}" class=""
+                                         alt="...">
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        </div>
+
+                                        {% if app.user %}
+                                            <div class="alert">
+                                               Vous êtes déjà connecté en tant que <b>{{ app.user.username }}</b>
+                                            </div>
+
+                                            <a class="btn btn-primary btn-block" href="{{ path('home') }}"><i class="fas fa-home"></i> Nexus</a>
+                                            <a class="btn btn-primary btn-block" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Me déconnecter</a>
+                                        {% else %}
+
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" value="{{ last_username }}"
+                                                   name="email" id="inputEmail" aria-describedby="emailHelp"
+                                                   placeholder="Adresse email" required autofocus>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password"
+                                                   id="inputPassword" placeholder="Mot de passe" required>
+                                        </div>
+
+                                        <!--<div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <input type="checkbox" class="custom-control-input" name="_remember_me">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>-->
+
+                                        <input type="hidden" name="_csrf_token"
+                                               value="{{ csrf_token('authenticate') }}"
+                                        >
+                                        <button type="submit" class="btn btn-primary btn-block">Me connecter</button>
+
+                                        <hr>
+                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>
+                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                        </a>
+                                        <hr>
+                                        <div class="text-center">
+                                            <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="small" href="register.html">Me créer un compte</a>
+                                        </div>
+
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            #}
-        
-            <button type="submit" class="btn btn-primary">Submit</button>
-    	</div>
-    </div>
-</form>
+            </div>
+        </div>
+    </form>
 {% endblock %}
