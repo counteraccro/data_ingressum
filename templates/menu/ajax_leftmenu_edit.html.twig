@@ -7,16 +7,22 @@
         		<ul class="collapse list-unstyled" id="cat-{{ categorie.id }}">
         			{% for page in categorie.pages %}
         				<li>
-        					<a href="{{ path('ajax_page', {id_cat : categorie.id, id_page : page.id})}}">
+        					<a href="{{ path('ajax_page_edit', {id_page : page.id})}}">
         						<span class="txt-full">{{ page.name }}</span>
         						<span class="txt-truncate">{{ page.name|u.truncate(4) }}.</span>
+								<i class="fas fa-edit"></i>
         					</a>
         				</li>
         			{% endfor %}
+					<li>
+						<a href="#"><i class="fas fa-plus"></i> Nouvelle page</a>
+					</li>
         		</ul>
         	</li>
-		
 	{% endfor %}
+	<li class="active">
+		<a href="#"><i class="fas fa-plus"></i> <span>Nouvelle catégorie</span></a>
+	</li>
 </ul>
 
 {% block javascripts %}
