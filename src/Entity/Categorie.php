@@ -46,6 +46,11 @@ class Categorie
      */
     private $pages;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $position;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -131,6 +136,18 @@ class Categorie
                 $page->setCategorie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }
