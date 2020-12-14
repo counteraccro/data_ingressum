@@ -28,7 +28,14 @@ Menu.Launch = function (params) {
             $(this).addClass('active');
             Menu.Ajax($(this).attr('href'), '#page-content', false);
             return false;
-        })
+        });
+
+        /** Lien ajout nouvelle catégorie **/
+        $('.list-unstyled #new-categorie').click(function () {
+
+            Menu.Ajax($(this).attr('href'), '#content-modal', false, 'GET');
+            return false;
+        });
     };
 
     /**
@@ -44,6 +51,7 @@ Menu.Launch = function (params) {
             url: url,
         })
             .done(function (html) {
+                console.log(html);
                 $(id_done).html(html);
             });
     };

@@ -1,0 +1,36 @@
+<div id="modal-add-categorie" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title"><i class="fas fa-plus"></i> Ajouter une catégorie</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form(form) }}
+
+                <div class="text-primary font-italic"><small><i class="fas fa-info"></i> <i>Un rechargement automatique de la page sera appliqué une fois la fenetre fermée</i></small></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Appliquer mes options</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#modal-add-categorie').modal({
+            backdrop : 'static',
+            show : true
+        })
+
+        $('#modal-option').on('hidden.bs.modal', function (e) {
+            window.location.replace("{{ path('home') }}");
+        })
+    });
+
+</script>
