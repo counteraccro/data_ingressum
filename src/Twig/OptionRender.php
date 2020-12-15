@@ -9,7 +9,7 @@ use Symfony\Component\Asset\Packages;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class qui va gérer le rendu des données dans la vue
+ * Class qui va gérer le rendu des données dans la vue des options
  *
  * @author Aymeric
  *        
@@ -34,13 +34,14 @@ class OptionRender implements RuntimeExtensionInterface
     /**
      * Point d'entrée pour la génération des options
      *
-     * @param Collection $userOption
+     * @param Collection $optionUsers
+     * @return string
      */
-    public function htmlRender(Collection $optionUsers)
+    public function htmlRender(Collection $optionUsers): string
     {
         $html = '';
         
-        /** @var \App\Entity\OptionUser $optionUser **/
+        /** @var OptionUser $optionUser **/
         foreach ($optionUsers as $optionUser) {
             switch ($optionUser->getOptionData()->getType()) {
 
@@ -52,7 +53,6 @@ class OptionRender implements RuntimeExtensionInterface
                     break;
 
                 default:
-                    ;
                     break;
             }
         }
@@ -61,7 +61,8 @@ class OptionRender implements RuntimeExtensionInterface
     }
 
     
-    private function radio(OptionUser $optionUser) {
+    private function radio(OptionUser $optionUser): string
+    {
         $html = "";
         
         $html .= '<form>
@@ -132,7 +133,7 @@ class OptionRender implements RuntimeExtensionInterface
      * @param OptionUser $optionUser
      * @return string
      */
-    private function select(OptionUser $optionUser)
+    private function select(OptionUser $optionUser): string
     {
         $html = '';
         
@@ -188,7 +189,7 @@ class OptionRender implements RuntimeExtensionInterface
         ";
         return $html;
     }
-    
+
     /**
      * Génère la méthode AJAX pour sauvegarder les données
      * @param string $url
@@ -196,7 +197,7 @@ class OptionRender implements RuntimeExtensionInterface
      * @param int $type
      * @return string
      */
-    private function generateAjaxJs($url, $id, $type)
+    private function generateAjaxJs(string $url, int $id, int $type): string
     {
         $html = "";
         
@@ -204,12 +205,12 @@ class OptionRender implements RuntimeExtensionInterface
             case OptionService::$type_select:
                 $html .= "var val = $(this).find(':selected').data('val');";
                 $html .= "$('#" . $id . "').prop('disabled', true);";
-            break;
+                break;
             case OptionService::$type_radio:
                 $html .= "var val = $(this).data('val');";
+                break;
             default:
-                ;
-            break;
+                break;
         }
         
         $html .= "
@@ -245,8 +246,7 @@ class OptionRender implements RuntimeExtensionInterface
                         });";
                     break;
                     default:
-                        ;
-                    break;
+                        break;
                     
                 }
                 

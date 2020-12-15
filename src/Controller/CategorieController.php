@@ -23,4 +23,15 @@ class CategorieController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * Permet d'ajouter une Catégorie
+     * @Route("/ajax/categorie/modal", name="modal_categorie")
+     */
+    public function modaleAddCategorie(): Response
+    {
+        return $this->render('categorie/modal_add_categorie.html.twig', [
+
+        ]);
+    }
 }
