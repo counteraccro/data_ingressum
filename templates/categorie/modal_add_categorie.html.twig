@@ -59,5 +59,13 @@
             window.location.replace("{{ path('home') }}");
         })
     });
-
 </script>
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Categorie.Launch();
+            Categorie.EventAdd();
+        });
+    </script>
+{% endblock %}

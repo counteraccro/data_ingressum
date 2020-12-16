@@ -157,7 +157,7 @@ class OptionRender implements RuntimeExtensionInterface
                             // Cas choix CSS
                             if($optionUser->getOptionData()->getName() == OptionService::$option_select_template)
                             {
-                                $value = $this->asset->getUrl('assets/css/color_' . $key . '.css');
+                                $value = $this->asset->getUrl('assets/css/src/color_' . $key . '.css');
                             }
                             
                             $html .= '<option ' . $selected . ' data-val="' . $key . '" value="' . $value . '">' . $val . '</option>';
@@ -193,11 +193,11 @@ class OptionRender implements RuntimeExtensionInterface
     /**
      * Génère la méthode AJAX pour sauvegarder les données
      * @param string $url
-     * @param int $id
+     * @param string $id
      * @param int $type
      * @return string
      */
-    private function generateAjaxJs(string $url, int $id, int $type): string
+    private function generateAjaxJs(string $url, string $id, int $type): string
     {
         $html = "";
         
