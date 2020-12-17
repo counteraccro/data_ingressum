@@ -47,8 +47,6 @@ class AssetRender implements RuntimeExtensionInterface
             case "js" :
                 return $this->assetJs();
         }
-
-        //echo $this->asset->getUrl('assets/js/Menu.js');
     }
 
     /**

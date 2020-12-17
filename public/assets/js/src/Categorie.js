@@ -6,8 +6,11 @@ Categorie = {};
 Categorie.Launch = function(params) {
 
 	Categorie.EventAdd = function() {
-		
-		console.log('ça marche');
+
+		$('#categorie-change-icon').click(function () {
+			Categorie.Ajax($(this).data('url'), '#categorie-liste-fa');
+		});
+
 	};
 	
 	/**

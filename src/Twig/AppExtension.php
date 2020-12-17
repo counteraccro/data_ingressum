@@ -13,6 +13,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('dataRender', [DataRender::class, 'htmlRender']),
             new TwigFilter('OptionRender', [OptionRender::class, 'htmlRender']),
             new TwigFilter('AssetRender', [AssetRender::class, 'htlmRender']),
+            new TwigFilter('IconFaRender', [IconFaRender::class, 'htmlRender']),
         ];
     }
 }

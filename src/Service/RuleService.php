@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
  */
 class RuleService
 {
-    public function checkRule(Collection $rules, $value, $div_id)
+    public function checkRule(Collection $rules, $value, $div_id): array
     {
         $check = true;
         $msg = [];

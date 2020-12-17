@@ -12,13 +12,18 @@
                 <div class="row">
                     <div class="col-8">
 
-                        <div class="form-group">
-                            <label for="name">Titre de votre catégorie</label>
-                            <input type="text" class="form-control" id="name"
-                                   placeholder="Exemple : Mes voyages">
+                        <label for="titre-categorie">Titre de ma catégorie</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" data-url="{{ path('iconfa_categorie') }}" id="categorie-change-icon"><i class="fas fa-plane"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="titre-categorie" class="form-control" placeholder="Mes voyages" aria-label=""
+                                   aria-describedby="Nouvelle catégorie">
                         </div>
 
-                        <div><i class="fas fa-plane fa-3x fa-fw" style="vertical-align: middle;"></i> - Choisir une autre icone</div>
+                        <div id="categorie-liste-fa"></div>
+
 
                     </div>
                     <div class="col-4 border-left ">
@@ -34,15 +39,11 @@
                     </div>
 
                 </div>
-
-
-                <div class="text-primary font-italic"><small><i class="fas fa-info"></i> <i>Un rechargement
-                            automatique
-                            de la page sera appliqué une fois la fenetre fermée</i></small></div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Créer ma catégorie</button>
+                <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Créer ma catégorie
+                </button>
             </div>
         </div>
     </div>
@@ -63,7 +64,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             Categorie.Launch();
             Categorie.EventAdd();
         });

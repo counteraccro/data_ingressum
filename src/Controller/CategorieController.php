@@ -34,4 +34,16 @@ class CategorieController extends AbstractController
 
         ]);
     }
+
+    /**
+     * Liste les icones de type fa-
+     * @Route("/ajax/categorie/iconfa", name="iconfa_categorie")
+     * @return Response
+     */
+    public function listIconFa(): Response
+    {
+        return $this->render('categorie/ajax_list_icon_fa.html.twig', [
+
+        ]);
+    }
 }

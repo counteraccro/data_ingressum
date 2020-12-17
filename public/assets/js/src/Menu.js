@@ -51,7 +51,6 @@ Menu.Launch = function (params) {
             url: url,
         })
             .done(function (html) {
-                console.log(html);
                 $(id_done).html(html);
             });
     };
