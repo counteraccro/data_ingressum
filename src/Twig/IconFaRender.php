@@ -15,7 +15,7 @@ class IconFaRender implements RuntimeExtensionInterface
         $html = '';
 
         foreach ($this->tabIcon as $icon) {
-            $html .= '<i class="fa-border fas fa-' . $icon . ' fa-2x"></i>';
+            $html .= '<i class="fa-border fas fa-' . $icon . ' fa-2x" data-fa="fa-' . $icon . '"></i>';
         }
 
         return $html;

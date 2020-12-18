@@ -15,14 +15,22 @@
                         <label for="titre-categorie">Titre de ma catégorie</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button" data-url="{{ path('iconfa_categorie') }}" id="categorie-change-icon"><i class="fas fa-plane"></i>
+                                <button class="btn btn-primary" type="button" data-url="{{ path('iconfa_categorie') }}" id="categorie-change-icon"><i id="categorie-icon-fa" class="fas fa-plane" data-fa="fa-plane"></i>
                                 </button>
                             </div>
                             <input type="text" id="titre-categorie" class="form-control" placeholder="Mes voyages" aria-label=""
                                    aria-describedby="Nouvelle catégorie">
                         </div>
 
-                        <div id="categorie-liste-fa"></div>
+                        <div id="categorie-liste-fa">
+                            <fieldset>
+                                <legend>Astuces</legend>
+                                <i class="fas fa-arrow-right"></i> Cliquez sur l'icone <i id="tips-icon" class="fas fa-plane"></i> pour la changer <br />
+                                <i class="fas fa-arrow-right"></i> Utilise l'aperçu pour positionner ta catégorie
+
+                            </fieldset>
+
+                        </div>
 
 
                     </div>

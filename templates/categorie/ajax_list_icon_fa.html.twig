@@ -1,5 +1,15 @@
 <div id="content-icon-fa">
-    <div>Choisir une icone</div>
+    <fieldset>
+    <legend>Choisir une icone</legend>
     {{ 'fa' | IconFaRender() | raw }}
-
+       <div id="liste-fa"> <i class="font-weight-light">Une icone pour les gouverner tous !</i><button type="button" id="btn-close-liste-fa" class="btn btn-light btn-sm float-right">Masquer</button></div>
+    </fieldset>
 </div>
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Categorie.EventIconFa();
+        });
+    </script>
+{% endblock %}

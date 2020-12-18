@@ -414,11 +414,32 @@ input[type="color"]:focus,
 #content-icon-fa .fas {
     margin-right: 5px;
     margin-bottom: 5px;
-    width: 65px;
+    width: 62px;
     text-align: center;
 }
 
 #content-icon-fa .fa-border:hover  {
     cursor: pointer;
+    border-color: var(--btn-primary);
+}
+
+#categorie-liste-fa fieldset legend {
+    font-size: 1em;
+    margin-bottom: 0px;
+    font-style: italic;
+ }
+
+#categorie-liste-fa fieldset {
+    box-shadow: none;
+    border-color: var(--btn-primary);
+    margin-top: 0px;
+    padding-left: 15px;
+}
+
+#categorie-liste-fa i.font-weight-light {
+    font-size: 0.8em;
+}
+
+#categorie-liste-fa i.fa-border.selected {
     border-color: var(--btn-primary);
 }
