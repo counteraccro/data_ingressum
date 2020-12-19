@@ -35,15 +35,15 @@
 
                     </div>
                     <div class="col-4 border-left ">
-                        <div class="border-primary shadow-sm">
-                            <div>Aperçu</div>
-                            <ul>
-                                <li><i class="fas fa-train"></i> Catégorie démo</li>
-                                <li><i class="fas fa-landmark"></i> Au travail</li>
-                                <li><i class="fas fa-plane"></i> Mes voyages</li>
+                        <fieldset>
+                            <legend>Aperçu</legend>
+                            <ul id="liste-categorie-apercu">
+                                <li id="1" data-id="oki"><i class="fas fa-train"></i> Catégorie démo</li>
+                                <li id="2"><i class="fas fa-landmark"></i> Au travail</li>
+                                <li id="3"><i class="fas fa-plane" id="new-cat-apercu"></i> <span id="new-cat-apercu-txt">Mes voyages</span></li>
                             </ul>
 
-                        </div>
+                        </fieldset>
                     </div>
 
                 </div>
@@ -62,11 +62,27 @@
         $('#modal-add-categorie').modal({
             backdrop: 'static',
             show: true
-        })
+        });
 
         $('#modal-option').on('hidden.bs.modal', function (e) {
             window.location.replace("{{ path('home') }}");
-        })
+        });
+
+        var options = {
+            // or like a jQuery css object. Note that css object settings can't be removed
+            hintClass: 'hint',
+            maxLevels: 1,
+            complete: function(currEl)
+            {
+                var tabList = $('#liste-categorie-apercu').sortableListsToArray();
+                for (var i = 0; i < tabList.length; i++) {
+                    item = tabList[i];
+                    console.log(item);
+                }
+
+            }
+        }
+        $('#liste-categorie-apercu').sortableLists(options);
     });
 </script>
 
@@ -76,5 +92,7 @@
             Categorie.Launch();
             Categorie.EventAdd();
         });
+
+
     </script>
 {% endblock %}

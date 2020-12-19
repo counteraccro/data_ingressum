@@ -20,6 +20,10 @@ Categorie.Launch = function (params) {
             Categorie.Ajax($(this).data('url'), '#categorie-liste-fa');
         });
 
+        $('#titre-categorie').change(function () {
+            $('#new-cat-apercu-txt').html($(this).val());
+        });
+
     };
 
     /**
@@ -38,6 +42,7 @@ Categorie.Launch = function (params) {
         // Au click sur une nouvelle icone
         $('#content-icon-fa i.fas').click(function () {
             $('#categorie-icon-fa').removeClass().addClass('fa ' + $(this).data('fa')).attr('data-fa', $(this).data('fa'));
+            $('#new-cat-apercu').removeClass().addClass('fa ' + $(this).data('fa'));
             $('#content-icon-fa i.fas').each(function () {
                 $(this).removeClass('selected');
             });

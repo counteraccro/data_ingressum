@@ -19,7 +19,7 @@ class DefaultValueService
             'setName' => 'Au travail',
             'setDisabled' => false,
             'setIcon' => 'fas fa-landmark',
-            'setPosition' => 1,
+            'setPosition' => 0,
             'addPage' => [
                 [
                     'setName' => 'Important',
@@ -160,7 +160,7 @@ class DefaultValueService
             'setName' => 'Catégorie démo',
             'setDisabled' => false,
             'setIcon' => 'fas fa-subway',
-            'setPosition' => 2,
+            'setPosition' => 1,
             'addPage' => [
                 [
                     'setName' => 'Page démo',

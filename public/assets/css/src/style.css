@@ -393,6 +393,9 @@ input[type="color"]:focus,
 
 .modal-header {
     margin-top: -1px;
+    margin-right: -1px;
+    border: 1px solid #646464;
+    border-bottom: none;
 }
 
 .row-input-data {
@@ -409,6 +412,39 @@ input[type="color"]:focus,
 }
 
 /* ---------------------------------------------------
+  MODALE ADD CATEGORIE
+----------------------------------------------------- */
+
+#modal-add-categorie fieldset legend {
+    font-size: 1em;
+    margin-bottom: 0px;
+    font-style: italic;
+}
+
+#modal-add-categorie fieldset {
+    box-shadow: none;
+    border-color: var(--btn-primary);
+    margin-top: 0px;
+    padding-left: 15px;
+}
+
+#modal-add-categorie #liste-categorie-apercu {
+    padding-left: 20px;
+    margin-bottom: 0px;
+}
+
+#modal-add-categorie #liste-categorie-apercu li {
+    list-style-type: none;
+    cursor: move;
+}
+
+#modal-add-categorie #liste-categorie-apercu .hint {
+    background-color: #E9D4F4;
+    border: 1px dashed var(--btn-primary);
+    border-radius: 4px;
+}
+
+/* ---------------------------------------------------
    LIST ICON FA
 ----------------------------------------------------- */
 #content-icon-fa .fas {
@@ -418,22 +454,9 @@ input[type="color"]:focus,
     text-align: center;
 }
 
-#content-icon-fa .fa-border:hover  {
+#content-icon-fa .fa-border:hover {
     cursor: pointer;
     border-color: var(--btn-primary);
-}
-
-#categorie-liste-fa fieldset legend {
-    font-size: 1em;
-    margin-bottom: 0px;
-    font-style: italic;
- }
-
-#categorie-liste-fa fieldset {
-    box-shadow: none;
-    border-color: var(--btn-primary);
-    margin-top: 0px;
-    padding-left: 15px;
 }
 
 #categorie-liste-fa i.font-weight-light {
