@@ -8,8 +8,6 @@ Option.Launch = function(params) {
 	Option.EventMenu = function() {
 		
 		$('#nav-menu-top #link-option').click(function() {
-			console.log($(this).attr('href'));
-			
 			calback = function() {
 				$('#myModal').modal('show')
 			}

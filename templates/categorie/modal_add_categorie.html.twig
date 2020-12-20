@@ -20,6 +20,9 @@
                             </div>
                             <input type="text" id="titre-categorie" class="form-control" placeholder="Mes voyages" aria-label=""
                                    aria-describedby="Nouvelle catégorie">
+                            <div class="invalid-feedback">
+                                Merci de saisir le nom de votre catégorie.
+                            </div>
                         </div>
 
                         <div id="categorie-liste-fa">
@@ -50,7 +53,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Créer ma catégorie
+                <div id="msg-categorie-success" class="text-primary text-hide"><i>Catégorie ajoutée avec succès - Rechargement de la page...</i></div>
+                <button type="button" class="btn btn-primary float-right" id="submit-categorie" data-url="{{ path('add_categorie') }}">Créer ma catégorie
                 </button>
             </div>
         </div>
@@ -59,36 +63,22 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#modal-add-categorie').modal({
-            backdrop: 'static',
-            show: true
-        });
 
-        $('#modal-option').on('hidden.bs.modal', function (e) {
+        $('#modal-add-categorie').on('hidden.bs.modal', function (e) {
             window.location.replace("{{ path('home') }}");
         });
-
-        var options = {
-            // or like a jQuery css object. Note that css object settings can't be removed
-            hintClass: 'hint',
-            maxLevels: 1,
-            complete: function(currEl)
-            {
-                var tabList = $('#liste-categorie-apercu').sortableListsToArray();
-                for (var i = 0; i < tabList.length; i++) {
-                    item = tabList[i];
-                    console.log(item);
-                }
-
-            }
-        }
-        $('#liste-categorie-apercu').sortableLists(options);
     });
 </script>
 
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('#modal-add-categorie').modal({
+                backdrop: 'static',
+                show: true
+            });
+
             Categorie.Launch();
             Categorie.EventAdd();
         });

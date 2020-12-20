@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,15 +14,21 @@ class CategorieController extends AbstractController
     /**
      * Permet d'ajouter une Catégorie
      * @Route("/ajax/categorie/add", name="add_categorie")
+     * @param Request $request
+     * @return Response
      */
-    public function addCategorie(): Response
+    public function addCategorie(Request $request): Response
     {
-        $categorie = new Categorie();
-        $form = $this->createForm(CategorieType::class, $categorie);
+        $content = $request->getContent();
+        $content = json_decode($content);
 
-        return $this->render('categorie/ajax_add_categorie.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        //print_r($content);
+
+
+        $categorie = new Categorie();
+        //$form = $this->createForm(CategorieType::class, $categorie);
+
+        return $this->json(['response' => true]);
     }
 
     /**

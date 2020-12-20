@@ -7,6 +7,8 @@ Categorie.Launch = function (params) {
 
     Categorie.astuce = '';
     Categorie.currentIcon = $('#categorie-icon-fa').data('fa');
+    Categorie.currentTxt = '';
+    Categorie.currentOrder = '';
 
     /**
      * Event sur l'ajout d'une catégorie
@@ -21,7 +23,59 @@ Categorie.Launch = function (params) {
         });
 
         $('#titre-categorie').change(function () {
+            Categorie.currentTxt = $(this).val();
             $('#new-cat-apercu-txt').html($(this).val());
+
+            if(Categorie.currentTxt == '')
+            {
+                $('#titre-categorie').addClass('is-invalid');
+            }
+            else {
+                $('#titre-categorie').removeClass('is-invalid');
+            }
+        });
+
+        var options = {
+            // or like a jQuery css object. Note that css object settings can't be removed
+            hintClass: 'hint',
+            maxLevels: 1,
+            complete: function (currEl) {
+                Categorie.currentOrder = $('#liste-categorie-apercu').sortableListsToArray();
+            }
+        }
+        $('#liste-categorie-apercu').sortableLists(options);
+        Categorie.currentOrder = $('#liste-categorie-apercu').sortableListsToArray();
+
+        $('#submit-categorie').click(function () {
+
+            if(Categorie.currentTxt == '')
+            {
+                $('#titre-categorie').addClass('is-invalid');
+                return false;
+            }
+            else {
+                $('#titre-categorie').removeClass('is-invalid');
+            }
+
+            data = {"name": Categorie.currentTxt, "icon" : Categorie.currentIcon, "order" : Categorie.currentOrder};
+
+            $.ajax({
+                method: "POST",
+                url: $(this).data('url'),
+                data: JSON.stringify(data)
+            })
+                .done(function( msg ) {
+
+                    if(msg.response === true)
+                    {
+                        $('#msg-categorie-success').removeClass('text-hide');
+
+                        setTimeout(function () {
+                            $('#modal-add-categorie').modal('hide');
+                        }, 5000);
+
+                    }
+                });
         });
 
     };
@@ -53,17 +107,17 @@ Categorie.Launch = function (params) {
 
         // Au click sur le bouton masquer
         $('#content-icon-fa #btn-close-liste-fa').click(function () {
-			Categorie.ShowTips();
+            Categorie.ShowTips();
         });
     };
 
-	/**
-	 * Permet d'afficher les astuces
-	 * @constructor
-	 */
-	Categorie.ShowTips = function () {
-		$('#categorie-liste-fa').html(Categorie.astuce);
-		$('#categorie-liste-fa #tips-icon').removeClass().addClass('fa ' + Categorie.currentIcon);
+    /**
+     * Permet d'afficher les astuces
+     * @constructor
+     */
+    Categorie.ShowTips = function () {
+        $('#categorie-liste-fa').html(Categorie.astuce);
+        $('#categorie-liste-fa #tips-icon').removeClass().addClass('fa ' + Categorie.currentIcon);
     }
 
     /**
