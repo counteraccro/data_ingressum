@@ -8,15 +8,17 @@ Navbar.Launch = function(params) {
 	Navbar.Event = function() {
 		
 		$('#nav-menu-top .nav-modal').click(function() {
-			
-			calback = function() {
-				$('#myModal').modal('show')
-			}
-			
+
 			Navbar.Ajax($(this).attr('href'), '#content-modal', false, 'GET');
-			
 			return false;
-		})
+		});
+
+		$('#nav-menu-top .nav-ajax').click(function() {
+
+			Navbar.Ajax($(this).attr('href'), '#page-content', true, 'GET');
+			return false;
+		});
+
 	},
 	
 	/**

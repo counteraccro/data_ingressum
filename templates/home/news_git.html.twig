@@ -1,0 +1,31 @@
+<div id="news-git">
+    <fieldset>
+        <legend><i class="fas fa-code-branch"></i> News</legend>
+
+        <p>Les dernières évolutions du projet</p>
+
+        {% for commit in commits %}
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-1">
+                            <img src="{{ commit.avatar_url }}" class="img-fluid img-thumbnail"/>
+                        </div>
+                        <div class="col">
+
+                            <h6 class="card-title">Fait par <a href="{{ commit.user_url }}"
+                                                               target="_blank">{{ commit.committer.name }}</a>
+                                le {{ commit.date }}
+                                <span class="fa-pull-right sha">commit <a href="{{ commit.html_url }}"
+                                                               target="_blank">{{ commit.sha }}</a></span></h6>
+                            <p class="card-text">{{ commit.message | raw }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </fieldset>
+</div>

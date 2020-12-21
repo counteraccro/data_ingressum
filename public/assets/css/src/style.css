@@ -466,3 +466,15 @@ input[type="color"]:focus,
 #categorie-liste-fa i.fa-border.selected {
     border-color: var(--btn-primary);
 }
+
+/* ---------------------------------------------------
+   News GitUb
+----------------------------------------------------- */
+#news-git .card {
+    margin-bottom: 15px;
+}
+
+#news-git .card .sha {
+    font-style: italic;
+    font-size: 0.6em;
+}

@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Controller;
 
+use App\Service\GitService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +14,7 @@ use App\Service\ModeService;
  *
  * @IsGranted("ROLE_USER")
  * @author Aymeric
- *        
+ *
  */
 class HomeController extends AbstractController
 {
@@ -24,7 +26,7 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        /** @var User $user **/
+        /** @var User $user * */
         $user = $this->getUser();
 
         /**
@@ -45,7 +47,7 @@ class HomeController extends AbstractController
 
     /**
      *
-     *  @Route("/home", name="home_stat")
+     * @Route("/home", name="home_stat")
      */
     public function index_stat(): Response
     {
@@ -54,7 +56,7 @@ class HomeController extends AbstractController
 
     /**
      *
-     *  @Route("/home", name="home_edit")
+     * @Route("/home", name="home_edit")
      */
     public function index_edit(): Response
     {
@@ -63,10 +65,42 @@ class HomeController extends AbstractController
 
     /**
      *
-     *  @Route("/home", name="home_admin")
+     * @Route("/home", name="home_admin")
      */
     public function index_admin(): Response
     {
         return $this->render('home/index_admin.html.twig', []);
+    }
+
+    /**
+     *
+     * @Route("/news", name="news_git")
+     * @param GitService $gitService
+     * @return Response
+     */
+    public function news_git(GitService $gitService): Response
+    {
+        setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+
+        $tmp = $gitService->fetchGitHubCommit();
+
+        $commits = array();
+        foreach($tmp as $commit)
+        {
+            $date = ucfirst(strftime('%A %d %B %Y à %r',  strtotime($commit['commit']['committer']['date'])));
+
+            $element = [
+                'committer' => $commit['commit']['committer'],
+                'message' => nl2br($commit['commit']['message']),
+                'sha' => $commit['sha'],
+                'html_url' => $commit['html_url'],
+                'avatar_url' => $commit['committer']['avatar_url'],
+                'user_url' => $commit['committer']['html_url'],
+                'date' => $date
+            ];
+            array_push($commits, $element);
+        }
+
+        return $this->render('home/news_git.html.twig', ['commits' => $commits]);
     }
 }
