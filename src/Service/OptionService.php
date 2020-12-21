@@ -85,7 +85,7 @@ class OptionService
             'setLabel' => 'Choix du mode par defaut',
             'setInfo' => 'Permet de choisir le mode par defaut utilisé à la connexion sur le site',
             'setType' => 2,
-            'setDefaultValue' => 'mode_data',
+            'setDefaultValue' => 'mode_edit',
             'setChoix' => '{"mode_data":"Saisie de données","mode_stat":"Statistique","mode_edit":"Edition"}'
         ]
     ];

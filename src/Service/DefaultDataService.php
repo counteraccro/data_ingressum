@@ -39,10 +39,10 @@ class DefaultDataService extends DefaultValueService
     /**
      * Génère les données par défaut à la création d'un nouvel user
      *
-     * @param User $user
+     * @param User|null $user
      * @return User $user
      */
-    public function newData(?User $user)
+    public function newData(?User $user): ?User
     {
         // Déjà une catégorie qui existe, on ne fait rien
         if ($user->getCategories()->count() > 1) {
@@ -66,9 +66,9 @@ class DefaultDataService extends DefaultValueService
      * Créer un objet de type Value
      *
      * @param array $tab
-     * @return \App\Entity\Valeur
+     * @return Valeur
      */
-    private function createValue(array $tab)
+    private function createValue(array $tab): Valeur
     {
         $value = new Valeur();
         foreach ($tab as $key => $val) {
@@ -87,9 +87,9 @@ class DefaultDataService extends DefaultValueService
      * Créer un objet de type Data
      *
      * @param array $tab
-     * @return \App\Entity\Data
+     * @return Data
      */
-    private function createData(array $tab)
+    private function createData(array $tab): Data
     {
         $data = new Data();
         foreach ($tab as $key => $val) {
@@ -120,9 +120,9 @@ class DefaultDataService extends DefaultValueService
      * Permet de créer un nouveau Block
      *
      * @param array $tab
-     * @return \App\Entity\Block
+     * @return Block
      */
-    private function createBlock(array $tab)
+    private function createBlock(array $tab): Block
     {
         $block = new Block();
         foreach ($tab as $key => $val) {
@@ -145,9 +145,9 @@ class DefaultDataService extends DefaultValueService
      * Permet de créer une nouvelle page
      *
      * @param array $tab
-     * @return \App\Entity\Page
+     * @return Page
      */
-    private function createPage(array $tab)
+    private function createPage(array $tab): Page
     {
         $page = new Page();
         foreach ($tab as $key => $val) {
@@ -172,7 +172,7 @@ class DefaultDataService extends DefaultValueService
      * @param array $tab
      * @return array
      */
-    private function createCategorie(array $tab)
+    private function createCategorie(array $tab): array
     {
         $return = [];
 
@@ -200,7 +200,7 @@ class DefaultDataService extends DefaultValueService
      * Permet de créer une nouvelle option
      *
      * @param array $options
-     * @return \App\Entity\User
+     * @return User
      */
     private function createOption(array $options)
     {
@@ -216,9 +216,9 @@ class DefaultDataService extends DefaultValueService
     /**
      * Permet de créer une nouvelle règle
      * @param array $tab
-     * @return \App\Entity\Rule
+     * @return Rule
      */
-    private function createRule(array $tab)
+    private function createRule(array $tab): Rule
     {
         $rule = new Rule();
         foreach ($tab as $key => $val) {

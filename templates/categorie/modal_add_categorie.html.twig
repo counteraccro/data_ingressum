@@ -15,10 +15,13 @@
                         <label for="titre-categorie">Titre de ma catégorie</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <button class="btn btn-primary" type="button" data-url="{{ path('iconfa_categorie') }}" id="categorie-change-icon"><i id="categorie-icon-fa" class="fas fa-plane" data-fa="fa-plane"></i>
+                                <button class="btn btn-primary" type="button" data-url="{{ path('iconfa_categorie') }}"
+                                        id="categorie-change-icon"><i id="categorie-icon-fa" class="fas fa-plane"
+                                                                      data-fa="fa-plane"></i>
                                 </button>
                             </div>
-                            <input type="text" id="titre-categorie" class="form-control" placeholder="Mes voyages" aria-label=""
+                            <input type="text" id="titre-categorie" class="form-control" placeholder="Mes voyages"
+                                   aria-label=""
                                    aria-describedby="Nouvelle catégorie">
                             <div class="invalid-feedback">
                                 Merci de saisir le nom de votre catégorie.
@@ -28,7 +31,9 @@
                         <div id="categorie-liste-fa">
                             <fieldset>
                                 <legend>Astuces</legend>
-                                <i class="fas fa-arrow-right"></i> Cliquez sur l'icone <i id="tips-icon" class="fas fa-plane"></i> pour la changer <br />
+                                <i class="fas fa-arrow-right"></i> Cliquez sur l'icone <i id="tips-icon"
+                                                                                          class="fas fa-plane"></i> pour
+                                la changer <br/>
                                 <i class="fas fa-arrow-right"></i> Utilise l'aperçu pour positionner ta catégorie
 
                             </fieldset>
@@ -41,9 +46,11 @@
                         <fieldset>
                             <legend>Aperçu</legend>
                             <ul id="liste-categorie-apercu">
-                                <li id="1" data-id="oki"><i class="fas fa-train"></i> Catégorie démo</li>
-                                <li id="2"><i class="fas fa-landmark"></i> Au travail</li>
-                                <li id="3"><i class="fas fa-plane" id="new-cat-apercu"></i> <span id="new-cat-apercu-txt">Mes voyages</span></li>
+                                {% for categorie in app.user.categories %}
+                                    <li id="{{ categorie.id }}" data-id="oki"><i class="{{ categorie.icon }}"></i> {{ categorie.name }}</li>
+                                {% endfor %}
+                                <li id="new"><i class="fas fa-plane" id="new-cat-apercu"></i> <span
+                                            id="new-cat-apercu-txt">Mes voyages</span></li>
                             </ul>
 
                         </fieldset>
@@ -53,8 +60,10 @@
             </div>
 
             <div class="modal-footer">
-                <div id="msg-categorie-success" class="text-primary text-hide"><i>Catégorie ajoutée avec succès - Rechargement de la page...</i></div>
-                <button type="button" class="btn btn-primary float-right" id="submit-categorie" data-url="{{ path('add_categorie') }}">Créer ma catégorie
+                <div id="msg-categorie-success" class="text-primary text-hide"><i>Catégorie ajoutée avec succès -
+                        Rechargement de la page...</i></div>
+                <button type="button" class="btn btn-primary float-right" id="submit-categorie"
+                        data-url="{{ path('add_categorie') }}">Créer ma catégorie
                 </button>
             </div>
         </div>

@@ -31,7 +31,7 @@ class Categorie
     private $icon;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $disabled;
 

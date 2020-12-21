@@ -72,7 +72,7 @@ Categorie.Launch = function (params) {
 
                         setTimeout(function () {
                             $('#modal-add-categorie').modal('hide');
-                        }, 5000);
+                        }, 2500);
 
                     }
                 });
