@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Compte{% endblock %}
+
+{% block body %}
+
+    {#
+    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+    See https://symfony.com/doc/current/security/remember_me.html
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" name="_remember_me"> Remember me
+        </label>
+    </div>
+    #}
+
+    <div class="container" id="new-user">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block" style="text-align: left">
+                                <!--<img src="{{ asset('assets/images/logo/512px-Scribus_logo.svg.png') }}" class=""
+                                         alt="...">-->
+                                <div id="txt-presentation">
+
+                                    <p class="text-justify font-italic">
+                                        La création d'un compte est gratuit et ne prend que quelques secondes.
+                                    </p>
+
+                                    <blockquote class="blockquote">
+                                        <div class="row">
+                                            <div class="col-1"><i class="fas fa-quote-left"></i></div>
+                                            <div class="col">
+
+                                                <p class="mb-0"><i>C'est totalement inutile et donc rigoureusement
+                                                        indispensable ! </i></p>
+                                                <footer class="blockquote-footer">Jérôme Bonaldi <cite
+                                                            title="Source Title"><a
+                                                                href="https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Bonaldi#cite_ref-4"
+                                                                target="_blank">Wikipedia</a></cite></footer>
+
+
+                                            </div>
+
+                                        </div>
+                                    </blockquote>
+
+                                    <p class="font-weight-light font-italic">
+                                        <b>Data-ingressum</b> est en développement, une fonctionnalité peut apparaitre
+                                        ou disparaitre à tout moment
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4"><img
+                                                    src="{{ asset('assets/images/logo/32px-Scribus_logo.svg.png') }}"
+                                                    class="img-fluid"/>Data-Ingressum</h1>
+                                    </div>
+
+                                    {% if app.user %}
+                                        <div class="alert">
+                                            Vous êtes déjà connecté en tant que <b>{{ app.user.username }}</b>
+                                        </div>
+
+                                        <a class="btn btn-primary btn-block" href="{{ path('home') }}"><i
+                                                    class="fas fa-home"></i> Nexus</a>
+                                        <a class="btn btn-primary btn-block" href="{{ path('app_logout') }}"><i
+                                                    class="fas fa-sign-out-alt"></i> Me déconnecter</a>
+                                    {% else %}
+
+                                        {{ form(form) }}
+
+                                        <hr>
+                                        <div class="text-center">
+                                            <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="small" href="{{ path('app_login') }}">Me connecter</a>
+                                        </div>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

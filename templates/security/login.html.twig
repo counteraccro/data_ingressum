@@ -5,7 +5,7 @@
 {% block body %}
     <form method="post" id="form-auth">
 
-            {#
+        {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
 
@@ -27,63 +27,97 @@
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                <div class="col-lg-6 d-none d-lg-block" style="text-align: center">
-                                    <img src="{{ asset('assets/images/logo/512px-Scribus_logo.svg.png') }}" class=""
-                                         alt="...">
+                                <div class="col-lg-6 d-none d-lg-block" style="text-align: left">
+                                    <!--<img src="{{ asset('assets/images/logo/512px-Scribus_logo.svg.png') }}" class=""
+                                         alt="...">-->
+                                    <div id="txt-presentation">
+
+                                        <p class="text-justify font-italic">Le site qui vous permet de saisir toutes
+                                            sorte de
+                                            données sur une période d'un jour, d'un mois, d'une année et de les compiler
+                                            sous forme de graphiques interactif.</p>
+
+                                        <blockquote class="blockquote">
+                                            <div class="row">
+                                                <div class="col-1"><i class="fas fa-quote-left"></i></div>
+                                                <div class="col">
+
+                                                    <p class="mb-0"><i>C'est totalement inutile et donc rigoureusement
+                                                            indispensable ! </i></p>
+                                                    <footer class="blockquote-footer">Jérôme Bonaldi <cite
+                                                                title="Source Title"><a
+                                                                    href="https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Bonaldi#cite_ref-4"
+                                                                    target="_blank">Wikipedia</a></cite></footer>
+
+
+                                                </div>
+
+                                            </div>
+                                        </blockquote>
+
+                                        <p class="font-weight-light font-italic">
+                                            <b>Data-ingressum</b> est en développement, une fonctionnalité peut apparaitre ou disparaitre à tout moment
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4"><img
+                                                        src="{{ asset('assets/images/logo/32px-Scribus_logo.svg.png') }}"
+                                                        class="img-fluid"/>Data-Ingressum</h1>
                                         </div>
 
                                         {% if app.user %}
                                             <div class="alert">
-                                               Vous êtes déjà connecté en tant que <b>{{ app.user.username }}</b>
+                                                Vous êtes déjà connecté en tant que <b>{{ app.user.username }}</b>
                                             </div>
 
-                                            <a class="btn btn-primary btn-block" href="{{ path('home') }}"><i class="fas fa-home"></i> Nexus</a>
-                                            <a class="btn btn-primary btn-block" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Me déconnecter</a>
+                                            <a class="btn btn-primary btn-block" href="{{ path('home') }}"><i
+                                                        class="fas fa-home"></i> Nexus</a>
+                                            <a class="btn btn-primary btn-block" href="{{ path('app_logout') }}"><i
+                                                        class="fas fa-sign-out-alt"></i> Me déconnecter</a>
                                         {% else %}
 
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" value="{{ last_username }}"
-                                                   name="email" id="inputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Adresse email" required autofocus>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control" name="password"
-                                                   id="inputPassword" placeholder="Mot de passe" required>
-                                        </div>
-
-                                        <!--<div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <input type="checkbox" class="custom-control-input" name="_remember_me">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" value="{{ last_username }}"
+                                                       name="email" id="inputEmail" aria-describedby="emailHelp"
+                                                       placeholder="Adresse email" required autofocus>
                                             </div>
-                                        </div>-->
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password"
+                                                       id="inputPassword" placeholder="Mot de passe" required>
+                                            </div>
 
-                                        <input type="hidden" name="_csrf_token"
-                                               value="{{ csrf_token('authenticate') }}"
-                                        >
-                                        <button type="submit" class="btn btn-primary btn-block">Me connecter</button>
+                                            <!--<div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                    <input type="checkbox" class="custom-control-input" name="_remember_me">
+                                                    <label class="custom-control-label" for="customCheck">Remember
+                                                        Me</label>
+                                                </div>
+                                            </div>-->
 
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
-                                        <hr>
-                                        <div class="text-center">
-                                            <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
-                                        </div>
-                                        <div class="text-center">
-                                            <a class="small" href="register.html">Me créer un compte</a>
-                                        </div>
+                                            <input type="hidden" name="_csrf_token"
+                                                   value="{{ csrf_token('authenticate') }}"
+                                            >
+                                            <button type="submit" class="btn btn-primary btn-block">Me connecter
+                                            </button>
+
+                                            <hr>
+                                            <a href="index.html" class="btn btn-google btn-user btn-block">
+                                                <i class="fab fa-google fa-fw"></i> Login with Google
+                                            </a>
+                                            <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                                <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                            </a>
+                                            <hr>
+                                            <div class="text-center">
+                                                <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
+                                            </div>
+                                            <div class="text-center">
+                                                <a class="small" href="{{ path('new_user') }}">Me créer un compte</a>
+                                            </div>
 
                                         {% endif %}
                                     </div>

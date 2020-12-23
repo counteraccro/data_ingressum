@@ -417,20 +417,20 @@ input[type="color"]:focus,
 
 #modal-add-categorie fieldset legend {
     font-size: 1em;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     font-style: italic;
 }
 
 #modal-add-categorie fieldset {
     box-shadow: none;
     border-color: var(--btn-primary);
-    margin-top: 0px;
+    margin-top: 0;
     padding-left: 15px;
 }
 
 #modal-add-categorie #liste-categorie-apercu {
     padding-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #modal-add-categorie #liste-categorie-apercu li {
@@ -476,5 +476,49 @@ input[type="color"]:focus,
 
 #news-git .card .sha {
     font-style: italic;
+    font-size: 0.6em;
+}
+
+/* ---------------------------------------------------
+   Login page
+----------------------------------------------------- */
+
+#form-auth #txt-presentation {
+    margin-top: 75px;
+    margin-left: 50px;
+}
+
+#form-auth .blockquote {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border : 1px solid var(--btn-primary);
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #fafafa;
+}
+
+#form-auth .font-weight-light {
+    font-size: 0.6em;
+}
+
+/* ---------------------------------------------------
+   New user page
+----------------------------------------------------- */
+
+#new-user #txt-presentation {
+    margin-top: 75px;
+    margin-left: 50px;
+}
+
+#new-user .blockquote {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border : 1px solid var(--btn-primary);
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #fafafa;
+}
+
+#new-user .font-weight-light {
     font-size: 0.6em;
 }
