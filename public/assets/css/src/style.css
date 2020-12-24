@@ -353,6 +353,36 @@ input.input-current-day {
 }
 
 /* ---------------------------------------------------
+    CALLOUT STYLE
+----------------------------------------------------- */
+.callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.callout H4 {
+    font-size: 1.1em;
+}
+
+.callout-primary {
+    border-left-color: var(--btn-primary);
+}
+.callout-primary h4 {
+    color: var(--btn-primary);
+
+}
+
+.callout-primary {
+    border-left-color: var(--btn-primary);
+}
+.callout-primary h4 {
+    color: var(--btn-primary);
+}
+
+/* ---------------------------------------------------
     GLOBAL STYLE
 ----------------------------------------------------- */
 select:active,
@@ -521,4 +551,19 @@ input[type="color"]:focus,
 
 #new-user .font-weight-light {
     font-size: 0.6em;
+}
+
+/* ---------------------------------------------------
+   help page
+----------------------------------------------------- */
+
+#page-help .subtitle {
+    border-radius: 0px 5px 0px 5px;
+    border : 1px solid #EBEBEB;
+    padding: 5px;
+    background-color: var(--btn-primary);
+    color: #FAFAFA;
+    font-size: 1.3em;
+    margin-left: 20px;
+
 }

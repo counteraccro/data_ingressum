@@ -26,6 +26,7 @@
 			style="">
 			<ul id="nav-menu-top" class="nav navbar-nav ml-auto">
 				<li class="nav-item active"><a class="nav-link" href="#">[ <i class="fas fa-user-astronaut"></i> {{ app.user.name }} ]</a></li>
+				<li class="nav-item active"><a class="nav-link nav-ajax" id="page-help-link" href="{{ path('help') }}"><i class="fas fa-question-circle"></i> Aide</a></li>
 				<li class="nav-item active"><a class="nav-link nav-ajax" href="{{ path('news_git') }}"><i class="fas fa-code-branch"></i> News</a></li>
 				<li class="nav-item active"><a id="link-mode" class="nav-link nav-modal" href="{{ path('ajax_modal_mode') }}#"><i class="fas {{ iconfa }}"></i> Mode</a></li>
 				<li class="nav-item active"><a id="link-option" class="nav-link nav-modal" href="{{ path('ajax_modal_option') }}#"><i class="fas fa-cogs"></i> Options</a></li>

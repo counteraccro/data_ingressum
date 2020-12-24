@@ -22,7 +22,7 @@ class HomeController extends AbstractController
     /**
      *
      * @Route("/home", name="home")
-     *
+     * @return Response
      */
     public function index(): Response
     {
@@ -57,6 +57,7 @@ class HomeController extends AbstractController
     /**
      *
      * @Route("/home", name="home_edit")
+     * @return Response
      */
     public function index_edit(): Response
     {
@@ -102,5 +103,13 @@ class HomeController extends AbstractController
         }
 
         return $this->render('home/news_git.html.twig', ['commits' => $commits]);
+    }
+
+    /**
+     * @Route("/help", name="help")
+     */
+    public function help(): Response
+    {
+        return $this->render('home/help.html.twig');
     }
 }

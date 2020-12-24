@@ -60,6 +60,8 @@ class UserController extends AbstractController
             $this->container->get('security.token_storage')->setToken($token);
             $this->container->get('session')->set('_security_main', serialize($token));
 
+            $request->getSession()->set('show_help', true);
+
 
             $this->addFlash('success', 'Votre compte à été crée avec succès');
             return $this->redirectToRoute('home');

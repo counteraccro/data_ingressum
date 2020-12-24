@@ -9,4 +9,19 @@
 	<div class="alert alert-warning">Une info mais edit</div>
 </fieldset>
 
+
+
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			//var show_help =
+			{% if app.session.get('show_help') == true  %}
+				{{ app.session.remove('show_help') }}
+				document.getElementById('page-help-link').click();
+			{% endif %}
+		});
+	</script>
 {% endblock %}
