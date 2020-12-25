@@ -14,11 +14,11 @@ class CategorieController extends AbstractController
 {
     /**
      * Permet d'ajouter une Catégorie
-     * @Route("/ajax/categorie/add", name="add_categorie")
+     * @Route("/ajax/categorie/manage", name="manage_categorie")
      * @param Request $request
      * @return Response
      */
-    public function addCategorie(Request $request): Response
+    public function manageCategorie(Request $request): Response
     {
         $content = $request->getContent();
         $content = json_decode($content);
@@ -61,7 +61,7 @@ class CategorieController extends AbstractController
      */
     public function modaleAddCategorie(): Response
     {
-        return $this->render('categorie/modal_add_categorie.html.twig', [
+        return $this->render('categorie/modal_manage_categorie.html.twig', [
 
         ]);
     }

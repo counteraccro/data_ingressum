@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title"><i class="fas fa-plus"></i> Ajouter une catégorie</h5>
+                <h5 class="modal-title"><i class="fas fa-hammer"></i> Gestion de mes catégories</h5>
                 <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -11,6 +11,15 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-8">
+
+                        <div class="form-group">
+                            <select class="form-control" id="select-categorie">
+                                <option value="-1" selected>Nouvelle Catégorie</option>
+                                {% for categorie in app.user.categories %}
+                                <option data-icon="{{ categorie.icon }}" data-subtext="Editer" value="{{ categorie.id }}">{{ categorie.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
                         <label for="titre-categorie">Titre de ma catégorie</label>
                         <div class="input-group mb-3">
@@ -47,9 +56,9 @@
                             <legend>Aperçu</legend>
                             <ul id="liste-categorie-apercu">
                                 {% for categorie in app.user.categories %}
-                                    <li id="{{ categorie.id }}" data-id="oki"><i class="{{ categorie.icon }}"></i> {{ categorie.name }}</li>
+                                    <li id="{{ categorie.id }}"><i class="{{ categorie.icon }}"></i> {{ categorie.name }}</li>
                                 {% endfor %}
-                                <li id="new"><i class="fas fa-plane" id="new-cat-apercu"></i> <span
+                                <li id="new" class="text-primary"><i class="fas fa-plane" id="new-cat-apercu"></i> <span
                                             id="new-cat-apercu-txt">Mes voyages</span></li>
                             </ul>
 
@@ -63,21 +72,12 @@
                 <div id="msg-categorie-success" class="text-primary text-hide"><i>Catégorie ajoutée avec succès -
                         Rechargement de la page...</i></div>
                 <button type="button" class="btn btn-primary float-right" id="submit-categorie"
-                        data-url="{{ path('add_categorie') }}">Créer ma catégorie
+                        data-url="{{ path('manage_categorie') }}">Créer ma catégorie
                 </button>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $('#modal-add-categorie').on('hidden.bs.modal', function (e) {
-            window.location.replace("{{ path('home') }}");
-        });
-    });
-</script>
 
 {% block javascripts %}
     <script type="text/javascript">
@@ -89,7 +89,13 @@
             });
 
             Categorie.Launch();
-            Categorie.EventAdd();
+            Categorie.EventManagement();
+
+            $('#modal-add-categorie').on('hidden.bs.modal', function (e) {
+                Menu.Load();
+            });
+
+            $('#select-categorie').selectpicker();
         });
 
 

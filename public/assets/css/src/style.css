@@ -177,6 +177,10 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--btn-primary);
+}
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;

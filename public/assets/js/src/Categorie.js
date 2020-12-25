@@ -14,7 +14,7 @@ Categorie.Launch = function (params) {
      * Event sur l'ajout d'une catégorie
      * @constructor
      */
-    Categorie.EventAdd = function () {
+    Categorie.EventManagement = function () {
 
         Categorie.astuce = $('#categorie-liste-fa').html();
 
@@ -34,6 +34,10 @@ Categorie.Launch = function (params) {
                 $('#titre-categorie').removeClass('is-invalid');
             }
         });
+
+        $('#select-categorie').change(function() {
+            console.log($(this).val());
+        })
 
         var options = {
             // or like a jQuery css object. Note that css object settings can't be removed
