@@ -11,12 +11,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-8">
-
                         <div class="form-group">
-                            <select class="form-control" id="select-categorie">
+                            <select class="form-control" id="select-categorie"
+                                    data-url="{{ path('load_categorie', {'id' : -1}) }}">
                                 <option value="-1" selected>Nouvelle Catégorie</option>
                                 {% for categorie in app.user.categories %}
-                                <option data-icon="{{ categorie.icon }}" data-subtext="Editer" value="{{ categorie.id }}">{{ categorie.name }}</option>
+                                    <option data-icon="{{ categorie.icon }}" data-subtext="Editer"
+                                            value="{{ categorie.id }}">{{ categorie.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -37,6 +38,13 @@
                             </div>
                         </div>
 
+                        <div class="form-check invisible" id="checkbox-disabled">
+                            <input class="form-check-input" type="checkbox" value="" id="disabled-categorie">
+                            <label class="form-check-label" for="disabled-categorie">
+                                Masquer la catégorie
+                            </label>
+                        </div>
+
                         <div id="categorie-liste-fa">
                             <fieldset>
                                 <legend>Astuces</legend>
@@ -44,9 +52,7 @@
                                                                                           class="fas fa-plane"></i> pour
                                 la changer <br/>
                                 <i class="fas fa-arrow-right"></i> Utilise l'aperçu pour positionner ta catégorie
-
                             </fieldset>
-
                         </div>
 
 
@@ -56,21 +62,21 @@
                             <legend>Aperçu</legend>
                             <ul id="liste-categorie-apercu">
                                 {% for categorie in app.user.categories %}
-                                    <li id="{{ categorie.id }}"><i class="{{ categorie.icon }}"></i> {{ categorie.name }}</li>
+                                    <li id="{{ categorie.id }}"><i
+                                                class="{{ categorie.icon }}"
+                                                id="cat-apercu-icon-{{ categorie.id }}"></i> <span id="cat-apercu-txt-{{ categorie.id }}">{{ categorie.name }}</span></li>
                                 {% endfor %}
-                                <li id="new" class="text-primary"><i class="fas fa-plane" id="new-cat-apercu"></i> <span
-                                            id="new-cat-apercu-txt">Mes voyages</span></li>
+                                <li id="new" class="text-primary"><i class="fas fa-plane" id="cat-apercu-icon"></i> <span
+                                            id="cat-apercu-txt">Mes voyages</span></li>
                             </ul>
-
                         </fieldset>
                     </div>
-
                 </div>
             </div>
 
             <div class="modal-footer">
-                <div id="msg-categorie-success" class="text-primary text-hide"><i>Catégorie ajoutée avec succès -
-                        Rechargement de la page...</i></div>
+                <div id="msg-categorie-success" class="text-primary text-hide"><i>Action réalisée avec succès -
+                        Fermeture de la popine...</i></div>
                 <button type="button" class="btn btn-primary float-right" id="submit-categorie"
                         data-url="{{ path('manage_categorie') }}">Créer ma catégorie
                 </button>
