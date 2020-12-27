@@ -34,6 +34,7 @@ class Valeur
     
     /**
      * @ORM\ManyToOne(targetEntity=Data::class, inversedBy="valeurs")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $data;
 

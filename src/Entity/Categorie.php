@@ -38,11 +38,12 @@ class Categorie
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Categories")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="categorie", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Page::class, mappedBy="categorie", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $pages;
 

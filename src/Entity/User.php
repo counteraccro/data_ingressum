@@ -52,18 +52,18 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      * @OrderBy({"position" = "ASC"})
      */
     private $Categories;
 
     /**
-     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $datas;
 
     /**
-     * @ORM\OneToMany(targetEntity=OptionUser::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OptionUser::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $option_users;
 

@@ -23,13 +23,13 @@ class OptionUser
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="option_users", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="option_users", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Option::class, inversedBy="option_users", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Option::class, inversedBy="option_users", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $option_data;

@@ -66,6 +66,36 @@ Categorie.Launch = function (params) {
                 Categorie.disabled = true;
             }
         });
+        
+        $('#delete-categorie').click(function () {
+            let url = $(this).attr('href');
+
+            url = url.slice(0, -2) + Categorie.id;
+
+            let r = confirm("Etes vous sur ?");
+            if (r == false) {
+               return false;
+            }
+
+            $('#submit-categorie').prop('disabled', true);
+
+            $.ajax({
+                method: 'GET',
+                url: url,
+            })
+                .done(function (msg) {
+                    if (msg.response === true) {
+                        $('#msg-categorie-success').removeClass('text-hide');
+
+                        setTimeout(function () {
+                            $('#modal-add-categorie').modal('hide');
+                        }, 2000);
+
+                    }
+                });
+
+            return false;
+        })
 
         /**
          * Permet de charger les données d'une catégorie

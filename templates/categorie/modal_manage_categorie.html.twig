@@ -49,7 +49,7 @@
                             </div>
 
                             <div class="col">
-                                - Supprimer cette catégorie
+                                <a href="{{ path('delete_categorie', {'id' : -1}) }}" id="delete-categorie" class="text-danger float-right"> <i class="fas fa-ban"></i> Supprimer</a>
                             </div>
 
                         </div>
@@ -61,7 +61,9 @@
                                 <i class="fas fa-arrow-right"></i> Cliquez sur l'icone <i id="tips-icon"
                                                                                           class="fas fa-plane"></i> pour
                                 la changer <br/>
-                                <i class="fas fa-arrow-right"></i> Utilise l'aperçu pour positionner ta catégorie
+                                <i class="fas fa-arrow-right"></i> Utilise l'aperçu pour positionner ta catégorie <br />
+                                <span class="text-danger"><i class="fas fa-ban"></i> L'action supprimé est défintive et entraine la supression de
+                                l'ensemble des données liés à une catégorie (pages, statistiques saisie etc...)</span>
                             </fieldset>
                         </div>
 

@@ -32,11 +32,12 @@ class Block
     /**
      * @ORM\ManyToOne(targetEntity=Page::class, inversedBy="blocks")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $page;
 
     /**
-     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="block", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Data::class, mappedBy="block", cascade={"persist", "remove"})
      */
     private $datas;
 

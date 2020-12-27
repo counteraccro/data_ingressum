@@ -29,6 +29,7 @@ class Rule
 
     /**
      * @ORM\ManyToOne(targetEntity=Data::class, inversedBy="rules")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $data;
 

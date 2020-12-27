@@ -46,7 +46,7 @@ class Option
     private $default_value;
 
     /**
-     * @ORM\OneToMany(targetEntity=OptionUser::class, mappedBy="option_data", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OptionUser::class, mappedBy="option_data", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $option_users;
 

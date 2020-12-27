@@ -67,7 +67,7 @@ class CategorieController extends AbstractController
      * Permet d'ajouter / editer une Catégorie
      * @Route("/ajax/categorie/modal", name="modal_categorie")
      */
-    public function modaleAddCategorie(): Response
+    public function modaleManageCategorie(): Response
     {
         return $this->render('categorie/modal_manage_categorie.html.twig', [
 
@@ -81,9 +81,7 @@ class CategorieController extends AbstractController
      */
     public function listIconFa(): Response
     {
-        return $this->render('categorie/ajax_list_icon_fa.html.twig', [
-
-        ]);
+        return $this->render('categorie/ajax_list_icon_fa.html.twig', []);
     }
 
     /**
@@ -98,5 +96,22 @@ class CategorieController extends AbstractController
         return $this->json(['response' => true, 'categorie' => ['id' => $categorie->getId(),
             'name' => $categorie->getName(), 'icon' => $categorie->getIcon(),
             'order' => $categorie->getPosition(), 'disabled' => $categorie->getDisabled()]]);
+    }
+
+    /**
+     * Permet de supprimer une catégorie
+     * @Route("/ajax/categorie/delete/{id}", name="delete_categorie")
+     * @ParamConverter("categorie", options={"id" = "id"})
+     * @param Categorie $categorie
+     * @return JsonResponse
+     */
+    public function delete(Categorie $categorie): JsonResponse
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($categorie);
+        $entityManager->flush();
+
+        return $this->json(['response' => true]);
     }
 }

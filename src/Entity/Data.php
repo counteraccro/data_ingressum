@@ -55,23 +55,25 @@ class Data
     private $position;
 
     /**
-     * @ORM\OneToMany(targetEntity=Valeur::class, mappedBy="data", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Valeur::class, mappedBy="data", cascade={"persist", "remove"})
      */
     private $valeurs;
 
     /**
      * @ORM\ManyToOne(targetEntity=Block::class, inversedBy="datas")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $block;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="datas")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rule::class, mappedBy="data", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Rule::class, mappedBy="data", cascade={"persist", "remove"})
      */
     private $rules;
 
