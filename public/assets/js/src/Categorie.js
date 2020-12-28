@@ -22,7 +22,7 @@ Categorie.Launch = function (params) {
 
         Categorie.astuce = $('#categorie-liste-fa').html();
 
-        var options = {
+        let options = {
             // or like a jQuery css object. Note that css object settings can't be removed
             hintClass: 'hint',
             maxLevels: 1,
@@ -35,6 +35,7 @@ Categorie.Launch = function (params) {
          * Event sur le click d'une icone
          */
         $('#categorie-change-icon').click(function () {
+            Categorie.astuce = $('#categorie-liste-fa').html();
             Categorie.Ajax($(this).data('url'), '#categorie-liste-fa');
         });
 
@@ -66,13 +67,16 @@ Categorie.Launch = function (params) {
                 Categorie.disabled = true;
             }
         });
-        
+
+        /**
+         * Event Click pour supprimer une catéorie
+         */
         $('#delete-categorie').click(function () {
             let url = $(this).attr('href');
 
             url = url.slice(0, -2) + Categorie.id;
 
-            let r = confirm("Etes vous sur ?");
+            let r = confirm("L'action supprimé est défintive et entraine la supression de l'ensemble des données liés à une catégorie (pages, statistiques saisie etc...)");
             if (r == false) {
                return false;
             }
@@ -116,12 +120,12 @@ Categorie.Launch = function (params) {
                 });
 
                 $('#liste-categorie-apercu').append(Categorie.new_cat_appercu);
+                $('#tips-delete').addClass('text-hide');
 
                 return false;
             }
 
-            var url = $(this).data('url');
-
+            let url = $(this).data('url');
             url = url.slice(0, -2) + $(this).val();
 
             $.ajax({
@@ -139,6 +143,7 @@ Categorie.Launch = function (params) {
                         $('#cat-apercu-icon-' + msg.categorie.id).removeClass().addClass(msg.categorie.icon);
                         Categorie.id = msg.categorie.id;
                         $('#submit-categorie').html('Modifier ma catégorie');
+                        $('#tips-delete').removeClass('text-hide');
 
                         $('#liste-categorie-apercu li').each(function () {
                             if ($(this).attr('id') == msg.categorie.id) {

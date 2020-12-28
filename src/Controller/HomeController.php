@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\GitService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -107,9 +108,34 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/help", name="help")
+     * @param Request $request
+     * @return Response
      */
-    public function help(): Response
+    public function help(Request $request): Response
     {
-        return $this->render('home/help.html.twig');
+        /** @var User $user * */
+        $user = $this->getUser();
+
+        if($request->getSession()->get('show_help') == true)
+        {
+            $request->getSession()->remove('show_help');
+            return $this->render('home/help.html.twig');
+        }
+
+        /**
+         * Choix du mode
+         */
+        switch ($user->getMode()) {
+            case ModeService::$mode_stat:
+                return $this->render('home/help_stats.html.twig');
+            case ModeService::$mode_edit:
+                return $this->render('home/help_edit.html.twig');
+            case ModeService::$mode_admin:
+                return $this->render('home/help_admin.html.twig');
+            default:
+                return $this->render('home/help.html.twig');
+        }
+
+
     }
 }

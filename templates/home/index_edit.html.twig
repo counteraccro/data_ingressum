@@ -3,25 +3,16 @@
 {% block title %}The Nexus - Edit{% endblock %}
 
 {% block page %}
-<fieldset>
-<legend>Infos</legend>
-
-	<div class="alert alert-warning">Une info mais edit</div>
-</fieldset>
-
-
-
+    <fieldset>
+        <legend>Aide</legend>
+        Chargement de l'aide
+    </fieldset>
 {% endblock %}
 
 {% block javascripts %}
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-			//var show_help =
-			{% if app.session.get('show_help') == true  %}
-				{{ app.session.remove('show_help') }}
-				document.getElementById('page-help-link').click();
-			{% endif %}
-		});
-	</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById('page-help-link').click();
+        });
+    </script>
 {% endblock %}

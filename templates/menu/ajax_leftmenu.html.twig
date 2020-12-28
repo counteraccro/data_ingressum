@@ -1,28 +1,39 @@
 <ul class="list-unstyled components">
-	{% for categorie in app.user.categories %}
-			<li class="active">
-        		<a href="#cat-{{ categorie.id }}" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> 
-        			<i class="{{ categorie.icon }}"></i> <span>{{ categorie.name }}</span>
-        		</a>
-        		<ul class="collapse list-unstyled" id="cat-{{ categorie.id }}">
-        			{% for page in categorie.pages %}
-        				<li>
-        					<a href="{{ path('ajax_page', {id_cat : categorie.id, id_page : page.id})}}">
-        						<span class="txt-full">{{ page.name }}</span>
-        						<span class="txt-truncate">{{ page.name|u.truncate(4) }}.</span>
-        					</a>
-        				</li>
-        			{% endfor %}
-        		</ul>
-        	</li>
-		
-	{% endfor %}
+    {% set nb = 0 %}
+    {% for categorie in app.user.categories %}
+        {% if not categorie.disabled %}
+            <li class="active">
+                <a href="#cat-{{ categorie.id }}" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                    <i class="{{ categorie.icon }}"></i> <span>{{ categorie.name }}</span>
+                </a>
+                <ul class="collapse list-unstyled" id="cat-{{ categorie.id }}">
+                    {% for page in categorie.pages %}
+                        <li>
+                            <a href="{{ path('ajax_page', {id_cat : categorie.id, id_page : page.id}) }}">
+                                <span class="txt-full">{{ page.name }}</span>
+                                <span class="txt-truncate">{{ page.name|u.truncate(4) }}.</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+			{% set nb = nb + 1 %}
+        {% endif %}
+
+    {% else %}
+        <li class="active"><a href="#"><i class="fas fa-bug"></i><span>Aucune catégorie</span></a></li>
+    {% endfor %}
+
+    {% if nb == app.user.categories|length %}
+        <li class="active"><a href="#"><i class="fas fa-bug"></i><span>Aucune catégorie</span></a></li>
+    {% endif %}
 </ul>
 
 {% block javascripts %}
-	<script type="text/javascript">
-		$(document).ready(function() {
-	    	Menu.Event();
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Menu.Event();
         });
     </script>
 {% endblock %}

@@ -2,7 +2,12 @@
 	{% for categorie in app.user.categories %}
 			<li class="active">
         		<a href="#cat-{{ categorie.id }}" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> 
-        			<i class="{{ categorie.icon }}"></i> <span>{{ categorie.name }}</span>
+        			<i class="{{ categorie.icon }}"></i>
+
+					{% if categorie.disabled == true %}
+						<i class="fas fa-eye-slash"></i>
+					{% endif %}
+					<span>{{ categorie.name }}</span>
         		</a>
         		<ul class="collapse list-unstyled" id="cat-{{ categorie.id }}">
         			{% for page in categorie.pages %}
