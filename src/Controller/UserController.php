@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\DefaultDataService;
 use App\Service\OptionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class UserController extends AbstractController
      * @param OptionService $optionService
      * @return Response
      */
-    public function add(AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder, OptionService $optionService): Response
+    public function add(AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder, OptionService $optionService, DefaultDataService $defaultDataService): Response
     {
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -48,9 +49,19 @@ class UserController extends AbstractController
 
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
             $user->setRoles(array('USER_ROLE'));
-            $user->setMode('mode_edit');
 
-            $user = $optionService->createDefaultOption($user);
+            $post_usr = $request->request->get('user');
+            // Cas on injecte les données démo et les options
+            if(isset($post_usr['demo_data']))
+            {
+                $user->setMode('mode_data');
+                $user = $defaultDataService->newData($user);
+
+            }
+            else {
+                $user->setMode('mode_edit');
+                $user = $optionService->createDefaultOption($user);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

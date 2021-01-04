@@ -16,22 +16,22 @@ class DefaultValueService
     
     protected $default_data = [
         [
-            'setName' => 'Au travail',
+            'setName' => 'Sport',
             'setDisabled' => false,
-            'setIcon' => 'fas fa-landmark',
+            'setIcon' => 'fas fa-running',
             'setPosition' => 0,
             'addPage' => [
                 [
-                    'setName' => 'Important',
+                    'setName' => 'A la maison',
                     'setDisabled' => false,
                     'addBlock' => [
                         [
-                            'setName' => 'Statistiques Société X',
+                            'setName' => 'Tapis de course',
                             'setDisabled' => false,
                             'addData' => [
                                 [
-                                    'setLibelle' => 'Nombre de mails',
-                                    'setDescription' => 'Mails reçus par jour',
+                                    'setLibelle' => 'Nombre de KM parcourus',
+                                    'setDescription' => 'Nombre de Km parcourus par jour',
                                     'setTips' => '',
                                     'setDisabled' => false,
                                     'setType' => 1,
@@ -41,7 +41,7 @@ class DefaultValueService
                                     'addValeurs' => [
                                         [
                                             'setDate' => '',
-                                            'setValeur' => '1',
+                                            'setValeur' => '10',
                                             'setDisabled' => false
                                         ]
                                     ],
@@ -54,12 +54,12 @@ class DefaultValueService
                                     
                                 ],
                                 [
-                                    'setLibelle' => 'Projets',
-                                    'setDescription' => 'Projets auquels j\'ai participé',
-                                    'setTips' => 'L\'unité est la journée de travail',
+                                    'setLibelle' => 'Chaine(s) de télé regardée(s) pendant la course',
+                                    'setDescription' => 'Les chaines de télé regardé pendant mon sport',
+                                    'setTips' => 'L\'unité est en minutes',
                                     'setDisabled' => false,
                                     'setType' => 2,
-                                    'setDefaultValue' => 'Projet1;Projet2;Projet3;Projet4;Projet5',
+                                    'setDefaultValue' => 'ORTF;France2;France3;Arte;Canal42',
                                     'setPosition' => 1,
                                     'setUser' => '',
                                     'addValeurs' => [
@@ -79,8 +79,8 @@ class DefaultValueService
                                     ]
                                 ],
                                 [
-                                    'setLibelle' => 'Nombre de cafés',
-                                    'setDescription' => 'cafés bus par jour',
+                                    'setLibelle' => 'Nombre de Calories perdu',
+                                    'setDescription' => 'Le nombre de Calories perdu par séance',
                                     'setTips' => '',
                                     'setDisabled' => false,
                                     'setType' => 1,
@@ -90,18 +90,18 @@ class DefaultValueService
                                     'addValeurs' => [
                                         [
                                             'setDate' => '',
-                                            'setValeur' => '1',
+                                            'setValeur' => '100',
                                             'setDisabled' => false
                                         ]
                                     ]
                                 ],
                                 [
-                                    'setLibelle' => 'Collègues',
-                                    'setDescription' => 'Collègue avec qui j\'ai parler',
-                                    'setTips' => 'L\'unité est le nombre de collègues par jour',
+                                    'setLibelle' => 'Motivaton pour faire la séance',
+                                    'setDescription' => 'Permet de quantifier la motivation pour faire la séance',
+                                    'setTips' => 'Ne sert à rien et alors',
                                     'setDisabled' => false,
                                     'setType' => 2,
-                                    'setDefaultValue' => 'Pauline;Jack;Michel;Claire;Jean',
+                                    'setDefaultValue' => 'Aucune motivation;Petite movation;motivé;Super motivé',
                                     'setPosition' => 1,
                                     'setUser' => '',
                                     'addValeurs' => [
@@ -116,12 +116,29 @@ class DefaultValueService
                             
                         ],
                         [
-                            'setName' => 'Réunions',
+                            'setName' => 'Toal Body',
                             'setDisabled' => false,
                             'addData' => [
                                 [
-                                    'setLibelle' => 'Nombre de réunions',
-                                    'setDescription' => 'Réunions faite par jour',
+                                    'setLibelle' => 'Nombre de pompes',
+                                    'setDescription' => 'Nombre de pompes par séance',
+                                    'setTips' => '',
+                                    'setDisabled' => false,
+                                    'setType' => 1,
+                                    'setDefaultValue' => '',
+                                    'setPosition' => 2,
+                                    'setUser' => '',
+                                    'addValeurs' => [
+                                        [
+                                            'setDate' => '',
+                                            'setValeur' => '1',
+                                            'setDisabled' => false
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    'setLibelle' => 'Nombre de d\'abdo',
+                                    'setDescription' => 'Nombre de d\'abdo par séance',
                                     'setTips' => '',
                                     'setDisabled' => false,
                                     'setType' => 1,
@@ -141,15 +158,15 @@ class DefaultValueService
                     ]
                 ],
                 [
-                    'setName' => 'Divers',
+                    'setName' => 'Dehors',
                     'setDisabled' => false,
                     'addBlock' => [
                         [
-                            'setName' => 'Transport',
+                            'setName' => 'Vélos',
                             'setDisabled' => false
                         ],
                         [
-                            'setName' => 'Bloc n°2',
+                            'setName' => 'Course à pied',
                             'setDisabled' => false
                         ]
                     ]
@@ -157,9 +174,9 @@ class DefaultValueService
             ]
         ],
         [
-            'setName' => 'Catégorie démo',
+            'setName' => 'Divers',
             'setDisabled' => false,
-            'setIcon' => 'fas fa-subway',
+            'setIcon' => 'fas fa-home',
             'setPosition' => 1,
             'addPage' => [
                 [

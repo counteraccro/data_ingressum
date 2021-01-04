@@ -27,12 +27,15 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block" style="text-align: left">
-                                <!--<img src="{{ asset('assets/images/logo/512px-Scribus_logo.svg.png') }}" class=""
-                                         alt="...">-->
                                 <div id="txt-presentation">
 
                                     <p class="text-justify font-italic">
                                         La création d'un compte est gratuit et ne prend que quelques secondes.
+                                    </p>
+
+                                    <p class="text-justify font-italic">
+                                        Coché "Ajouter un jeu d'exemple de données" pour avoir un exemple des
+                                        possibilités du site.
                                     </p>
 
                                     <blockquote class="blockquote">
@@ -42,14 +45,13 @@
 
                                                 <p class="mb-0"><i>C'est totalement inutile et donc rigoureusement
                                                         indispensable ! </i></p>
-                                                <footer class="blockquote-footer">Jérôme Bonaldi <cite
-                                                            title="Source Title"><a
-                                                                href="https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Bonaldi#cite_ref-4"
-                                                                target="_blank">Wikipedia</a></cite></footer>
-
-
+                                                <footer class="blockquote-footer">Jérôme Bonaldi
+                                                    <cite title="Source Title">
+                                                        <a href="https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Bonaldi#cite_ref-4"
+                                                           target="_blank">Wikipedia</a>
+                                                    </cite>
+                                                </footer>
                                             </div>
-
                                         </div>
                                     </blockquote>
 
@@ -64,7 +66,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4"><img
                                                     src="{{ asset('assets/images/logo/32px-Scribus_logo.svg.png') }}"
-                                                    class="img-fluid"/>Data-Ingressum</h1>
+                                                    class="img-fluid" alt=""/>Data-Ingressum</h1>
                                     </div>
 
                                     {% if app.user %}
@@ -82,7 +84,7 @@
 
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
+                                            <a class="small" href="#">Mot de passe oublié ?</a>
                                         </div>
                                         <div class="text-center">
                                             <a class="small" href="{{ path('app_login') }}">Me connecter</a>
