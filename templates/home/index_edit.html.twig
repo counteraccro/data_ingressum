@@ -13,6 +13,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
             document.getElementById('page-help-link').click();
+
+            Toast.Launch();
+            Toast.Load('{{ path('toast_welcome_back') }}');
         });
     </script>
 {% endblock %}

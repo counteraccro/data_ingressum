@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * Class qui va gérer les options du joueur
  *
  * @author Aymeric
- *        
+ *
  */
 class OptionService
 {
@@ -29,7 +29,7 @@ class OptionService
      * @var string
      */
     public static $option_select_timeline = 'select-timeline';
-    
+
     /**
      * Option select_template
      * @var string
@@ -65,6 +65,14 @@ class OptionService
             'setChoix' => '{"oui":1,"non":0}'
         ],
         [
+            'setName' => 'show-toast',
+            'setLabel' => 'Afficher les alertes',
+            'setInfo' => 'Permet de d\'activer ou non les alertes sur le site',
+            'setType' => 1,
+            'setDefaultValue' => 1,
+            'setChoix' => '{"oui":1,"non":0}'
+        ],
+        [
             'setName' => 'select-timeline',
             'setLabel' => 'Choix timeline',
             'setInfo' => 'Permet de choisir la timeline par défaut pour la saisie des données',
@@ -87,7 +95,7 @@ class OptionService
             'setType' => 2,
             'setDefaultValue' => 'mode_edit',
             'setChoix' => '{"mode_data":"Saisie de données","mode_stat":"Statistique","mode_edit":"Edition"}'
-        ]
+        ],
     ];
 
     private $tmp_defaultOptions = [];
@@ -97,7 +105,7 @@ class OptionService
      * @var Doctrine
      */
     private $doctrine;
-    
+
     /**
      * @var SessionInterface
      */
@@ -146,7 +154,7 @@ class OptionService
 
         return $user;
     }
-    
+
     /**
      * Retourne la valeur d'une option du joueur stocké en session via son nom
      * @param string $name

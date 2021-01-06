@@ -425,11 +425,20 @@ input[type="color"]:focus,
     margin-top: -1px;
 }
 
+.modal-content {
+    border: 1px solid var(--bg-primary);
+}
+
 .modal-header {
     margin-top: -1px;
     margin-right: -1px;
-    border: 1px solid #646464;
+    border: 1px solid var(--bg-primary);
     border-bottom: none;
+}
+
+.toast {
+    margin-right: -1px;
+    border: 1px solid var(--bg-primary);
 }
 
 .row-input-data {

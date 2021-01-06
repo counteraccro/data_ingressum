@@ -56,7 +56,6 @@ class UserController extends AbstractController
             {
                 $user->setMode('mode_data');
                 $user = $defaultDataService->newData($user);
-
             }
             else {
                 $user->setMode('mode_edit');
