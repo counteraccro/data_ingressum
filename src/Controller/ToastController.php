@@ -15,8 +15,22 @@ class ToastController extends AbstractController
      */
     public function webcomeBack(): Response
     {
+        $toastParams = [
+            [
+                'delay' => '2500',
+                'head_txt' => 'Welcome Back',
+                'body_txt' => 'Bon retour sur DataIngressum'
+            ],
+            [
+                'delay' => '4000',
+                'head_txt' => 'Encore une chose',
+                'body_txt' => 'En fait non c\'est bon'
+            ]
+
+        ];
+
         return $this->render('toast/webcomeBack.html.twig', [
-            'controller_name' => 'ToastController',
+            'toastParams' => $toastParams,
         ]);
     }
 }
